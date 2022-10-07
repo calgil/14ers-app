@@ -5,7 +5,9 @@ import axios from "axios";
 // url of other host
 const BASE_URL = 'http://localhost:5001/api/v1/';
 const PEAKS_URL = BASE_URL + 'peaks';
-const LOGIN_URL = BASE_URL + 'auth/login';
+const AUTH_URL = BASE_URL + 'auth/';
+const LOGIN_URL = AUTH_URL + 'login';
+const ADD_USER_URL = AUTH_URL + 'register';
 const GET_USER_URL = BASE_URL + 'auth/me';
 
 // let mountains = [];
@@ -102,6 +104,26 @@ export class AuthService extends User {
             this.setUserData(data);
         } catch (error) {
             console.error(error)
+        }
+    }
+
+    createUser = async (name, email, password) => {
+        const headers = this.getBearerHeader();
+        const body = { 
+            "name": name, 
+            "email": email.toLowerCase(), 
+            "password": password 
+        };
+
+        try {
+            const response = await axios.post(ADD_USER_URL, body, { headers });
+            this.setAuthToken(response.data.token);
+            this.setBearerHeader(response.data.token);
+            this.setIsLoggedIn(true);
+            const data = await this.getUserData();
+            this.setUserData(data);
+        } catch (error) {
+            console.error(error);
         }
     }
 }

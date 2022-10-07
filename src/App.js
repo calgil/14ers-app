@@ -7,8 +7,8 @@ import { AuthService } from './services';
 import FourteenersApp from './components/FourteenersApp/FourteenersApp';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import PeakContainer from './components/PeakContainer/PeakContainer';
-import LoginUser from './components/LoginUser/LoginUser';
-import RegisterUser from './components/RegisterUser/RegisterUser';
+import LoginUser from './components/UserLogin/UserLogin';
+import RegisterUser from './components/UserRegister/UserRegister';
 
 
 const authService = new AuthService();
