@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import s from "./Navbar.module.css";
 import { UserContext } from "../../App";
 import logo from "../../assets/logo.svg"
+import User from "../User/User";
 
 
 const Navbar = () => {
@@ -23,7 +24,7 @@ const Navbar = () => {
             </ul>
             <div>
             { authService.name
-                ? authService.name
+                ? <User />
                 : <Link className={s.login} to="/login">Login</Link>
             }
             </div>

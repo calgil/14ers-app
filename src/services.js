@@ -92,17 +92,17 @@ export class AuthService extends User {
     }
 
     loginUser = async (email, password) => {
+        const headers = this.getBearerHeader();
         const body = { "email": email.toLowerCase(), "password": password };
         try {
-            const response = await axios.post(LOGIN_URL, body, {
-                'Content-Type': 'application/json'
-            });
+            const response = await axios.post(LOGIN_URL, body, { headers });
             this.setAuthToken(response.data.token);
             this.setBearerHeader(response.data.token);
             this.setIsLoggedIn(true);
             const data = await this.getUserData();
             this.setUserData(data);
         } catch (error) {
+            console.log('service catch');
             console.error(error)
         }
     }

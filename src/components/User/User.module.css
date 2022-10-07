@@ -1,0 +1,16 @@
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.userLinks a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}

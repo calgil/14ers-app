@@ -24,12 +24,11 @@ const LoginUser = () => {
         const { email, password } = userLogins;
         if (!!email && !!password) {
             const { from } = location.state || { from: { pathname: '/' }};
-            authService.loginUser(email, password)
-                .then(() => {
+            authService.loginUser(email, password).then((res) => {
                     updateService();
                     navigate(from, { replace: true });
-                })
-                .catch(() => {
+                }).catch(() => {
+                    console.log('catch');
                     setError(true);
                     setUserLogins({ email: '', password: '' });
                 });
@@ -44,7 +43,7 @@ const LoginUser = () => {
         >
             <h3>Login</h3>
             <p>Enter your email and password</p>
-            {error && <div>Error Incorrect login info</div>}
+            {error && <div style={{ color: 'red' }}>Error Incorrect login info</div>}
                 <input 
                     className={s.inputBase} 
                     name="email" 
