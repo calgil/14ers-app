@@ -1,0 +1,24 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+
+.logoContainer {
+    width: 50px;
+}
+
+.navLinks {
+    display: flex;
+}
+
+.navLinks li {
+    margin: 0 5px;
+    list-style: none;
+}
+
+.login {
+    text-decoration: none;
+    color: #333;
+}
