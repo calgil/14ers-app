@@ -2,31 +2,49 @@ import React, { useContext, useState } from "react";
 import s from "./UserRegister.module.css";
 import {
     Link,
+    useNavigate,
 } from "react-router-dom";
 import { UserContext } from "../../App";
 
 
 const RegisterUser = () => {
     const { authService, updateService } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const INIT_STATE = {
         name: '',
         email: '',
         password: '',
-    }
+    };
     const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const [userInfo, setUserInfo] = useState(INIT_STATE);
 
     const onChange = ({ target: { name, value }}) => {
+        // I eventually want to run error handling on email here
+        // if (name === 'email') {
+        //     emailValidation();
+        // }
         setUserInfo({ ...userInfo, [name]: value });
-    }
+    };
 
     const createUser = (e) => {
         e.preventDefault();
         const { name, email, password } = userInfo;
-        authService.createUser(name, email, password)
+        if (!name || !email || !password) {
+            console.log('error validation');
+            Object.keys(userInfo).map((key) => {
+                if (userInfo[key].length === 0) {
+                    let errorMsg = `Please enter a valid ${key}`;
+                    setError(true);
+                    setErrorMsg(errorMsg);
+                };
+            });
+        } else {
+            authService.createUser(name, email, password)
             .then(() => {
                 updateService();
+                navigate("/");
             })
             .catch(() => {
                 setError(true);
@@ -36,6 +54,7 @@ const RegisterUser = () => {
                     password: '',
                 });
             });
+        };
     };
 
     return (
@@ -46,7 +65,7 @@ const RegisterUser = () => {
         >
             <h3>Create Account</h3>
             <p>Enter your email and password</p>
-            {error && <div>Error Incorrect login info</div>}
+            {error && <div>{errorMsg}</div>}
                 <input 
                         className={s.inputBase} 
                         name="name" 

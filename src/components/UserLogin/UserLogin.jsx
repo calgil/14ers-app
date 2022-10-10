@@ -6,6 +6,7 @@ import {
     useLocation,
  } from "react-router-dom";
 import { UserContext } from "../../App";
+import { emailValidation } from "../../utilites/emailValidation";
 
 
 const LoginUser = () => {
@@ -14,6 +15,7 @@ const LoginUser = () => {
     const { authService, updateService } = useContext(UserContext);
     const [userLogins, setUserLogins] = useState({ email: '', password: '' });
     const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const onChange = ({ target: { name, value }}) => {
         setUserLogins({ ...userLogins, [name]: value });
@@ -22,17 +24,27 @@ const LoginUser = () => {
     const loginUser = (e) => {
         e.preventDefault();
         const { email, password } = userLogins;
-        if (!!email && !!password) {
-            const { from } = location.state || { from: { pathname: '/' }};
-            authService.loginUser(email, password).then((res) => {
-                    updateService();
-                    navigate(from, { replace: true });
-                }).catch(() => {
-                    console.log('catch');
-                    setError(true);
-                    setUserLogins({ email: '', password: '' });
-                });
-        };
+
+        if(!email) {
+            setError(true);
+            setErrorMsg('Please enter an email address');
+           return
+        }
+        
+        if(!emailValidation(email)) {
+            setError(true);
+            setErrorMsg('Please enter a valid email address');
+           return
+        }
+
+        const { from } = location.state || { from: { pathname: '/' }};
+        authService.loginUser(email, password).then(() => {
+                updateService();
+                navigate(from, { replace: true });
+            }).catch(() => {
+                setError(true);
+                setUserLogins({ email: '', password: '' });
+            });
     };
 
     return(
@@ -43,7 +55,7 @@ const LoginUser = () => {
         >
             <h3>Login</h3>
             <p>Enter your email and password</p>
-            {error && <div style={{ color: 'red' }}>Error Incorrect login info</div>}
+            {error && <div style={{ color: 'red' }}>{errorMsg}</div>}
                 <input 
                     className={s.inputBase} 
                     name="email" 

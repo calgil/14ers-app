@@ -102,10 +102,10 @@ export class AuthService extends User {
             const data = await this.getUserData();
             this.setUserData(data);
         } catch (error) {
-            console.log('service catch');
-            console.error(error)
-        }
-    }
+            console.error(error);
+            throw error;
+        };
+    };
 
     createUser = async (name, email, password) => {
         const headers = this.getBearerHeader();
