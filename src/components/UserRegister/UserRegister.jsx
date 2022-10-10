@@ -5,6 +5,7 @@ import {
     useNavigate,
 } from "react-router-dom";
 import { UserContext } from "../../App";
+import { emailValidation } from "../../utilites/emailValidation";
 
 
 const RegisterUser = () => {
@@ -21,10 +22,12 @@ const RegisterUser = () => {
     const [userInfo, setUserInfo] = useState(INIT_STATE);
 
     const onChange = ({ target: { name, value }}) => {
-        // I eventually want to run error handling on email here
-        // if (name === 'email') {
-        //     emailValidation();
-        // }
+        if (name === 'email') {
+            const validEmail = emailValidation();
+            if (validEmail) {
+                setUserInfo({ ...userInfo, [name]: value });
+            }
+        }
         setUserInfo({ ...userInfo, [name]: value });
     };
 

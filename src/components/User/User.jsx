@@ -12,12 +12,16 @@ const User = () => {
     return (
         <div className={s.userContainer}>
             <div className={s.user}>
-                {authService.name}
+                <h5 className={s.username}>{authService.name}</h5>
                 <button
                     onClick={() => setShowLinks(!showLinks)}
                     className={s.arrow}
                 >
-                    { !showLinks ? '⬇️' : '⬆️' }
+                    {/* { !showLinks ? '⬇️' : '⬆️' } */}
+                    { !showLinks 
+                        ? <i className="fa fa-caret-down"></i> 
+                        : <i className="fa fa-caret-up"></i> 
+                    }
                 </button>
             </div>
             
