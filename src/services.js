@@ -9,6 +9,7 @@ const AUTH_URL = BASE_URL + 'auth/';
 const LOGIN_URL = AUTH_URL + 'login';
 const ADD_USER_URL = AUTH_URL + 'register';
 const GET_USER_URL = BASE_URL + 'auth/me';
+const UPDATE_USER_URL = AUTH_URL + 'updatedetails';
 
 // let mountains = [];
 
@@ -126,4 +127,19 @@ export class AuthService extends User {
             console.error(error);
         }
     }
+
+    editUser = async (newUserInfo) => {
+        const headers = this.getBearerHeader();
+        const body = newUserInfo;
+
+        try {
+            //const response =
+            await axios.put(UPDATE_USER_URL, body, { headers });
+            const data = await this.getUserData();
+            this.setUserData(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 }

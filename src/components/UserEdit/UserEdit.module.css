@@ -1,0 +1,47 @@
+.editBody {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px rgb(0 0 0 / 50%);
+    border-radius: 5px;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.inputBase {
+    display: block;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    padding: 15px 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+.submitBtn {
+    border: 1px solid rgb(31, 74, 40);
+    background: rgba(31, 74, 40, 0.9);
+    width: 100%;
+    border-radius: 5px;
+    padding: 1.25rem 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    transition: ease-in-out 0.3s;
+    color: white;
+}
+
+.submitBtn:hover, 
+.submitBtn:focus {
+    background-color: rgba(31, 74, 40, 1);
+}
+
+.link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.link a {
+    text-decoration: none;
+    color: blue;
+}

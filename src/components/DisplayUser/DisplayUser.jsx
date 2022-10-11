@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../App";
-import s from "./User.module.css";
+import s from "./DisplayUser.module.css";
 import {
     Link
 } from "react-router-dom";
 
-const User = () => {
+const DisplayUser = () => {
     const { authService } = useContext(UserContext);
     const [ showLinks, setShowLinks ] = useState(false);
 
@@ -17,7 +17,6 @@ const User = () => {
                     onClick={() => setShowLinks(!showLinks)}
                     className={s.arrow}
                 >
-                    {/* { !showLinks ? '⬇️' : '⬆️' } */}
                     { !showLinks 
                         ? <i className="fa fa-caret-down"></i> 
                         : <i className="fa fa-caret-up"></i> 
@@ -30,12 +29,12 @@ const User = () => {
                 <div
                     className={s.userLinks}
                 >
-                    <Link to='/edit'>Edit</Link>
-                    <Link to='/logout'>Logout</Link>
+                    <Link className={s.dropdown} to='edit'>Edit</Link>
+                    <Link className={s.dropdown} to='logout'>Logout</Link>
                 </div>
             }
         </div>
     )
 }
 
-export default User;
+export default DisplayUser;

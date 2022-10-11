@@ -7,8 +7,10 @@ import { AuthService } from './services';
 import FourteenersApp from './components/FourteenersApp/FourteenersApp';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import PeakContainer from './components/PeakContainer/PeakContainer';
-import LoginUser from './components/UserLogin/UserLogin';
-import RegisterUser from './components/UserRegister/UserRegister';
+import UserLogin from './components/UserLogin/UserLogin';
+import UserRegister from './components/UserRegister/UserRegister';
+import UserEdit from './components/UserEdit/UserEdit';
+import UserLogout from './components/UserLogout/UserLogout';
 
 
 const authService = new AuthService();
@@ -18,7 +20,7 @@ export const UserContext = createContext();
 const AuthProvider = ({ children }) => {
     const context = {
         authService,
-        updateService: () => setAuthContext({ ...authContext })
+        updateAuth: () => setAuthContext({ ...authContext })
     };
 
     const [authContext, setAuthContext] = useState(context);
@@ -37,8 +39,10 @@ export default function App() {
             <Routes>
                 <Route path='/' element={<FourteenersApp />}>
                     <Route index element={<PeakContainer />} />
-                    <Route path='login' element={<LoginUser />} />
-                    <Route path='register' element={<RegisterUser />} />
+                    <Route path='login' element={<UserLogin />} />
+                    <Route path='register' element={<UserRegister />} />
+                    <Route path='edit' element={<UserEdit />} />
+                    <Route path='logout' element={<UserLogout />} />
                     <Route path='*' element={<ErrorPage />} />
                 </Route>
             </Routes>

@@ -37,6 +37,27 @@
     background-color: rgba(31, 74, 40, 1);
 }
 
+.lineContainer {
+    max-width: 550px;
+    margin: 10px auto;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+}
+
+.line {
+    width: 100%;
+    margin: 0 20px;
+}
+
+.lineContainer span {
+    margin: 0 5px;
+}
+
+.create {
+    margin-top: 10px;
+}
+
 .link {
     text-align: center;
     margin-top: 10px;

@@ -8,8 +8,8 @@ import { UserContext } from "../../App";
 import { emailValidation } from "../../utilites/emailValidation";
 
 
-const RegisterUser = () => {
-    const { authService, updateService } = useContext(UserContext);
+const UserRegister = () => {
+    const { authService, updateAuth } = useContext(UserContext);
     const navigate = useNavigate();
 
     const INIT_STATE = {
@@ -22,11 +22,8 @@ const RegisterUser = () => {
     const [userInfo, setUserInfo] = useState(INIT_STATE);
 
     const onChange = ({ target: { name, value }}) => {
-        if (name === 'email') {
-            const validEmail = emailValidation();
-            if (validEmail) {
+        if (name === 'email' && emailValidation(value)) {
                 setUserInfo({ ...userInfo, [name]: value });
-            }
         }
         setUserInfo({ ...userInfo, [name]: value });
     };
@@ -35,7 +32,7 @@ const RegisterUser = () => {
         e.preventDefault();
         const { name, email, password } = userInfo;
         if (!name || !email || !password) {
-            console.log('error validation');
+            // gotta fix this map portion expecting a return
             Object.keys(userInfo).map((key) => {
                 if (userInfo[key].length === 0) {
                     let errorMsg = `Please enter a valid ${key}`;
@@ -46,7 +43,7 @@ const RegisterUser = () => {
         } else {
             authService.createUser(name, email, password)
             .then(() => {
-                updateService();
+                updateAuth();
                 navigate("/");
             })
             .catch(() => {
@@ -108,4 +105,4 @@ const RegisterUser = () => {
     );
 };
 
-export default RegisterUser;
+export default UserRegister;

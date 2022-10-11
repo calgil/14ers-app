@@ -1,0 +1,31 @@
+.logoutBody {
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px rgb(0 0 0 / 50%);
+    border-radius: 5px;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.logout {
+    border: none;
+    background-color: transparent;
+    /* font-weight: 600; */
+    cursor: pointer;
+}
+
+.home {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logout:hover,
+.home:hover {
+    color: blue;
+}
