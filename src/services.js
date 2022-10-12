@@ -8,42 +8,6 @@ const ADD_USER_URL = AUTH_URL + 'register';
 const GET_USER_URL = BASE_URL + 'auth/me';
 const UPDATE_USER_URL = AUTH_URL + 'updatedetails';
 
-export const getAllPeaks = async () => {
-    try {
-        let response = await axios.get(PEAKS_URL);
-        if(response.data.success){
-            response = response.data.data.map((peak) => ({
-                id: peak._id,
-                name: peak.name,
-                elevation: peak.elevation,
-                forest: peak.forest,
-                range: peak.range,
-                rank: peak.rank,
-                photo: peak.photo,
-                numberOfRoutes: peak.routes.length,
-                routes: peak.routes
-            }));
-            return response;
-        }
-    } catch (err) {
-        console.error(err);
-        throw err;
-    };
-};
-
-export const getPeakData = async (id) => {
-    try {
-        let response  = await axios.get(`${PEAKS_URL}${id}`);
-        if(response.data.success) {
-            response = response.data.data;
-            return response;
-        }
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
 class User {
     constructor() {
         this.id = '';
@@ -152,5 +116,39 @@ export class AuthService extends User {
             console.error(error);
         }
     }
+}
 
+export class PeakService {
+    constructor(authHeader){
+        this.getAuthHeader = authHeader;
+        this.peaks = [];
+    }
+
+    getPeakById = (id) => this.peaks.find((peak) => peak.id === id);
+
+    getAllPeaks = async () => {
+        try {
+            let response = await axios.get(PEAKS_URL);
+            if(response.data.success){
+                response = response.data.data.map((peak) => ({
+                    id: peak._id,
+                    name: peak.name,
+                    elevation: peak.elevation,
+                    forest: peak.forest,
+                    range: peak.range,
+                    rank: peak.rank,
+                    photo: peak.photo,
+                    numberOfRoutes: peak.routes.length,
+                    routes: peak.routes
+                }));
+                this.peaks = response;
+                return this.peaks;
+            }
+        } catch (err) {
+            console.error(err);
+            throw err;
+        };
+    };
+
+    
 }
