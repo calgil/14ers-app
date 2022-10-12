@@ -9,6 +9,10 @@
     text-align: center;
 }
 
+.errorMsg {
+    color: red;
+}
+
 .inputBase {
     display: block;
     line-height: 1.6;
@@ -36,12 +40,33 @@
     background-color: rgba(31, 74, 40, 1);
 }
 
-.link {
+.linkContainer {
     text-align: center;
     margin-top: 10px;
 }
 
-.link a {
+.links {
+    margin-top: 10px;
+}
+
+.lineContainer {
+    max-width: 550px;
+    margin: 10px auto;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+}
+
+.line {
+    width: 100%;
+    margin: 0 20px;
+}
+
+.lineContainer span {
+    margin: 0 5px;
+}
+
+.links a {
     text-decoration: none;
     color: blue;
 }

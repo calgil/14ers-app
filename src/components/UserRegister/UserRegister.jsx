@@ -32,13 +32,12 @@ const UserRegister = () => {
         e.preventDefault();
         const { name, email, password } = userInfo;
         if (!name || !email || !password) {
-            // gotta fix this map portion expecting a return
-            Object.keys(userInfo).map((key) => {
+            Object.keys(userInfo).forEach((key) => {
                 if (userInfo[key].length === 0) {
                     let errorMsg = `Please enter a valid ${key}`;
-                    setError(true);
-                    setErrorMsg(errorMsg);
-                };
+                        setError(true);
+                        setErrorMsg(errorMsg);
+                }
             });
         } else {
             authService.createUser(name, email, password)
@@ -65,7 +64,7 @@ const UserRegister = () => {
         >
             <h3>Create Account</h3>
             <p>Enter your email and password</p>
-            {error && <div>{errorMsg}</div>}
+            {error && <div className={s.errorMsg}>{errorMsg}</div>}
                 <input 
                         className={s.inputBase} 
                         name="name" 
@@ -96,10 +95,15 @@ const UserRegister = () => {
                 value="Login" 
             />
         </form>
-        <div className={s.link}>
-            Already have an account? Login <Link to='/login'>HERE</Link> 
-            <br /> OR <br />
-            <Link to='/'>Return Home</Link>
+        <div className={s.linkContainer}>
+            Already have an account?
+            <div className={s.links}>
+                <Link to='/login'>Login</Link> 
+                <div className={s.lineContainer}> 
+                    <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
+                </div>
+                <Link to='/'>Return Home</Link>
+            </div>
         </div>
     </>
     );

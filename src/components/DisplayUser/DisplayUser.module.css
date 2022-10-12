@@ -9,6 +9,10 @@
     background-color: transparent;
 }
 
+.userLinks {
+    position: absolute;
+}
+
 .userLinks a {
     display: block;
     text-decoration: none;

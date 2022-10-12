@@ -5,7 +5,8 @@ const ErrorPage = () => {
 
     return (
         <div>
-            Error!!
+            Error Page
+            Something went wrong
         </div>
     )
 }

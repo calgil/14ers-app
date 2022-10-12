@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Peak from "../Peak/Peak";
 import s from "./PeakContainer.module.css";
 import { getAllPeaks } from "../../services";
+import ErrorPage from "../ErrorPage/ErrorPage";
 // import {
 //     useNavigation
 // } from "react-router-dom";
@@ -12,25 +13,30 @@ const PeakContainer = () => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         getAllPeaks()
             .then((res) => {
-                setLoading(true)
-                setPeaks(res)
-                setLoading(false)
+                setPeaks(res);
+                setLoading(false);
             })
-            .catch(() => setError(true));
+            .catch(() => {
+                setLoading(false);
+                setError(true);
+            });
     }, []);
 
 
     return (
         <div className={s.peakContainer}>
-            {/* gotta figure out a better way to do loading/error messages */}
+            {loading && <div>Loading...</div>}
+            {error && <ErrorPage />}
             {
-                !!peaks.length && peaks.map((peak) => (
-                    <Peak
-                        key={peak.id}
-                        peak={peak}
-                    />
+                (peaks.length > 0 && (!loading && !error))
+                    && peaks.map((peak) => (
+                        <Peak
+                            key={peak.id}
+                            peak={peak}
+                        />
                 ))
             }
         </div>

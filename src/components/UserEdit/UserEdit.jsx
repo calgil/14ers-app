@@ -53,9 +53,9 @@ const UserEdit = () => {
             className={s.editBody}
             onSubmit={editUser}
         >
-            <h3>Edit Your Info</h3>
+            <h3>Edit Your Profile</h3>
             <p></p>
-            {error && <div style={{ color: 'red' }}>{errorMsg}</div>}
+            {error && <div className={s.errorMsg}>{errorMsg}</div>}
                 <input 
                     className={s.inputBase} 
                     name="name" 
@@ -84,14 +84,24 @@ const UserEdit = () => {
             <input 
                 className={s.submitBtn} 
                 type="submit" 
-                value="Update" 
+                value="Save Changes" 
             />
         </form>
-        <div className={s.link}>
+        <div className={s.linkContainer}>
+            Don't want to edit profile?
+            <div className={s.links}>
+                <Link to='/login'>Login</Link> 
+                <div className={s.lineContainer}> 
+                    <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
+                </div>
+                <Link to='/'>Return Home</Link>
+            </div>
+        </div>
+        {/* <div className={s.link}>
             <Link to='/login'>Login here</Link> 
             <br /> OR <br />
             <Link to='/'>Return Home</Link>
-        </div>
+        </div> */}
     </>
     );
 };

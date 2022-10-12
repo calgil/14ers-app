@@ -1,14 +1,26 @@
 import React from "react";
 import s from "./Peak.module.css";
+import { 
+    useNavigate,
+ } from "react-router-dom";
 
 
 const Peak = ({ peak }) => {
+    const navigate = useNavigate();
+    
     const peakImg = {
         backgroundImage: `url("${peak.photo}")`,
     }
 
+    const openDetails = () => {
+        navigate(`/peaks/${peak.id}`);
+    }
+
     return (
-        <div className={s.peak}>
+        <div 
+            className={s.peak}
+            onClick={openDetails}
+        >
             <div 
                 className={s.imgContainer} 
                 style={peakImg}

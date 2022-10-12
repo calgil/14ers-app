@@ -9,6 +9,9 @@
     text-align: center;
 }
 
+.errorMsg {
+    color: red;
+}
 
 .inputBase {
     display: block;
@@ -37,6 +40,15 @@
     background-color: rgba(31, 74, 40, 1);
 }
 
+.linkContainer {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.links {
+    margin-top: 10px;
+}
+
 .lineContainer {
     max-width: 550px;
     margin: 10px auto;
@@ -54,16 +66,7 @@
     margin: 0 5px;
 }
 
-.create {
-    margin-top: 10px;
-}
-
-.link {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.link a {
+.links a {
     text-decoration: none;
     color: blue;
 }

@@ -55,7 +55,7 @@ const UserLogin = () => {
         >
             <h3>Login</h3>
             <p>Enter your email and password</p>
-            {error && <div style={{ color: 'red' }}>{errorMsg}</div>}
+            {error && <div className={s.errorMsg}>{errorMsg}</div>}
                     <input 
                             className={s.inputBase} 
                             name="email" 
@@ -78,17 +78,15 @@ const UserLogin = () => {
                 value="Login" 
             />
         </form>
-        <div className={s.link}>
+        <div className={s.linkContainer}>
             No account? 
-            <div className={`${s.linkBtn} ${s.create}`}>
-                <Link to='/register'>Create one</Link> 
-            </div>
-            <div className={s.lineContainer}> 
-                <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
-            </div> 
-            <div className={s.linkBtn}>
-                <Link to='/'>Go Back Home</Link>
-            </div>
+                <div className={s.links}>
+                    <Link to='/register'>Create one</Link> 
+                    <div className={s.lineContainer}> 
+                        <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
+                    </div> 
+                    <Link to='/'>Go Back Home</Link>
+                </div>
         </div>
     </>
     )

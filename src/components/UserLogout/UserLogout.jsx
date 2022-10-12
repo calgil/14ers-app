@@ -24,9 +24,13 @@ const UserLogout = () => {
                     className={s.logout}
                     onClick={logout}
                 >
-                    Logout
+                    Yes, logout
                 </button>
-                <Link className={s.home} to='/'>No, return home</Link>
+                <button
+                    className={s.home}
+                >
+                    <Link to='/'>No, return home</Link>
+                </button>
             </div>
         </div>
     )

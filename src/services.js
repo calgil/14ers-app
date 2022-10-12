@@ -1,37 +1,48 @@
 import axios from "axios";
 
-// local
-// const BASE_URL = 'http://localhost:3001/api/v1/';
-// url of other host
 const BASE_URL = 'http://localhost:5001/api/v1/';
-const PEAKS_URL = BASE_URL + 'peaks';
+const PEAKS_URL = BASE_URL + 'peaks/';
 const AUTH_URL = BASE_URL + 'auth/';
 const LOGIN_URL = AUTH_URL + 'login';
 const ADD_USER_URL = AUTH_URL + 'register';
 const GET_USER_URL = BASE_URL + 'auth/me';
 const UPDATE_USER_URL = AUTH_URL + 'updatedetails';
 
-// let mountains = [];
-
 export const getAllPeaks = async () => {
     try {
         let response = await axios.get(PEAKS_URL);
-        response = response.data.data.map((peak) => ({
-            id: peak._id,
-            name: peak.name,
-            elevation: peak.elevation,
-            forest: peak.forest,
-            range: peak.range,
-            rank: peak.rank,
-            photo: peak.photo,
-            numberOfRoutes: peak.routes.length,
-            routes: peak.routes
-        }));
-        return response;
+        if(response.data.success){
+            response = response.data.data.map((peak) => ({
+                id: peak._id,
+                name: peak.name,
+                elevation: peak.elevation,
+                forest: peak.forest,
+                range: peak.range,
+                rank: peak.rank,
+                photo: peak.photo,
+                numberOfRoutes: peak.routes.length,
+                routes: peak.routes
+            }));
+            return response;
+        }
     } catch (err) {
         console.error(err);
+        throw err;
     };
 };
+
+export const getPeakData = async (id) => {
+    try {
+        let response  = await axios.get(`${PEAKS_URL}${id}`);
+        if(response.data.success) {
+            response = response.data.data;
+            return response;
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 
 class User {
     constructor() {
