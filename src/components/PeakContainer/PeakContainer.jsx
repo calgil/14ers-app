@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Peak from "../Peak/Peak";
 import s from "./PeakContainer.module.css";
-import { getAllPeaks } from "../../services";
+// import { getAllPeaks } from "../../services";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import { UserContext } from "../../App";
 // import {
 //     useNavigation
 // } from "react-router-dom";
 
 const PeakContainer = () => {
+    const { peakService } = useContext(UserContext);
     const [peaks, setPeaks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        getAllPeaks()
+        peakService.getAllPeaks()
             .then((res) => {
                 setPeaks(res);
                 setLoading(false);

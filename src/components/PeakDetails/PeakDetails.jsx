@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import s from "./PeakDetails.module.css";
 import { useParams } from "react-router-dom";
-import { getPeakData } from "../../services";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import { UserContext } from "../../App";
+import { convertToSentence } from "../../utilites/convertToSentence";
 
 const PeakDetails = () => {
+    const { peakService } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [peakData, setPeakData] = useState();
@@ -14,15 +16,16 @@ const PeakDetails = () => {
     useEffect(() => {
         setLoading(true);
         const { id } = peakId;
-        getPeakData(id)
-            .then((res) => {
-                setPeakData(res);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-                setError(true);
-            })
+        const peak = peakService.getPeakById(id);
+        if (!peak) {
+            setLoading(false);
+            setError(true);
+        }
+        if (peak) {
+            console.log('peak', peak);
+            setPeakData(peak);
+            setLoading(false);
+        }
     }, []);
 
     return (
@@ -41,31 +44,35 @@ const PeakDetails = () => {
                         style={{ backgroundImage: `url("${peakData.photo}")`}}
                     >
                     </div>
-                    <div
-                        className={s.info}
-                    >
+                    <div className={s.info}>
                         <div 
                             className={s.statsContainer}
                         >
-                            <div 
-                                className={s.stat}
-                            >
+                            <div className={s.stat}>
                                 <span>Elevation</span>
                                 <span>{peakData.elevation}</span>
                             </div>
-                            <div 
-                                className={s.stat}
-                            >
+                            <div className={s.stat}>
                                 <span>Rank</span>
                                 <span>{peakData.rank} of 57</span>
                             </div>
-                            <div 
-                                className={s.stat}
-                            >
+                            <div className={s.stat}>
                                 <span>Range</span>
                                 <span>{peakData.range}</span>
                             </div>
                         </div>                       
+                    </div>
+                    <div 
+                        className={s.routesContainer}
+                    >
+                        {
+                            peakData.routes.length > 0 &&
+                            peakData.routes.map((route) => (
+                                <div key={route._id} className={s.route}>
+                                    <p>{convertToSentence(route.name)}</p>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             }
