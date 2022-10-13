@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import s from "./PeakDetails.module.css";
 import { useParams } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import { convertToSentence } from "../../utilities/convertToSentence";
+import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import { getPeakById } from "../../services";
+import { UserContext } from "../../App";
 
 const PeakDetails = () => {
+    const { authService } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [peak, setPeak] = useState();
@@ -24,16 +26,29 @@ const PeakDetails = () => {
             })
     }, []);
 
+    const editPeak = () => {
+        // navigate to /editpeak
+        // new component
+    }
+
     return (
         <div className={s.detailsBody}>
             {error && <ErrorPage />}
             {loading && <div>Loading...</div>}
             {
                 peak && 
-                <div 
-                    className={s.peakDetails}
-
-                >
+                <div className={s.peakDetails}>
+                    {
+                        authService.role === 'admin' &&
+                        <div className={s.editPeak}>
+                            <button 
+                                className={s.editBtn}
+                                onClick={editPeak}
+                            >
+                                Edit Peak
+                            </button>
+                        </div>
+                    }
                     <h3>{peak.name}</h3>
                     <div 
                         className={s.imgContainer}
@@ -77,7 +92,7 @@ const PeakDetails = () => {
                                     <tbody>
                                         {peak.routes.map((route) => (
                                             <tr key={route._id}>
-                                                <td>{convertToSentence(route.name)}</td>
+                                                <td>{capitalizeFirstLetters(route.name)}</td>
                                                 <td>{route.mileage}</td>
                                                 <td>{route.gain}'</td>
                                                 <td>{route.difficulty}</td>

@@ -1,15 +1,30 @@
 .detailsBody {
     display: flex;
     text-align: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .peakDetails {
-    margin: 0 auto;
-}
+    width: 100%;
+ } 
+
+ .editPeak {
+    text-align: left;
+    padding-left: 150px;
+ }
+
+ .editBtn {
+    background-color: transparent;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+ }
 
 .imgContainer {
     width: 300px;
     height: 300px;
+    margin: 0 auto;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -22,10 +37,26 @@
     align-items: center;
 }
 
-.statsContainer { width: 100%; }
+.statsContainer { 
+    max-width: 1000px;
+    min-width: 300px;
+    margin: 0 auto; 
+}
 
 .stat {
     display: flex;
     justify-content: space-between;
     padding-bottom: 5px;
+}
+
+.routesContainer {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.routesContainer h3 {
+    margin-bottom: 5px;
 }
