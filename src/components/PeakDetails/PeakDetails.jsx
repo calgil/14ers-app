@@ -1,22 +1,27 @@
 import React, { useEffect, useState, useContext } from "react";
 import s from "./PeakDetails.module.css";
-import { useParams } from "react-router-dom";
+import { 
+    useParams,
+    useNavigate,
+ } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import { getPeakById } from "../../services";
 import { UserContext } from "../../App";
 
 const PeakDetails = () => {
+
     const { authService } = useContext(UserContext);
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [peak, setPeak] = useState();
-    let peakId = useParams();
+    let { id } = useParams();
 
 
     useEffect(() => {
         setLoading(true);
-        const { id } = peakId;
         getPeakById(id)
             .then(setPeak)
             .then(setLoading(false))
@@ -24,12 +29,12 @@ const PeakDetails = () => {
                 setLoading(false);
                 setError(true);
             })
-    }, []);
+    }, [id]);
 
     const editPeak = () => {
-        // navigate to /editpeak
-        // new component
+        navigate(`/peaks/edit/${id}`);
     }
+
 
     return (
         <div className={s.detailsBody}>

@@ -12,6 +12,7 @@ import UserRegister from './components/UserRegister/UserRegister';
 import UserEdit from './components/UserEdit/UserEdit';
 import UserLogout from './components/UserLogout/UserLogout';
 import PeakDetails from './components/PeakDetails/PeakDetails';
+import PeakEdit from './components/PeakEdit/PeakEdit';
 
 
 const authService = new AuthService();
@@ -45,6 +46,7 @@ export default function App() {
                     <Route path='edit' element={<UserEdit />} />
                     <Route path='logout' element={<UserLogout />} />
                     <Route path='/peaks/:id' element={<PeakDetails />} />
+                    <Route path='/peaks/edit/:id' element={<PeakEdit />} />
                     <Route path='*' element={<ErrorPage />} />
                 </Route>
             </Routes>
