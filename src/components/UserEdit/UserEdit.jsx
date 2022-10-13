@@ -4,7 +4,7 @@ import {
     Link,
     useNavigate,
 } from "react-router-dom";
-import { emailValidation } from "../../utilites/emailValidation";
+import { emailValidation } from "../../utilities/emailValidation";
 import { UserContext } from "../../App";
 
 const UserEdit = () => {

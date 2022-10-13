@@ -1,6 +1,7 @@
 .peakContainer {
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 70px;
     padding: 0 10px;
     display: flex;
     flex-wrap: wrap;

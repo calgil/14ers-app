@@ -5,7 +5,7 @@ import {
     useNavigate,
 } from "react-router-dom";
 import { UserContext } from "../../App";
-import { emailValidation } from "../../utilites/emailValidation";
+import { emailValidation } from "../../utilities/emailValidation";
 
 
 const UserRegister = () => {

@@ -3,7 +3,7 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-import { AuthService, PeakService } from './services';
+import { AuthService } from './services';
 import FourteenersApp from './components/FourteenersApp/FourteenersApp';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import PeakContainer from './components/PeakContainer/PeakContainer';
@@ -15,14 +15,12 @@ import PeakDetails from './components/PeakDetails/PeakDetails';
 
 
 const authService = new AuthService();
-const peakService = new PeakService(authService.getBearerHeader)
 
 export const UserContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const context = {
         authService,
-        peakService,
         updateAuth: () => setAuthContext({ ...authContext })
     };
 
