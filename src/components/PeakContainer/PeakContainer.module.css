@@ -7,8 +7,24 @@
     justify-content: center;
 }
 
+.filterController {
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+.filter {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+}
+
 .loading {
     width: 100%;
     height: 400px;
     outline: 1px solid red;
 }
+

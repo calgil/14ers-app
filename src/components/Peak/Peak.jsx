@@ -9,7 +9,7 @@ const Peak = ({ peak }) => {
     const navigate = useNavigate();
     
     const peakImg = {
-        backgroundImage: `url("${peak.photo}")`,
+        backgroundImage: `url("${peak.photos[0].url}")`,
     }
 
     const openDetails = () => {

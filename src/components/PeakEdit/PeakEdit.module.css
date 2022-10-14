@@ -1,0 +1,23 @@
+.editBody {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px rgb(0 0 0 / 50%);
+    border-radius: 5px;
+    padding: 30px 20px;
+}
+
+.pageHeader { text-align: center; }
+
+.labelBase { font-size: 14px; }
+
+.inputBase {
+    display: block;
+    width: 100%;
+    line-height: 1.6;
+    margin: 10px 0;
+    padding: 15px 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}

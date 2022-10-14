@@ -2,21 +2,23 @@ import React, { useEffect, useState, useContext } from "react";
 import s from "./PeakDetails.module.css";
 import { 
     useParams,
-    useNavigate,
+    // useNavigate,
  } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import { getPeakById } from "../../services";
 import { UserContext } from "../../App";
+import AddPhoto from "../Admin/AddPhoto/AddPhoto";
 
 const PeakDetails = () => {
 
     const { authService } = useContext(UserContext);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [peak, setPeak] = useState();
+    const [addPhoto, setAddPhoto] = useState(false);
     let { id } = useParams();
 
 
@@ -31,9 +33,10 @@ const PeakDetails = () => {
             })
     }, [id]);
 
-    const editPeak = () => {
-        navigate(`/peaks/edit/${id}`);
-    }
+    // const editPeak = () => {
+    //     // navigate(`/peaks/edit/${id}`);
+    //     setAddPhoto(true)
+    // }
 
 
     return (
@@ -48,16 +51,25 @@ const PeakDetails = () => {
                         <div className={s.editPeak}>
                             <button 
                                 className={s.editBtn}
-                                onClick={editPeak}
+                                // onClick={() => setAddPhoto(true)}
                             >
                                 Edit Peak
                             </button>
                         </div>
                     }
                     <h3>{peak.name}</h3>
+                     <button
+                        onClick={() => setAddPhoto(true)}
+                    > Add Photo
+                    </button> 
+                    { addPhoto &&
+                    <AddPhoto 
+                        toggleAddPhoto={() => setAddPhoto(!addPhoto)}
+                    />
+                    }
                     <div 
                         className={s.imgContainer}
-                        style={{ backgroundImage: `url("${peak.photo}")`}}
+                        style={{ backgroundImage: `url("${peak.photos[0].url}")`}}
                     >
                     </div>
                     <div className={s.info}>

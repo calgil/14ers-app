@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import s from "./Navbar.module.css";
 import { UserContext } from "../../App";
@@ -8,15 +8,15 @@ import DisplayUser from "../DisplayUser/DisplayUser";
 
 const Navbar = () => {
     const { authService } = useContext(UserContext);
-    const [isShown, setIsShown] = useState(false);
+    // const [isShown, setIsShown] = useState(false);
 
-    const filterAscending = () => {
-        console.log('filter tallest first');
-    }
+    // const filterAscending = () => {
+    //     console.log('filter tallest first');
+    // }
 
-    const filterDescending = () => {
-        console.log('filter smallest first');
-    }
+    // const filterDescending = () => {
+    //     console.log('filter smallest first');
+    // }
 
     return (
         <nav className={s.nav}>
@@ -30,16 +30,16 @@ const Navbar = () => {
             <ul className={s.navLinks}>
                 <li 
                     className={`${s.navLink} ${s.peaks}`}
-                    onMouseEnter={() => setIsShown(true)}
+                    // onMouseEnter={() => setIsShown(true)}
                     // onMouseLeave={() => setIsShown(false)}
                     
                 >
                     Peaks
-                    {isShown &&
+                    {/* {isShown &&
                         <div
                             className={s.filter}
-                            onMouseEnter={() => setIsShown(true)}
-                            onMouseLeave={() => setIsShown(false)}
+                            // onMouseEnter={() => setIsShown(true)}
+                            // onMouseLeave={() => setIsShown(false)}
                         >
                             <div className={s.filterRow}>
                                 <i className="fa fa-caret-up"></i> 
@@ -54,7 +54,7 @@ const Navbar = () => {
                                 </span>
                             </div>
                         </div>
-                    }
+                    } */}
                 </li>
                 <li 
                     className={s.navLink}

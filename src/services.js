@@ -130,7 +130,7 @@ export const getAllPeaks = async () => {
                 forest: peak.forest,
                 range: peak.range,
                 rank: peak.rank,
-                photo: peak.photo,
+                photos: peak.photos,
                 numberOfRoutes: peak.routes.length,
                 routes: peak.routes
             }));

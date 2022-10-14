@@ -3,14 +3,12 @@ import s from "./UserLogin.module.css";
 import { 
     Link, 
     useNavigate,
-    useLocation,
  } from "react-router-dom";
 import { UserContext } from "../../App";
 import { emailValidation } from "../../utilities/emailValidation";
 
 
 const UserLogin = () => {
-    const location = useLocation();
     const navigate = useNavigate();
     const { authService, updateAuth } = useContext(UserContext);
     const [userLogins, setUserLogins] = useState({ email: '', password: '' });
@@ -37,10 +35,10 @@ const UserLogin = () => {
            return
         }
 
-        const { from } = location.state || { from: { pathname: '/' }};
         authService.loginUser(email, password).then(() => {
                 updateAuth();
-                navigate(from, { replace: true });
+                navigate(-1);
+                // navigate('/');
             }).catch(() => {
                 setError(true);
                 setUserLogins({ email: '', password: '' });
