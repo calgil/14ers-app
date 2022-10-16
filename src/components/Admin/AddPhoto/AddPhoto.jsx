@@ -1,29 +1,54 @@
 import React from "react";
 import s from "./AddPhoto.module.css";
-import { configBucket } from "../../../config/configS3";
+// import { getUploadUrl } from "../../../services";
+import {
+    useParams,
+} from "react-router-dom";
+// import { UserContext } from "../../../App";
+// import S3FileUpload from 'react-s3';
+// import S3 from 'react-aws-s3';
+// window.Buffer = window.Buffer || require("buffer").Buffer; 
+
 
 const AddPhoto = ({ toggleAddPhoto }) => {
+    // const { authService } = useContext(UserContext);
 
-    const addPhoto = () => {
-        console.log(configBucket);
-    }
+    const { id } = useParams();
+
+    // const { REACT_APP_ACCESS_KEY_ID, REACT_APP_SECRET_ACCESS_KEY } = process.env;
+
+    // const config = {
+    //     bucketName: 'fourteeners',
+    //     dirName: '/uploads',
+    //     region: 'us-west-2',
+    //     accessKeyId: REACT_APP_ACCESS_KEY_ID,
+    //     secretAccessKey: REACT_APP_SECRET_ACCESS_KEY,
+    //     s3Url: 'https://fourteeners.s3-us-west-2.amazonaws.com',
+    // };
+
+    // const ReactS3Client = new S3(config);
+
+
+    const uploadPhoto = (e) => {
+        const file = e.target.files[0];
+        console.log(id, file);
+        // const headers = authService.getBearerHeader();
+        // getUploadUrl(id, headers)
+        //     .then(res => console.log(res))
+        //     .catch(err => console.error(err))
+
+        // ReactS3Client
+        //     .uploadFile(file, file.name)
+        //     .then(data => console.log(data))
+        //     .catch(err => console.error(err))
+    };
 
     return (
-        <div 
-            className={s.addPhotoBg}
-            onClick={toggleAddPhoto}
-        >
-            <div
-                className={s.addPhotoBody}
-            >
-                {/* <input type="file" /> */}
-                <button
-                    onClick={addPhoto}
-                >
-                    Do something
-                </button>
-            </div>
-        </div>
+                <input 
+                    className={s.uploadPhoto}
+                    type="file" 
+                    onChange={uploadPhoto}
+                />
     );
 };
 

@@ -60,7 +60,7 @@ export class AuthService extends User {
     getUserData = async () => {
         const headers = this.getBearerHeader();
         try {
-            const response = await axios.get(GET_USER_URL, { headers });
+            const response = await axios.put(GET_USER_URL, { headers });
             return response.data.data
         } catch (error) {
             console.error(error);
@@ -154,5 +154,16 @@ export const getPeakById = async (id) => {
         throw error;
     }
 } 
+
+// export const getUploadUrl = async (id, headers) => {
+//     try {
+//         const url = await axios.get(`${PEAKS_URL}${id}/uploadphoto` , { headers })
+//         console.log(url);
+//         return url
+//     } catch (err) {
+//         console.error(err);
+//         throw err;
+//     }
+// }
 
 
