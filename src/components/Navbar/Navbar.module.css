@@ -1,18 +1,12 @@
-/* .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-} */
-
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 5px 20px;
-    position: relative;
+    font-family: Sofia Pro;
 }
+
+.leftCol { display: flex; }
 
 .logoContainer {
     width: 50px;
@@ -26,28 +20,24 @@
     margin: 0 5px;
     list-style: none;
     cursor: pointer;
+    padding: 0 3px;
 }
 
-.peaks {
-    position: relative;
+.navLink {
+    color: #333;
+    text-decoration: none;
 }
 
-.filter {
-    position: absolute;
-    top: 25px;
-    width: 150px;
-    background-color: #fff;
+.navLink.active {
+    color: #26532B;
+    text-decoration: none;
 }
 
-.filter div { 
-    margin-top: 5px;
-    padding: 5px 0;
-    display: flex;
-    align-items: center;
- }
-.filter div:hover { background-color: yellow; }
+.navLink.active span {
+    padding-bottom: 3px;
+    border-bottom: 1px solid #26532B;
+}
 
-.filter i { margin-right: 5px; }
 
 .login {
     text-decoration: none;

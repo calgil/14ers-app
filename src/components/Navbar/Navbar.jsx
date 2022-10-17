@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { 
+    Link,
+    NavLink,
+ } from "react-router-dom";
 import s from "./Navbar.module.css";
 import { UserContext } from "../../App";
 import logo from "../../assets/logo.svg"
@@ -21,52 +24,46 @@ const Navbar = () => {
     return (
         <nav className={s.nav}>
             <div className={s.navbar}>
-            <div className={s.logoContainer}>
-                <Link to="/">
-                    <img src={logo} alt="logo" />
-                </Link>
-            </div>
+                <div className={s.leftCol}>
+                    <div className={s.logoContainer}>
+                        <Link to="/">
+                            <img src={logo} alt="logo" />
+                        </Link>
+                    </div>
 
-            <ul className={s.navLinks}>
-                <li 
-                    className={`${s.navLink} ${s.peaks}`}
-                    // onMouseEnter={() => setIsShown(true)}
-                    // onMouseLeave={() => setIsShown(false)}
-                    
-                >
-                    Peaks
-                    {/* {isShown &&
-                        <div
-                            className={s.filter}
-                            // onMouseEnter={() => setIsShown(true)}
-                            // onMouseLeave={() => setIsShown(false)}
+                    <ul className={s.navLinks}>
+                        <NavLink
+                            to={'/'}
+                            className={({ isActive }) =>
+                                isActive
+                                    ? `${s.navLink} ${s.active}`
+                                    : `${s.navLink}`
+                        }
                         >
-                            <div className={s.filterRow}>
-                                <i className="fa fa-caret-up"></i> 
-                                <span onClick={filterAscending}>
-                                    Sort Ascending
-                                </span>
-                            </div>
-                            <div className={s.filterRow}>
-                                <i className="fa fa-caret-down"></i> 
-                                <span onClick={filterDescending}>
-                                    Sort Descending
-                                </span>
-                            </div>
-                        </div>
-                    } */}
-                </li>
-                <li 
-                    className={s.navLink}
-                >
-                    Planning
-                </li>
-                <li 
-                    className={s.navLink}
-                >
-                    Ranges
-                </li>
-            </ul>
+                            <span>Peaks</span>
+                        </NavLink>
+                        <NavLink
+                            to={'/login'}
+                            className={({ isActive }) =>
+                                isActive
+                                    ? `${s.navLink} ${s.active}`
+                                    : `${s.navLink}`
+                        }
+                        >
+                            <span>Planning</span>
+                        </NavLink>
+                        <NavLink
+                            to={'/register'}
+                            className={({ isActive }) =>
+                                isActive
+                                    ? `${s.navLink} ${s.active}`
+                                    : `${s.navLink}`
+                        }
+                        >
+                            <span>Trip Reports</span>
+                        </NavLink>
+                    </ul>
+                </div>
             <div>
             { authService.name
                 ? <DisplayUser />
