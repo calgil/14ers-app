@@ -9,6 +9,9 @@ import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import { getPeakById } from "../../services";
 import { UserContext } from "../../App";
 import AddPhoto from "../Admin/AddPhoto/AddPhoto";
+import elevation from "../../assets/PeakDetails/elevation.svg";
+import rank from "../../assets/PeakDetails/rank.svg";
+import range from "../../assets/PeakDetails/range.svg"
 
 const PeakDetails = () => {
 
@@ -46,77 +49,95 @@ const PeakDetails = () => {
             {
                 peak && 
                 <div className={s.peakDetails}>
-                    {
-                        authService.role === 'admin' &&
-                        <div className={s.editPeak}>
-                            <button 
-                                className={s.editBtn}
-                                // onClick={() => setAddPhoto(true)}
-                            >
-                                Edit Peak
-                            </button>
-                        </div>
-                    }
-                    <h3>{peak.name}</h3>
-                     <button
-                        onClick={() => setAddPhoto(true)}
-                    > Add Photo
-                    </button> 
-                    { addPhoto &&
-                    <AddPhoto 
-                        toggleAddPhoto={() => setAddPhoto(!addPhoto)}
-                    />
-                    }
-                    <div 
-                        className={s.imgContainer}
-                        style={{ backgroundImage: `url("${peak.photos[0].url}")`}}
-                    >
+                    <div className={s.addBtnBar}>
+                        <h3 className={s.peakName}>{peak.name}</h3>
+                        <button
+                            className={s.addToClimbsBtn}
+                        >
+                            Add to My Climbs
+                        </button>
                     </div>
-                    <div className={s.info}>
+                    <div 
+                        className={s.mainInfo}
+                    >
+                        <div className={s.peakPhoto}>
+                            {
+                                authService.role === 'admin' &&
+                                <button
+                                    onClick={() => setAddPhoto(true)}
+                                > Add Photo
+                                </button>
+                            } 
+                            { addPhoto &&
+                            <AddPhoto 
+                            />
+                            }
+                            <div 
+                                className={s.imgContainer}
+                                style={{ backgroundImage: `url("${peak.photos[0].url}")`}}
+                            >
+                            </div>
+                        </div>
                         <div 
                             className={s.statsContainer}
                         >
                             <div className={s.stat}>
-                                <span>Elevation</span>
-                                <span>{peak.elevation}</span>
+                                <div className={s.statIconContainer}>
+                                    <img src={elevation} alt="elevation" />
+                                </div>
+                                <span>Elevation: {peak.elevation} ft</span>
                             </div>
                             <div className={s.stat}>
-                                <span>Rank</span>
-                                <span>{peak.rank} of 57</span>
+                                <div className={s.statIconContainer}>
+                                    <img src={rank} alt="rank" />
+                                </div>
+                                <span>Rank: {peak.rank}</span>
                             </div>
                             <div className={s.stat}>
-                                <span>Range</span>
-                                <span>{peak.range}</span>
+                                <div className={s.statIconContainer}>
+                                    <img src={range} alt="range" />
+                                </div>
+                                <span>Range: {peak.range}</span>
                             </div>
-                        </div>                       
+                        </div>  
                     </div>
-                    <div 
-                        className={s.routesContainer}
-                    >
+                    <div className={s.routesContainer}>
                         {
                             peak.routes && 
                             <>
                                 <h3>Routes</h3>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Route Name</th>
-                                            <th>Mileage</th>
-                                            <th>Gain</th>
-                                            <th>Difficulty</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {peak.routes.map((route) => (
-                                            <tr key={route._id}>
-                                                <td>{capitalizeFirstLetters(route.name)}</td>
-                                                <td>{route.mileage}</td>
-                                                <td>{route.gain}'</td>
-                                                <td>{route.difficulty}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                <div className={s.routeTable}>
+                                    <div className={`${s.routeHeader} ${s.route}`}>
+                                        <div className={s.routeName}>
+                                            Name
+                                        </div>
+                                        <div className={s.routeStat}>
+                                            Mileage
+                                        </div>
+                                        <div className={s.routeStat}>
+                                            Gain
+                                        </div>
+                                        <div className={s.routeStat}>
+                                            Difficulty
+                                        </div>
+                                    </div>
+                                    {peak.routes.map((route) => (
+                                        <div className={s.route}>
+                                            <div className={s.routeName}>
+                                                {capitalizeFirstLetters(route.name)}
+                                            </div>
+                                            <div className={s.routeStat}>
+                                                {route.mileage} miles
+                                            </div>
+                                            <div className={s.routeStat}>
+                                                {route.gain}'
+                                            </div>
+                                            <div className={s.routeStat}>
+                                                {route.difficulty}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </>
                         }
                     </div>

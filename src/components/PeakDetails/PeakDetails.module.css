@@ -1,14 +1,27 @@
-.detailsBody {
+ .addBtnBar {
     display: flex;
-    text-align: center;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+ }
+
+ .peakName { 
+    font-weight: 400; 
 }
 
+.peakName,
+.peakPhoto {
+    margin-left: 100px;
+}
 
-.peakDetails {
-    width: 100%;
- } 
+.addToClimbsBtn {
+    margin-right: 30px;
+}
+
+ .mainInfo {
+    display: flex;
+    align-items: center;
+ }
+
 
  .editPeak {
     text-align: left;
@@ -25,39 +38,56 @@
 .imgContainer {
     width: 300px;
     height: 300px;
-    margin: 0 auto;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-}
-
-.info {
-    margin-top: 10px;
-    width: 100%;
-    display: flex;
-    align-items: center;
+    border-radius: 5px;
 }
 
 .statsContainer { 
-    max-width: 1000px;
-    min-width: 300px;
-    margin: 0 auto; 
+    margin-left: 50px;
 }
 
 .stat {
     display: flex;
-    justify-content: space-between;
-    padding-bottom: 5px;
-}
-
-.routesContainer {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    margin-bottom: 25px;
 }
 
-.routesContainer h3 {
-    margin-bottom: 5px;
+.statIconContainer {
+    width: 30px;
+    margin-right: 5px;
 }
+
+.routesContainer { 
+    width: fit-content;
+    margin-left: 100px;
+}
+
+.routesContainer h3 { text-align: center; }
+
+.routeTable { 
+    border-left: 1px solid #333;
+    border-top: 1px solid #333;
+    border-right: 1px solid #333; 
+}
+
+.routeHeader {
+    background-color: #F4FAFF;
+    font-weight: 500;
+}
+
+.route {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #333;
+}
+
+.routeName { 
+    width: 300px;
+    padding-left: 15px;
+ }
+.routeStat { width: 150px; }
+

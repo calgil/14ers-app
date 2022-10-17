@@ -10,7 +10,7 @@ import {
 // window.Buffer = window.Buffer || require("buffer").Buffer; 
 
 
-const AddPhoto = ({ toggleAddPhoto }) => {
+const AddPhoto = () => {
     // const { authService } = useContext(UserContext);
 
     const { id } = useParams();
@@ -32,15 +32,6 @@ const AddPhoto = ({ toggleAddPhoto }) => {
     const uploadPhoto = (e) => {
         const file = e.target.files[0];
         console.log(id, file);
-        // const headers = authService.getBearerHeader();
-        // getUploadUrl(id, headers)
-        //     .then(res => console.log(res))
-        //     .catch(err => console.error(err))
-
-        // ReactS3Client
-        //     .uploadFile(file, file.name)
-        //     .then(data => console.log(data))
-        //     .catch(err => console.error(err))
     };
 
     return (
