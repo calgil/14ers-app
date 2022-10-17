@@ -119,7 +119,7 @@ const PeakDetails = () => {
                                 <div className={s.iconContainer}>
                                     <img src={rank} alt="rank" />
                                 </div>
-                                <span>Rank: {peak.rank}</span>
+                                <span>Rank: {peak.rank} of 57</span>
                             </div>
                             <div className={s.stat}>
                                 <div className={s.iconContainer}>
