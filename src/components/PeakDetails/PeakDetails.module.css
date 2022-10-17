@@ -4,6 +4,21 @@
     justify-content: space-between;
  }
 
+ .addToClimbsBtn {
+    margin-right: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #26532B;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 16px;
+}
+
+.addClimbIconContainer {
+    width: 40px;
+    height: 40px;
+}
+
  .peakName { 
     font-weight: 400; 
 }
@@ -11,10 +26,6 @@
 .peakName,
 .peakPhoto {
     margin-left: 100px;
-}
-
-.addToClimbsBtn {
-    margin-right: 30px;
 }
 
  .mainInfo {
@@ -52,19 +63,21 @@
     display: flex;
     align-items: center;
     margin-bottom: 25px;
+    /* font-family: Hubballi, sans-serif; */
 }
 
-.statIconContainer {
-    width: 30px;
+.iconContainer {
+    width: 25px;
+    height: 25px;
     margin-right: 5px;
 }
 
 .routesContainer { 
     width: fit-content;
     margin-left: 100px;
+    margin-top: 50px;
 }
 
-.routesContainer h3 { text-align: center; }
 
 .routeTable { 
     border-left: 1px solid #333;
@@ -89,5 +102,10 @@
     width: 300px;
     padding-left: 15px;
  }
+
 .routeStat { width: 150px; }
 
+.routeDifficultyContainer {
+    width: 80px;
+    display: flex;
+}
