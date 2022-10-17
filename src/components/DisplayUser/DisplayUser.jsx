@@ -12,7 +12,7 @@ const DisplayUser = () => {
     return (
         <div className={s.userContainer}>
             <div className={s.user}>
-                <h5 className={s.username}>{authService.name}</h5>
+                <h5 className={s.username}>Hi, {authService.name}</h5>
                 <button
                     onClick={() => setShowLinks(!showLinks)}
                     className={s.arrow}
