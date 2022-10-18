@@ -9,10 +9,14 @@ const DisplayUser = () => {
     const { authService } = useContext(UserContext);
     const [ showLinks, setShowLinks ] = useState(false);
 
+    const capitalizeName = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     return (
         <div className={s.userContainer}>
             <div className={s.user}>
-                <h5 className={s.username}>Hi, {authService.name}</h5>
+                <h5 className={s.username}>Hi, {capitalizeName(authService.name)}</h5>
                 <button
                     onClick={() => setShowLinks(!showLinks)}
                     className={s.arrow}

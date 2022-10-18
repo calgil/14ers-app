@@ -11,15 +11,7 @@ import DisplayUser from "../DisplayUser/DisplayUser";
 
 const Navbar = () => {
     const { authService } = useContext(UserContext);
-    // const [isShown, setIsShown] = useState(false);
 
-    // const filterAscending = () => {
-    //     console.log('filter tallest first');
-    // }
-
-    // const filterDescending = () => {
-    //     console.log('filter smallest first');
-    // }
 
     return (
         <nav className={s.nav}>
