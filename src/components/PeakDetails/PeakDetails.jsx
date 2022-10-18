@@ -68,6 +68,10 @@ const PeakDetails = () => {
     //     setAddPhoto(true)
     // }
 
+    const addToPeaksClimbed = () => {
+        console.log('button smashed');
+    }
+
 
     return (
         <div className={s.detailsBody}>
@@ -78,7 +82,10 @@ const PeakDetails = () => {
                 <div className={s.peakDetails}>
                     <div className={s.addBtnBar}>
                         <h3 className={s.peakName}>{peak.name}</h3>
-                        <div className={s.addToClimbsBtn}>
+                        <div 
+                            className={s.addToClimbsBtn}
+                            onClick={addToPeaksClimbed}
+                        >
                             <div className={s.iconContainer}>
                                 <img src={addPeak} alt="add peak" />
                             </div>
