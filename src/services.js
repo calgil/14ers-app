@@ -7,6 +7,7 @@ const LOGIN_URL = AUTH_URL + 'login';
 const ADD_USER_URL = AUTH_URL + 'register';
 const GET_USER_URL = BASE_URL + 'auth/me';
 const UPDATE_USER_URL = AUTH_URL + 'updatedetails';
+const UPDATE_PEAKS_CLIMBED_URL = AUTH_URL + 'updatepeaksclimbed';
 
 class User {
     constructor() {
@@ -15,17 +16,19 @@ class User {
         this.email = '';
         this.role = '';
         this.isLoggedIn = false;
+        this.peaksClimbed = [];
     }
 
     setUserEmail(email) {this.email = email; }
     setIsLoggedIn(loggedIn) { this.isLoggedIn = loggedIn; }
 
     setUserData(userData) {
-       const { email, name, role, _id } = userData;
+       const { email, name, role, _id, peaksClimbed } = userData;
         this.id = _id; 
         this.name = name;
         this.email = email;
         this.role = role;
+        this.peaksClimbed = peaksClimbed;
     }
 }
 
@@ -116,8 +119,25 @@ export class AuthService extends User {
             console.error(error);
         }
     }
+
+    addUserClimbedPeak = async (peaksClimbed) => {
+        const headers = this.getBearerHeader();
+        const body = {
+            "peaksClimbed" : peaksClimbed
+        }
+
+        try {
+            await axios.put(UPDATE_PEAKS_CLIMBED_URL, body, { headers });
+            const data = await this.getUserData();
+            this.setUserData(data);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
 }
 
+    
 
 export const getAllPeaks = async () => {
     try {

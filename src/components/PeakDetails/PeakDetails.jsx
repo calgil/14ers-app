@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import s from "./PeakDetails.module.css";
 import { 
     useParams,
-    // useNavigate,
+    useNavigate,
  } from "react-router-dom";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
@@ -19,16 +19,20 @@ import class2Plus from "../../assets/PeakDetails/class2Plus.png";
 import class3 from "../../assets/PeakDetails/class3.png";
 import class4 from "../../assets/PeakDetails/class4.png";
 import class5 from "../../assets/PeakDetails/class5.png";
+import { isNameInArray } from "../../utilities/isNameInArray";
 
 const PeakDetails = () => {
 
-    const { authService } = useContext(UserContext);
-    // const navigate = useNavigate();
+    const { authService, updateAuth } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [peak, setPeak] = useState();
     const [addPhoto, setAddPhoto] = useState(false);
+    const [isClimbed, setIsClimbed] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(authService.isLoggedIn);
+    // const [loginMessage, setLoginMessage] = useState(false);
     let { id } = useParams();
 
 
@@ -42,6 +46,24 @@ const PeakDetails = () => {
                 setError(true);
             })
     }, [id]);
+
+    useEffect(() => {
+        if (!peak) {
+            return
+        }
+        if (peak) {
+            const climbed = isNameInArray(authService.peaksClimbed, peak.name);
+            if (!climbed) {
+                return
+            }
+            if (climbed) {
+                setIsClimbed(true);
+            }
+        }
+    }, [peak, authService.peaksClimbed]);
+    // other change I want tracked
+    
+
 
     const addDifficultyIcon = (str) => {
         switch (str) {
@@ -58,15 +80,43 @@ const PeakDetails = () => {
             case 'class 5':
                 return class5;
             default:
-                break;
+                return str;
         }
-        return str;
     }
 
     // const editPeak = () => {
     //     // navigate(`/peaks/edit/${id}`);
     //     setAddPhoto(true)
     // }
+
+    const addToPeaksClimbed = () => {
+
+        if (!isLoggedIn) {
+            navigate("/login");
+            return
+        }
+
+        const newPeak = {
+            name: peak.name,
+            dateClimbed: Date.now(),
+        };
+
+        const peaksClimbed = authService.peaksClimbed;
+
+        const found = isNameInArray(peaksClimbed, peak.name);
+        if (found){
+            setIsClimbed(true);
+            console.log('already climbed!!');
+            return
+        }
+        if (!found) {
+            const updatePeaksClimbed = [...authService.peaksClimbed, newPeak];
+            console.log('new arr', updatePeaksClimbed);
+            authService.addUserClimbedPeak(updatePeaksClimbed).then(() => {
+                updateAuth()
+            }).catch((err) => console.error(err));
+        }
+    }
 
 
     return (
@@ -78,12 +128,27 @@ const PeakDetails = () => {
                 <div className={s.peakDetails}>
                     <div className={s.addBtnBar}>
                         <h3 className={s.peakName}>{peak.name}</h3>
-                        <div className={s.addToClimbsBtn}>
-                            <div className={s.iconContainer}>
-                                <img src={addPeak} alt="add peak" />
-                            </div>
-                            <span>Add to My Climbs</span>
-                        </div>
+                        {
+                            isClimbed
+                            ? <div className={s.climbedStatus}> 
+                                    You Climbed this Peak!
+                                </div>
+                            : <button 
+                                className={s.addToClimbsBtn}
+                                onClick={addToPeaksClimbed}
+                                // disabled={!isLoggedIn}
+                                >
+                                    <div className={s.iconContainer}>
+                                        <img src={addPeak} alt="add peak" />
+                                    </div>
+                                    <span>
+                                        { isLoggedIn
+                                        ? "I Climbed this!"
+                                        : "Login to Add to Climbs"
+                                        }
+                                    </span>
+                            </button>
+                        }
                     </div>
                     <div 
                         className={s.mainInfo}

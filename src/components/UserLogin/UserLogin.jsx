@@ -83,7 +83,10 @@ const UserLogin = () => {
                     <div className={s.lineContainer}> 
                         <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
                     </div> 
-                    <Link to='/'>Go Back Home</Link>
+                    <div className={s.goBack}>
+                        <Link to='/'>Home</Link>
+                        <button onClick={() => navigate(-1)}>Go Back</button>
+                    </div>
                 </div>
         </div>
     </>
