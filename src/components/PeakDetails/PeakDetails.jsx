@@ -130,11 +130,11 @@ const PeakDetails = () => {
                         <h3 className={s.peakName}>{peak.name}</h3>
                         {
                             isClimbed
-                            ? <div className={s.climbedStatus}> 
-                                    You Climbed this Peak!
+                            ? <div className={`${s.climbedStatus} ${s.climbBtn}`}> 
+                                    <span>You Climbed this Peak!</span>
                                 </div>
                             : <button 
-                                className={s.addToClimbsBtn}
+                                className={`${s.addToClimbsBtn} ${s.climbBtn}`}
                                 onClick={addToPeaksClimbed}
                                 // disabled={!isLoggedIn}
                                 >
