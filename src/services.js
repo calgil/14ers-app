@@ -72,7 +72,10 @@ export class AuthService extends User {
 
     loginUser = async (email, password) => {
         const headers = this.getBearerHeader();
-        const body = { "email": email.toLowerCase(), "password": password };
+        const body = { 
+            "email": email.toLowerCase(), 
+            "password": password 
+        };
         try {
             const response = await axios.post(LOGIN_URL, body, { headers });
             this.setAuthToken(response.data.token);
