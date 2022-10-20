@@ -14,8 +14,11 @@ const UserLogin = () => {
   const [userLogins, setUserLogins] = useState({ email: "", password: "" });
   const [error, setError] = useState(INIT_ERROR);
   const [showError, setShowError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState();
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   const onChange = ({ target: { name, value } }) => {
+    setShowErrorMsg(false);
     if (name === "email") {
       if (!value.length) {
         setError({ ...error, [name]: "Please provide email" });
@@ -43,7 +46,6 @@ const UserLogin = () => {
         return;
       }
     });
-    // console.log('blur error', error);
   };
 
   const loginUser = (e) => {
@@ -51,20 +53,30 @@ const UserLogin = () => {
     const { email, password } = userLogins;
 
     if (!!error.email || !!error.password) {
-      console.log("error found");
       return;
     }
 
-    console.log("gonna send this", email, password);
-
-    // authService.loginUser(email, password).then(() => {
-    //         updateAuth();
-    //         navigate(-1);
-    //         // navigate('/');
-    //     }).catch(() => {
-    //         setError(true);
-    //         setUserLogins({ email: '', password: '' });
-    //     });
+    authService
+      .loginUser(email, password)
+      .then((res) => {
+        if (res.status === 401) {
+          setShowErrorMsg(true);
+          setErrorMsg("Invalid credentials. Please try again");
+          return;
+        }
+        if (res.status !== 200) {
+          setShowErrorMsg(true);
+          setErrorMsg("Something went wrong. Please try again");
+          return;
+        }
+        if (res.status === 200) {
+          updateAuth();
+          navigate(-1);
+        }
+      })
+      .catch(() => {
+        setUserLogins({ email: "", password: "" });
+      });
   };
 
   return (
@@ -72,6 +84,7 @@ const UserLogin = () => {
       <form className={s.loginBody} onBlur={handleBlur} onSubmit={loginUser}>
         <h3>Login</h3>
         <p>Enter your email and password</p>
+        {showErrorMsg && <div className={s.errorMsg}>{errorMsg}</div>}
         {showError && !!error["email"] && (
           <div className={s.errorMsg}>{error["email"]}</div>
         )}
