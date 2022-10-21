@@ -21,15 +21,6 @@
   color: red;
 }
 
-/* .inputBase {
-  display: block;
-  line-height: 1.6;
-  margin-bottom: 15px;
-  padding: 15px 10px;
-  border-radius: 5px;
-  border: 1px solid #333;
-} */
-
 .submitBtn {
   border: 1px solid rgb(31, 74, 40);
   background: rgba(31, 74, 40, 0.9);

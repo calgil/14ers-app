@@ -44,7 +44,7 @@ const UserLogin = () => {
       if (!userLogins[key].length === 0) {
         setError({ ...error, [`${key}`]: false });
       }
-      setError({ ...error, [`${key}`]: true });
+      // setError({ ...error, [`${key}`]: true });
     });
   };
 
@@ -105,7 +105,7 @@ const UserLogin = () => {
             key={data.key}
             data={data}
             onChange={onChange}
-            error={error[data.name]}
+            error={!error[data.name]}
             showError={showInputError}
           />
         ))}
