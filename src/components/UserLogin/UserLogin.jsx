@@ -71,7 +71,7 @@ const UserLogin = () => {
       .then((res) => {
         if (res.status === 401) {
           setShowErrorMsg(true);
-          setErrorMsg("Invalid credentials. Please try again");
+          setErrorMsg("Invalid username or password. Please try again");
           return;
         }
         if (res.status !== 200) {
