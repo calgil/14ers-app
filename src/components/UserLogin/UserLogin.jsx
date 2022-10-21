@@ -41,10 +41,10 @@ const UserLogin = () => {
 
   const checkLoginData = () => {
     Object.keys(userLogins).forEach((key) => {
-      console.log(userLogins[key].length);
       if (!userLogins[key].length === 0) {
         setError({ ...error, [`${key}`]: false });
       }
+      setError({ ...error, [`${key}`]: true });
     });
   };
 
@@ -62,7 +62,7 @@ const UserLogin = () => {
       return;
     }
 
-    if (!!error.email || !!error.password) {
+    if (!error.email || !error.password) {
       return;
     }
 

@@ -14,7 +14,6 @@ const InputBase = ({ data, onChange, error, showError }) => (
       <div className={showError ? s.error : s.hidden}>{data.errorMsg}</div>
     )}
     <input
-      //   className={s.inputBase}
       className={
         showError && !error ? `${s.outline} ${s.inputBase}` : s.inputBase
       }
