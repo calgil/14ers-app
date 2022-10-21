@@ -1,0 +1,43 @@
+.inputContainer {
+  position: relative;
+  margin-top: 5px;
+}
+
+.error,
+.passwordRules {
+  color: red;
+}
+
+.error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+.passwordRules {
+  margin-top: 25px;
+  font-size: 13px;
+}
+
+.inputBase {
+  display: block;
+  width: 100%;
+  line-height: 1.6;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  padding: 15px 10px;
+  border-radius: 5px;
+  border: 1px solid #333;
+}
+
+.outline {
+  border: none;
+  outline: 1px solid red;
+}

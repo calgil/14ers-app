@@ -1,96 +1,132 @@
 import React, { useContext, useState } from "react";
 import s from "./UserLogin.module.css";
-import { 
-    Link, 
-    useNavigate,
- } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
-import { emailValidation } from "../../utilities/emailValidation";
-
+import { isEmailValid } from "../../utilities/isEmailValid";
+import { isPasswordValid } from "../../utilities/isPasswordValid";
+import InputBase from "../InputBase/InputBase";
 
 const UserLogin = () => {
-    const navigate = useNavigate();
-    const { authService, updateAuth } = useContext(UserContext);
-    const [userLogins, setUserLogins] = useState({ email: '', password: '' });
-    const [error, setError] = useState(false);
-    const [errorMsg, setErrorMsg] = useState('');
+  const INIT_LOGIN = {
+    email: "",
+    password: "",
+  };
+  const INIT_ERROR = {
+    email: false,
+    password: false,
+  };
+  const navigate = useNavigate();
+  const { authService, updateAuth } = useContext(UserContext);
+  const [userLogins, setUserLogins] = useState(INIT_LOGIN);
+  const [error, setError] = useState(INIT_ERROR);
+  const [showInputError, setShowInputError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState();
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
 
-    const onChange = ({ target: { name, value }}) => {
-        setUserLogins({ ...userLogins, [name]: value });
+  const onChange = ({ target: { name, value } }) => {
+    if (name === "email") {
+      if (!isEmailValid(value)) {
+        return setError({ ...error, [name]: false });
+      }
+      setError({ ...error, [name]: true });
+    }
+    if (name === "password") {
+      if (!isPasswordValid(value)) {
+        return setError({ ...error, [name]: false });
+      }
+      setError({ ...error, [name]: true });
+    }
+    setUserLogins({ ...userLogins, [name]: value });
+  };
+
+  const checkLoginData = () => {
+    Object.keys(userLogins).forEach((key) => {
+      if (!userLogins[key].length === 0) {
+        setError({ ...error, [`${key}`]: false });
+      }
+      // setError({ ...error, [`${key}`]: true });
+    });
+  };
+
+  const handleBlur = () => {
+    checkLoginData();
+  };
+
+  const loginUser = (e) => {
+    e.preventDefault();
+    checkLoginData();
+    setShowInputError(true);
+    const { email, password } = userLogins;
+
+    if (!email.length || !password.length) {
+      return;
     }
 
-    const loginUser = (e) => {
-        e.preventDefault();
-        const { email, password } = userLogins;
+    if (!error.email || !error.password) {
+      return;
+    }
 
-        if(!email) {
-            setError(true);
-            setErrorMsg('Please enter an email address');
-           return
+    authService
+      .loginUser(email, password)
+      .then((res) => {
+        if (res.status === 401) {
+          setShowErrorMsg(true);
+          setErrorMsg("Invalid username or password. Please try again");
+          return;
         }
-
-        if(!emailValidation(email)) {
-            setError(true);
-            setErrorMsg('Please enter a valid email address');
-           return
+        if (res.status !== 200) {
+          setShowErrorMsg(true);
+          setErrorMsg("Something went wrong. Please try again");
+          return;
         }
+        if (res.status === 200) {
+          updateAuth();
+          navigate(-1);
+        }
+      })
+      .catch(() => {
+        setUserLogins({ email: "", password: "" });
+      });
+  };
 
-        authService.loginUser(email, password).then(() => {
-                updateAuth();
-                navigate(-1);
-                // navigate('/');
-            }).catch(() => {
-                setError(true);
-                setUserLogins({ email: '', password: '' });
-            });
-    };
+  const inputData = [
+    { key: 1, name: "email", errorMsg: "Please enter a valid email" },
+    { key: 2, name: "password", errorMsg: "Please enter a valid password" },
+  ];
 
-    return (
+  return (
     <>
-        <form 
-            className={s.loginBody}
-            onSubmit={loginUser}
-        >
-            <h3>Login</h3>
-            <p>Enter your email and password</p>
-            {error && <div className={s.errorMsg}>{errorMsg}</div>}
-                    <input 
-                            className={s.inputBase} 
-                            name="email" 
-                            type="text" 
-                            placeholder="Email"
-                            autoComplete="off"
-                            onChange={onChange}
-                        />
-                    <input 
-                            className={s.inputBase} 
-                            name="password" 
-                            type="password" 
-                            placeholder="Password"
-                            autoComplete="off"
-                            onChange={onChange}
-                        />
-            <input 
-                className={s.submitBtn} 
-                type="submit" 
-                value="Login" 
-            />
-        </form>
-        <div className={s.linkContainer}>
-            No account? 
-                <div className={s.links}>
-                    <Link to='/register'>Create one</Link> 
-                    <div className={s.lineContainer}> 
-                        <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
-                    </div> 
-                    <div className={s.goBack}>
-                        <Link to='/'>Home</Link>
-                        <button onClick={() => navigate(-1)}>Go Back</button>
-                    </div>
-                </div>
+      <form className={s.loginBody} onBlur={handleBlur} onSubmit={loginUser}>
+        <h3 className={s.header}>Welcome Back!</h3>
+        <p className={s.instructions}>Enter your email and password</p>
+        {showErrorMsg && <div className={s.errorMsg}>{errorMsg}</div>}
+        {inputData.map((data) => (
+          <InputBase
+            key={data.key}
+            data={data}
+            onChange={onChange}
+            error={!error[data.name]}
+            showError={showInputError}
+          />
+        ))}
+        <input className={s.submitBtn} type="submit" value="Login" />
+      </form>
+
+      <div className={s.links}>
+        No account? <Link to="/register">Create one</Link>
+        <div className={s.lineContainer}>
+          <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
         </div>
+        <div>
+          <Link to="/">Home</Link>
+          <button className={s.backBtn} onClick={() => navigate(-1)}>
+            <i class="fa fa-chevron-left"></i>
+            Go Back
+          </button>
+        </div>
+      </div>
     </>
-    )
-}
+  );
+};
 
 export default UserLogin;
