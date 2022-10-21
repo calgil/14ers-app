@@ -1,5 +1,11 @@
 .inputContainer {
   position: relative;
+  margin-top: 5px;
+}
+
+.error,
+.passwordRules {
+  color: red;
 }
 
 .error {
@@ -13,6 +19,11 @@
 
 .hidden {
   display: none;
+}
+
+.passwordRules {
+  margin-top: 25px;
+  font-size: 13px;
 }
 
 .inputBase {

@@ -3,6 +3,7 @@ import s from "./UserLogin.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import { isEmailValid } from "../../utilities/isEmailValid";
+import { isPasswordValid } from "../../utilities/isPasswordValid";
 import InputBase from "../InputBase/InputBase";
 
 const UserLogin = () => {
@@ -23,39 +24,26 @@ const UserLogin = () => {
   const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   const onChange = ({ target: { name, value } }) => {
-    // setShowInputError(false);
     if (name === "email") {
       if (!isEmailValid(value)) {
-        setError({ ...error, [name]: true });
-        return;
+        return setError({ ...error, [name]: false });
       }
-      setError({ ...error, [name]: false });
+      setError({ ...error, [name]: true });
     }
-    // if (name === "email") {
-    //   // refactor this logic in a separate function
-    //   if (!value.length) {
-    //     setError({ ...error, [name]: "Please provide valid email" });
-    //     return;
-    //   }
-    //   if (!emailValidation(value)) {
-    //     setError({ ...error, [name]: "Please provide valid email" });
-    //     return;
-    //   }
-    // }
-
-    // if (name === "password") {
-    //   if (!value.length) {
-    //     setError({ ...error, [name]: "Please enter a password" });
-    //   }
-    // }
-    // setError({ ...error, [name]: undefined });
+    if (name === "password") {
+      if (!isPasswordValid(value)) {
+        return setError({ ...error, [name]: false });
+      }
+      setError({ ...error, [name]: true });
+    }
     setUserLogins({ ...userLogins, [name]: value });
   };
 
   const checkLoginData = () => {
     Object.keys(userLogins).forEach((key) => {
-      if (!userLogins[key].length) {
-        setError({ ...error, [`${key}`]: true });
+      console.log(userLogins[key].length);
+      if (!userLogins[key].length === 0) {
+        setError({ ...error, [`${key}`]: false });
       }
     });
   };
@@ -66,40 +54,39 @@ const UserLogin = () => {
 
   const loginUser = (e) => {
     e.preventDefault();
+    checkLoginData();
     setShowInputError(true);
     const { email, password } = userLogins;
+
+    if (!email.length || !password.length) {
+      return;
+    }
 
     if (!!error.email || !!error.password) {
       return;
     }
 
-    if (!!email || !!password) {
-      return;
-    }
-
-    console.log("about to send", email, password);
-
-    // authService
-    //   .loginUser(email, password)
-    //   .then((res) => {
-    //     if (res.status === 401) {
-    //       setShowErrorMsg(true);
-    //       setErrorMsg("Invalid credentials. Please try again");
-    //       return;
-    //     }
-    //     if (res.status !== 200) {
-    //       setShowErrorMsg(true);
-    //       setErrorMsg("Something went wrong. Please try again");
-    //       return;
-    //     }
-    //     if (res.status === 200) {
-    //       updateAuth();
-    //       navigate(-1);
-    //     }
-    //   })
-    //   .catch(() => {
-    //     setUserLogins({ email: "", password: "" });
-    //   });
+    authService
+      .loginUser(email, password)
+      .then((res) => {
+        if (res.status === 401) {
+          setShowErrorMsg(true);
+          setErrorMsg("Invalid credentials. Please try again");
+          return;
+        }
+        if (res.status !== 200) {
+          setShowErrorMsg(true);
+          setErrorMsg("Something went wrong. Please try again");
+          return;
+        }
+        if (res.status === 200) {
+          updateAuth();
+          navigate(-1);
+        }
+      })
+      .catch(() => {
+        setUserLogins({ email: "", password: "" });
+      });
   };
 
   const inputData = [
