@@ -2,114 +2,126 @@ import React, { useContext, useState } from "react";
 import s from "./UserLogin.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
-import { emailValidation } from "../../utilities/emailValidation";
+import { isEmailValid } from "../../utilities/isEmailValid";
+import InputBase from "../InputBase/InputBase";
 
 const UserLogin = () => {
+  const INIT_LOGIN = {
+    email: "",
+    password: "",
+  };
   const INIT_ERROR = {
-    email: " ",
-    password: " ",
+    email: false,
+    password: false,
   };
   const navigate = useNavigate();
   const { authService, updateAuth } = useContext(UserContext);
-  const [userLogins, setUserLogins] = useState({ email: "", password: "" });
+  const [userLogins, setUserLogins] = useState(INIT_LOGIN);
   const [error, setError] = useState(INIT_ERROR);
-  const [showError, setShowError] = useState(false);
+  const [showInputError, setShowInputError] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   const onChange = ({ target: { name, value } }) => {
-    setShowErrorMsg(false);
+    // setShowInputError(false);
     if (name === "email") {
-      if (!value.length) {
-        setError({ ...error, [name]: "Please provide email" });
+      if (!isEmailValid(value)) {
+        setError({ ...error, [name]: true });
         return;
       }
-      if (!emailValidation(value)) {
-        setError({ ...error, [name]: "Please provide valid email" });
-        return;
-      }
+      setError({ ...error, [name]: false });
     }
+    // if (name === "email") {
+    //   // refactor this logic in a separate function
+    //   if (!value.length) {
+    //     setError({ ...error, [name]: "Please provide valid email" });
+    //     return;
+    //   }
+    //   if (!emailValidation(value)) {
+    //     setError({ ...error, [name]: "Please provide valid email" });
+    //     return;
+    //   }
+    // }
 
-    if (name === "password") {
-      if (!value.length) {
-        setError({ ...error, [name]: "Please enter a password" });
-      }
-    }
-    setError({ ...error, [name]: undefined });
+    // if (name === "password") {
+    //   if (!value.length) {
+    //     setError({ ...error, [name]: "Please enter a password" });
+    //   }
+    // }
+    // setError({ ...error, [name]: undefined });
     setUserLogins({ ...userLogins, [name]: value });
   };
 
-  const handleBlur = () => {
-    Object.keys(error).forEach((key) => {
-      if (error[key] !== undefined) {
-        setShowError(true);
-        return;
+  const checkLoginData = () => {
+    Object.keys(userLogins).forEach((key) => {
+      if (!userLogins[key].length) {
+        setError({ ...error, [`${key}`]: true });
       }
     });
   };
 
+  const handleBlur = () => {
+    checkLoginData();
+  };
+
   const loginUser = (e) => {
     e.preventDefault();
+    setShowInputError(true);
     const { email, password } = userLogins;
 
     if (!!error.email || !!error.password) {
       return;
     }
 
-    authService
-      .loginUser(email, password)
-      .then((res) => {
-        if (res.status === 401) {
-          setShowErrorMsg(true);
-          setErrorMsg("Invalid credentials. Please try again");
-          return;
-        }
-        if (res.status !== 200) {
-          setShowErrorMsg(true);
-          setErrorMsg("Something went wrong. Please try again");
-          return;
-        }
-        if (res.status === 200) {
-          updateAuth();
-          navigate(-1);
-        }
-      })
-      .catch(() => {
-        setUserLogins({ email: "", password: "" });
-      });
+    if (!!email || !!password) {
+      return;
+    }
+
+    console.log("about to send", email, password);
+
+    // authService
+    //   .loginUser(email, password)
+    //   .then((res) => {
+    //     if (res.status === 401) {
+    //       setShowErrorMsg(true);
+    //       setErrorMsg("Invalid credentials. Please try again");
+    //       return;
+    //     }
+    //     if (res.status !== 200) {
+    //       setShowErrorMsg(true);
+    //       setErrorMsg("Something went wrong. Please try again");
+    //       return;
+    //     }
+    //     if (res.status === 200) {
+    //       updateAuth();
+    //       navigate(-1);
+    //     }
+    //   })
+    //   .catch(() => {
+    //     setUserLogins({ email: "", password: "" });
+    //   });
   };
+
+  const inputData = [
+    { key: 1, name: "email", errorMsg: "Please enter a valid email" },
+    { key: 2, name: "password", errorMsg: "Please enter a valid password" },
+  ];
 
   return (
     <>
       <form className={s.loginBody} onBlur={handleBlur} onSubmit={loginUser}>
-        <h3>Login</h3>
-        <p>Enter your email and password</p>
+        <h3 className={s.header}>Welcome Back!</h3>
+        <p className={s.instructions}>Enter your email and password</p>
         {showErrorMsg && <div className={s.errorMsg}>{errorMsg}</div>}
-        {showError && !!error["email"] && (
-          <div className={s.errorMsg}>{error["email"]}</div>
-        )}
-        <input
-          className={s.inputBase}
-          name="email"
-          type="email"
-          placeholder="Email"
-          autoComplete="off"
-          onChange={onChange}
-        />
-        {
-          showError && !!error["password"] && (
-            <div className={s.errorMsg}>Please enter a password</div>
-          )
-          // later add error handling to password
-        }
-        <input
-          className={s.inputBase}
-          name="password"
-          type="password"
-          placeholder="Password"
-          autoComplete="off"
-          onChange={onChange}
-        />
+        {inputData.map((data) => (
+          <InputBase
+            key={data.key}
+            data={data}
+            onChange={onChange}
+            error={error[data.name]}
+            showError={showInputError}
+          />
+        ))}
         <input className={s.submitBtn} type="submit" value="Login" />
       </form>
       <div className={s.linkContainer}>
