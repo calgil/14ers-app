@@ -111,19 +111,18 @@ const UserLogin = () => {
         ))}
         <input className={s.submitBtn} type="submit" value="Login" />
       </form>
-      <div className={s.linkContainer}>
-        No account?
-        <div className={s.links}>
-          <Link to="/register">Create one</Link>
-          <div className={s.lineContainer}>
-            <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
-          </div>
-          <div>
-            <Link to="/">Home</Link>
-            <button className={s.backBtn} onClick={() => navigate(-1)}>
-              Go Back
-            </button>
-          </div>
+
+      <div className={s.links}>
+        No account? <Link to="/register">Create one</Link>
+        <div className={s.lineContainer}>
+          <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
+        </div>
+        <div>
+          <Link to="/">Home</Link>
+          <button className={s.backBtn} onClick={() => navigate(-1)}>
+            <i class="fa fa-chevron-left"></i>
+            Go Back
+          </button>
         </div>
       </div>
     </>
