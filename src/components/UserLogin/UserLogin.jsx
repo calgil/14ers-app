@@ -18,7 +18,7 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const { authService, updateAuth } = useContext(UserContext);
   const [userLogins, setUserLogins] = useState(INIT_LOGIN);
-  const [error, setError] = useState(INIT_ERROR);
+  const [loginError, setLoginError] = useState(INIT_ERROR);
   const [showInputError, setShowInputError] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const [showErrorMsg, setShowErrorMsg] = useState(false);
@@ -26,15 +26,15 @@ const UserLogin = () => {
   const onChange = ({ target: { name, value } }) => {
     if (name === "email") {
       if (!isEmailValid(value)) {
-        return setError({ ...error, [name]: false });
+        return setLoginError({ ...loginError, [name]: false });
       }
-      setError({ ...error, [name]: true });
+      setLoginError({ ...loginError, [name]: true });
     }
     if (name === "password") {
       if (!isPasswordValid(value)) {
-        return setError({ ...error, [name]: false });
+        return setLoginError({ ...loginError, [name]: false });
       }
-      setError({ ...error, [name]: true });
+      setLoginError({ ...loginError, [name]: true });
     }
     setUserLogins({ ...userLogins, [name]: value });
   };
@@ -42,9 +42,8 @@ const UserLogin = () => {
   const checkLoginData = () => {
     Object.keys(userLogins).forEach((key) => {
       if (!userLogins[key].length === 0) {
-        setError({ ...error, [`${key}`]: false });
+        setLoginError({ ...loginError, [`${key}`]: false });
       }
-      // setError({ ...error, [`${key}`]: true });
     });
   };
 
@@ -62,7 +61,7 @@ const UserLogin = () => {
       return;
     }
 
-    if (!error.email || !error.password) {
+    if (!loginError.email || !loginError.password) {
       return;
     }
 
@@ -82,6 +81,7 @@ const UserLogin = () => {
         if (res.status === 200) {
           updateAuth();
           navigate(-1);
+          setLoginError(INIT_ERROR);
         }
       })
       .catch(() => {
@@ -105,7 +105,7 @@ const UserLogin = () => {
             key={data.key}
             data={data}
             onChange={onChange}
-            error={!error[data.name]}
+            error={!loginError[data.name]}
             showError={showInputError}
           />
         ))}
@@ -120,7 +120,7 @@ const UserLogin = () => {
         <div>
           <Link to="/">Home</Link>
           <button className={s.backBtn} onClick={() => navigate(-1)}>
-            <i class="fa fa-chevron-left"></i>
+            <i className="fa fa-chevron-left"></i>
             Go Back
           </button>
         </div>
