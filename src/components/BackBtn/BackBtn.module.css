@@ -1,0 +1,15 @@
+.backBtn {
+  position: absolute;
+  top: 80px;
+  left: 50px;
+  background-color: #26532b;
+  padding: 4px 8px;
+  border: none;
+  color: white;
+  border-radius: 3px;
+}
+
+.backBtn i {
+  margin-right: 4px;
+  font-size: 10px;
+}

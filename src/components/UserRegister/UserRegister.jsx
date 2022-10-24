@@ -6,6 +6,7 @@ import { isEmailValid } from "../../utilities/isEmailValid";
 import { isPasswordValid } from "../../utilities/isPasswordValid";
 import { doPasswordsMatch } from "../../utilities/doPasswordsMatch";
 import InputBase from "../InputBase/InputBase";
+import BackBtn from "../BackBtn/BackBtn";
 
 const UserRegister = () => {
   const { authService, updateAuth } = useContext(UserContext);
@@ -166,16 +167,14 @@ const UserRegister = () => {
         ))}
         <input className={s.submitBtn} type="submit" value="Login" />
       </form>
-      <div className={s.linkContainer}>
-        Already have an account?
-        <div className={s.links}>
-          <Link to="/login">Login</Link>
-          <div className={s.lineContainer}>
-            <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
-          </div>
-          <Link to="/">Return Home</Link>
+      <div className={s.links}>
+        Already have an account? <Link to="/login">Login</Link>
+        <div className={s.lineContainer}>
+          <hr className={s.line} /> <span>OR</span> <hr className={s.line} />
         </div>
+        <Link to="/">Return Home</Link>
       </div>
+      <BackBtn />
     </>
   );
 };

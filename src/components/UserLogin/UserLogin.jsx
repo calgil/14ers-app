@@ -5,6 +5,7 @@ import { UserContext } from "../../App";
 import { isEmailValid } from "../../utilities/isEmailValid";
 import { isPasswordValid } from "../../utilities/isPasswordValid";
 import InputBase from "../InputBase/InputBase";
+import BackBtn from "../BackBtn/BackBtn";
 
 const UserLogin = () => {
   const INIT_LOGIN = {
@@ -44,7 +45,6 @@ const UserLogin = () => {
       if (!userLogins[key].length === 0) {
         setError({ ...error, [`${key}`]: false });
       }
-      // setError({ ...error, [`${key}`]: true });
     });
   };
 
@@ -129,12 +129,9 @@ const UserLogin = () => {
         </div>
         <div>
           <Link to="/">Home</Link>
-          <button className={s.backBtn} onClick={() => navigate(-1)}>
-            <i className="fa fa-chevron-left"></i>
-            Go Back
-          </button>
         </div>
       </div>
+      <BackBtn />
     </>
   );
 };
