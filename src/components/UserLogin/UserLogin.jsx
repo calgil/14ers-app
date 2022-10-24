@@ -18,7 +18,7 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const { authService, updateAuth } = useContext(UserContext);
   const [userLogins, setUserLogins] = useState(INIT_LOGIN);
-  const [loginError, setLoginError] = useState(INIT_ERROR);
+  const [error, setError] = useState(INIT_ERROR);
   const [showInputError, setShowInputError] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const [showErrorMsg, setShowErrorMsg] = useState(false);
@@ -26,15 +26,15 @@ const UserLogin = () => {
   const onChange = ({ target: { name, value } }) => {
     if (name === "email") {
       if (!isEmailValid(value)) {
-        return setLoginError({ ...loginError, [name]: false });
+        return setError({ ...error, [name]: false });
       }
-      setLoginError({ ...loginError, [name]: true });
+      setError({ ...error, [name]: true });
     }
     if (name === "password") {
       if (!isPasswordValid(value)) {
-        return setLoginError({ ...loginError, [name]: false });
+        return setError({ ...error, [name]: false });
       }
-      setLoginError({ ...loginError, [name]: true });
+      setError({ ...error, [name]: true });
     }
     setUserLogins({ ...userLogins, [name]: value });
   };
@@ -42,8 +42,9 @@ const UserLogin = () => {
   const checkLoginData = () => {
     Object.keys(userLogins).forEach((key) => {
       if (!userLogins[key].length === 0) {
-        setLoginError({ ...loginError, [`${key}`]: false });
+        setError({ ...error, [`${key}`]: false });
       }
+      // setError({ ...error, [`${key}`]: true });
     });
   };
 
@@ -61,7 +62,7 @@ const UserLogin = () => {
       return;
     }
 
-    if (!loginError.email || !loginError.password) {
+    if (!error.email || !error.password) {
       return;
     }
 
@@ -80,8 +81,7 @@ const UserLogin = () => {
         }
         if (res.status === 200) {
           updateAuth();
-          navigate(-1);
-          setLoginError(INIT_ERROR);
+          navigate("/");
         }
       })
       .catch(() => {
@@ -90,8 +90,18 @@ const UserLogin = () => {
   };
 
   const inputData = [
-    { key: 1, name: "email", errorMsg: "Please enter a valid email" },
-    { key: 2, name: "password", errorMsg: "Please enter a valid password" },
+    {
+      key: 1,
+      type: "email",
+      name: "email",
+      errorMsg: "Please enter a valid email",
+    },
+    {
+      key: 2,
+      type: "password",
+      name: "password",
+      errorMsg: "Please enter a valid password",
+    },
   ];
 
   return (
@@ -105,7 +115,7 @@ const UserLogin = () => {
             key={data.key}
             data={data}
             onChange={onChange}
-            error={!loginError[data.name]}
+            error={!error[data.name]}
             showError={showInputError}
           />
         ))}

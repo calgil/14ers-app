@@ -3,6 +3,8 @@ import s from "./UserRegister.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import { isEmailValid } from "../../utilities/isEmailValid";
+import { isPasswordValid } from "../../utilities/isPasswordValid";
+import { doPasswordsMatch } from "../../utilities/doPasswordsMatch";
 import InputBase from "../InputBase/InputBase";
 
 const UserRegister = () => {
@@ -14,120 +16,154 @@ const UserRegister = () => {
     email: "",
     password: "",
   };
+
   const INIT_ERROR = {
-    email: false,
-    password: false,
+    name: true,
+    email: true,
+    password: true,
+    confirmPassword: true,
   };
-  const [userInfoError, setUserInfoError] = useState(INIT_ERROR);
-  const [errorMsg, setErrorMsg] = useState("");
+
+  const [error, setError] = useState(INIT_ERROR);
   const [userInfo, setUserInfo] = useState(INIT_STATE);
-  const [showError, setShowError] = useState(false);
+  const [showInputError, setShowInputError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   const onChange = ({ target: { name, value } }) => {
-    setUserInfo({ ...userInfo, [name]: value });
-  };
-
-  const validateInputs = (name, value) => {
-    console.log("validate", name, value);
-    if (!value) {
-      console.log("error", name);
-      setUserInfoError({ ...userInfoError, [`${name}`]: true });
-      return;
+    if (name === "name") {
+      if (!value.length) {
+        setError({ ...error, name: true });
+        return;
+      }
+      setError({ ...error, name: false });
+      setUserInfo({ ...userInfo, name: value });
+    }
+    if (name === "email") {
+      if (!isEmailValid(value)) {
+        setError({ ...error, email: true });
+        return;
+      }
+      setError({ ...error, email: false });
+      setUserInfo({ ...userInfo, email: value });
+    }
+    if (name === "password") {
+      if (!isPasswordValid(value)) {
+        setError({ ...error, password: true });
+        return;
+      }
+      setError({ ...error, password: false });
+      setUserInfo({ ...userInfo, password: value });
+    }
+    if (name === "confirmPassword") {
+      if (!userInfo.password.length) {
+        console.log("no password");
+        return;
+      }
+      if (error.password) {
+        console.log("invalid password");
+        return;
+      }
+      if (!doPasswordsMatch(userInfo.password, value)) {
+        setError({ ...error, confirmPassword: true });
+        return;
+      }
+      setError({ ...error, confirmPassword: false });
     }
   };
 
-  const onBlur = () => {
-    Object.keys(userInfo).forEach((name) => {
-      validateInputs(name, userInfo[name]);
-
-      // if (!userInfo[key].length) {
-      //   console.log("empty", userInfoError[key]);
-      //   setUserInfoError({ ...userInfoError, [key]: true });
-      //   console.log("empty!", userInfoError);
-      //   return;
-      // }
-      // console.log("each key", key);
-      // console.log("each val", userInfo[key]);
+  const checkLoginData = () => {
+    let isValid = true;
+    Object.values(userInfo).forEach((val) => {
+      if (!val.length) {
+        isValid = false;
+        return;
+      }
     });
-    console.log(userInfoError);
+    return isValid;
   };
 
-  const onSubmit = (e) => {
+  const createUser = (e) => {
     e.preventDefault();
-    console.log("submit", userInfoError);
+    setShowInputError(true);
+
+    if (!checkLoginData()) {
+      return;
+    }
+
+    if (error.name || error.email || error.password || error.confirmPassword) {
+      return;
+    }
+
     const { name, email, password } = userInfo;
-    // if (!name || !email || !password) {
-    //   Object.keys(userInfo).forEach((key) => {
-    //     if (userInfo[key].length === 0) {
-    //       let errorMsg = `Please enter a valid ${key}`;
-    //       setError(true);
-    //       setErrorMsg(errorMsg);
-    //     }
-    //   });
-    // } else {
-    //   authService
-    //     .createUser(name, email, password)
-    //     .then(() => {
-    //       updateAuth();
-    //       navigate("/");
-    //     })
-    //     .catch(() => {
-    //       setError(true);
-    //       setUserInfo({
-    //         name: "",
-    //         email: "",
-    //         password: "",
-    //       });
-    //     });
-    // }
+
+    authService
+      .createUser(name, email, password)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 400) {
+          console.log("gotcha!");
+          setShowErrorMsg(true);
+          setErrorMsg("There is already a user with that email");
+          return;
+        }
+        if (res.status !== 200) {
+          setErrorMsg("Something went wrong");
+          setShowErrorMsg(true);
+          return;
+        }
+        if (res.status === 200) {
+          updateAuth();
+          navigate("/");
+        }
+      })
+      .catch(() => {
+        setError(true);
+        setUserInfo({
+          name: "",
+          email: "",
+          password: "",
+        });
+      });
   };
 
   const inputData = [
-    { key: 1, name: "name", errorMsg: "" },
-    { key: 2, name: "email", errorMsg: "Please enter a valid email" },
-    { key: 3, name: "password", errorMsg: "Please enter a valid password" },
-    // {key: 4, name: "confirm password", errorMsg: 'Passwords do not match'},
+    { key: 1, name: "name", type: "text", errorMsg: "Please enter a name" },
+    {
+      key: 2,
+      name: "email",
+      type: "email",
+      errorMsg: "Please enter valid email",
+    },
+    {
+      key: 3,
+      name: "password",
+      type: "password",
+      errorMsg: "Please enter valid password",
+    },
+    {
+      key: 4,
+      name: "confirmPassword",
+      type: "password",
+      errorMsg: "Passwords don't match",
+    },
   ];
 
   return (
     <>
-      <form className={s.registerBody} onSubmit={onSubmit} onBlur={onBlur}>
+      <form className={s.registerBody} onSubmit={createUser}>
         <h3>Create Account</h3>
         <p>Enter your email and password</p>
-        {/* {error && <div className={s.errorMsg}>{errorMsg}</div>} */}
+        {showErrorMsg && <div className={s.errorMsg}>{errorMsg}</div>}
         {inputData.map((data) => (
           <InputBase
             key={data.key}
             data={data}
             onChange={onChange}
-            error={userInfo[data.name]}
-            showError={showError}
+            error={error[data.name]}
+            showError={showInputError}
           />
         ))}
-        {/* <input
-          className={s.inputBase}
-          name="name"
-          type="text"
-          placeholder="name"
-          autoComplete="off"
-          onChange={onChange}
-        />
-        <input
-          className={s.inputBase}
-          name="email"
-          type="text"
-          placeholder="Email"
-          autoComplete="off"
-          onChange={onChange}
-        />
-        <input
-          className={s.inputBase}
-          name="password"
-          type="password"
-          placeholder="Password"
-          autoComplete="off"
-          onChange={onChange}
-        /> */}
         <input className={s.submitBtn} type="submit" value="Login" />
       </form>
       <div className={s.linkContainer}>

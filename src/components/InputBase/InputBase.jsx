@@ -2,7 +2,7 @@ import React from "react";
 import s from "./InputBase.module.css";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 
-const InputBase = ({ data, onChange, error, showError }) => (
+const InputBase = ({ data, onChange, onBlur, error, showError }) => (
   <div className={s.inputContainer}>
     {error && showError && data.name === "password" && (
       <div className={s.passwordRules}>
@@ -17,9 +17,10 @@ const InputBase = ({ data, onChange, error, showError }) => (
       className={
         showError && error ? `${s.outline} ${s.inputBase}` : s.inputBase
       }
-      type={data.name}
+      type={data.type}
       name={data.name}
       onChange={onChange}
+      onBlur={onBlur}
       autoComplete={"off"}
       placeholder={capitalizeFirstLetters(data.name)}
     />

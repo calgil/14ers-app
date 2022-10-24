@@ -89,7 +89,7 @@ export class AuthService extends User {
       this.setIsLoggedIn(true);
       const data = await this.getUserData();
       this.setUserData(data);
-      return response
+      return response;
     } catch (error) {
       if (error.response) {
         return error.response;
@@ -115,6 +115,9 @@ export class AuthService extends User {
       const data = await this.getUserData();
       this.setUserData(data);
     } catch (error) {
+      if (error.response) {
+        return error.response;
+      }
       console.error(error);
     }
   };
