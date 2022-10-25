@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Planning.module.css";
 
 const Planning = () => {
-  return <div>Planning under construction</div>;
+  return <div className={s.planning}>Planning under construction</div>;
 };
 
 export default Planning;
