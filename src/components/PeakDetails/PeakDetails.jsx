@@ -99,7 +99,7 @@ const PeakDetails = () => {
                   <img src={addPeak} alt="add peak" />
                 </div>
                 <span>
-                  {isLoggedIn ? "I Climbed this!" : "Login to Add to Climbs"}
+                  {isLoggedIn ? "Add to Climb Log!" : "Login to Add to Climbs"}
                 </span>
               </button>
             )}
