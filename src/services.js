@@ -109,11 +109,15 @@ export class AuthService extends User {
 
     try {
       const response = await axios.post(ADD_USER_URL, body, { headers });
-      this.setAuthToken(response.data.token);
-      this.setBearerHeader(response.data.token);
-      this.setIsLoggedIn(true);
-      const data = await this.getUserData();
-      this.setUserData(data);
+      if (response.data.success) {
+        console.log("service res", response);
+        this.setAuthToken(response.data.token);
+        this.setBearerHeader(response.data.token);
+        this.setIsLoggedIn(true);
+        const data = await this.getUserData();
+        this.setUserData(data);
+        return response;
+      }
     } catch (error) {
       if (error.response) {
         return error.response;
