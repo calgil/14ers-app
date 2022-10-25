@@ -101,9 +101,7 @@ const UserRegister = () => {
     authService
       .createUser(name, email, password)
       .then((res) => {
-        console.log(res);
         if (res.status === 400) {
-          console.log("gotcha!");
           setShowErrorMsg(true);
           setErrorMsg("There is already a user with that email");
           return;
