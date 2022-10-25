@@ -40,15 +40,10 @@ const PeakDetails = () => {
     if (!peak) {
       return;
     }
-    if (peak) {
-      const climbed = isNameInArray(authService.peaksClimbed, peak.name);
-      if (!climbed) {
-        return;
-      }
-      if (climbed) {
-        setIsClimbed(true);
-      }
+    if (!isNameInArray(authService.peaksClimbed, peak.name)) {
+      return;
     }
+    setIsClimbed(true);
   }, [peak, authService.peaksClimbed]);
 
   const addToPeaksClimbed = () => {
