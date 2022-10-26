@@ -20,6 +20,7 @@ const Navbar = () => {
 
           <ul className={s.navLinks}>
             <NavLink
+              end
               to={"/"}
               className={({ isActive }) =>
                 isActive ? `${s.navLink} ${s.active}` : `${s.navLink}`
