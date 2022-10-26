@@ -67,23 +67,6 @@ const PeakDetails = () => {
       .addUserClimbedPeak(updatePeaksClimbed)
       .then(() => updateAuth())
       .catch((err) => console.error(err));
-    // .catch((err) => console.error(err));
-    // const found = isNameInArray(peaksClimbed, peak.name);
-    // if (found) {
-    //   setIsClimbed(true);
-    //   console.log("already climbed!!");
-    //   return;
-    // }
-    // if (!found) {
-    //   const updatePeaksClimbed = [...authService.peaksClimbed, newPeak];
-    //   console.log("new arr", updatePeaksClimbed);
-    //   authService
-    //     .addUserClimbedPeak(updatePeaksClimbed)
-    //     .then(() => {
-    //       updateAuth();
-    //     })
-    //     .catch((err) => console.error(err));
-    // }
   };
 
   return (
