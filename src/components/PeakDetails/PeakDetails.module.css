@@ -4,7 +4,7 @@
   justify-content: space-between;
 }
 
-.climbBtn {
+/* .climbBtn {
   margin-right: 60px;
   background-color: #26532b;
   color: white;
@@ -21,7 +21,7 @@
 
 .addToClimbsBtn:hover {
   padding: 9px 17px;
-}
+} */
 
 .peakName {
   font-weight: 400;
@@ -57,59 +57,3 @@
   background-size: cover;
   border-radius: 5px;
 }
-
-.statsContainer {
-  margin-left: 50px;
-}
-
-.stat {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  font-family: Hubballi, sans-serif;
-}
-
-.iconContainer {
-  width: 25px;
-  height: 25px;
-  margin-right: 5px;
-}
-/* 
-.routesContainer { 
-    width: fit-content;
-    margin-left: 100px;
-    margin-top: 50px;
-}
-
-
-.routeTable { 
-    border-left: 1px solid #333;
-    border-top: 1px solid #333;
-    border-right: 1px solid #333; 
-}
-
-.routeHeader {
-    background-color: #F4FAFF;
-    font-weight: 500;
-}
-
-.route {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    border-bottom: 1px solid #333;
-}
-
-.routeName { 
-    width: 300px;
-    padding-left: 15px;
- }
-
-.routeStat { width: 150px; }
-
-.routeDifficultyContainer {
-    width: 80px;
-    height: 30px;
-    display: flex;
-} */

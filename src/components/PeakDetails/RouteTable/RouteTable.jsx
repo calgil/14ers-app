@@ -7,7 +7,6 @@ const RouteTable = ({ peakRoutes }) => {
   const [routes, setRoutes] = useState(peakRoutes);
 
   useEffect(() => {
-    console.log("use effect");
     setRoutes(peakRoutes);
   }, [peakRoutes]);
 

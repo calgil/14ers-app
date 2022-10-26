@@ -1,0 +1,24 @@
+.climbBtn {
+  margin-right: 60px;
+  background-color: #26532b;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 15px;
+}
+
+.addToClimbsBtn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.addToClimbsBtn:hover {
+  padding: 9px 17px;
+}
+
+.iconContainer {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}

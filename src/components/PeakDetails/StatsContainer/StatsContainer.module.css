@@ -1,0 +1,16 @@
+.statsContainer {
+  margin-left: 50px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  font-family: Hubballi, sans-serif;
+}
+
+.iconContainer {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}
