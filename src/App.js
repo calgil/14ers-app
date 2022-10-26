@@ -12,6 +12,7 @@ import PeakDetails from "./components/PeakDetails/PeakDetails";
 import PeakEdit from "./components/PeakEdit/PeakEdit";
 import Planning from "./components/Planning/Planning";
 import TripReports from "./components/TripReports/TripReports";
+import Navbar from "./components/Navbar/Navbar";
 
 const authService = new AuthService();
 
@@ -29,23 +30,21 @@ const AuthProvider = ({ children }) => {
     <UserContext.Provider value={authContext}>{children}</UserContext.Provider>
   );
 };
-
 export default function App() {
   return (
     <AuthProvider>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<FourteenersApp />}>
-          <Route index element={<PeakContainer />} />
-          <Route path="login" element={<UserLogin />} />
-          <Route path="register" element={<UserRegister />} />
-          <Route path="edit" element={<UserEdit />} />
-          <Route path="logout" element={<UserLogout />} />
-          <Route path="/peaks/:id" element={<PeakDetails />} />
-          <Route path="/peaks/edit/:id" element={<PeakEdit />} />
-          <Route path="planning" element={<Planning />} />
-          <Route path="tripreports" element={<TripReports />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Route>
+        <Route index path="/" element={<FourteenersApp />} />
+        <Route path="login" element={<UserLogin />} />
+        <Route path="register" element={<UserRegister />} />
+        <Route path="edit" element={<UserEdit />} />
+        <Route path="logout" element={<UserLogout />} />
+        <Route path="/peaks/:id" element={<PeakDetails />} />
+        <Route path="/peaks/edit/:id" element={<PeakEdit />} />
+        <Route path="planning" element={<Planning />} />
+        <Route path="tripreports" element={<TripReports />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </AuthProvider>
   );
