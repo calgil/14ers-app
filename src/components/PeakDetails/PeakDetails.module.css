@@ -4,7 +4,7 @@
   justify-content: space-between;
 }
 
-.climbBtn {
+/* .climbBtn {
   margin-right: 60px;
   background-color: #26532b;
   color: white;
@@ -21,7 +21,7 @@
 
 .addToClimbsBtn:hover {
   padding: 9px 17px;
-}
+} */
 
 .peakName {
   font-weight: 400;
@@ -56,10 +56,4 @@
   background-position: center;
   background-size: cover;
   border-radius: 5px;
-}
-
-.iconContainer {
-  width: 25px;
-  height: 25px;
-  margin-right: 5px;
 }
