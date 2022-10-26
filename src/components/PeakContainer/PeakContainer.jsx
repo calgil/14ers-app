@@ -32,6 +32,7 @@ const PeakContainer = () => {
 
   return (
     <>
+      {/* <Navbar /> */}
       {/* <div 
             className={s.filterController}
             onMouseEnter={() => setIsShown(true)}
