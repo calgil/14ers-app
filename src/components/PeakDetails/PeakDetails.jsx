@@ -37,10 +37,7 @@ const PeakDetails = () => {
     if (!peak) {
       return;
     }
-    if (
-      !authService.peaksClimbed.length ||
-      !isNameInArray(authService.peaksClimbed, peak.name)
-    ) {
+    if (!isNameInArray(authService.peaksClimbed, peak.name)) {
       return;
     }
     setIsClimbed(true);
@@ -68,8 +65,9 @@ const PeakDetails = () => {
     console.log("new arr", updatePeaksClimbed);
     authService
       .addUserClimbedPeak(updatePeaksClimbed)
-      .then(() => updateAuth)
+      .then(() => updateAuth())
       .catch((err) => console.error(err));
+    // .catch((err) => console.error(err));
     // const found = isNameInArray(peaksClimbed, peak.name);
     // if (found) {
     //   setIsClimbed(true);
