@@ -153,6 +153,20 @@ export class AuthService extends User {
       throw err;
     }
   };
+
+  addPeakPhoto = async (file, title) => {
+    const headers = this.getBearerHeader();
+    const body = {
+      file,
+      title,
+    };
+    try {
+      let response = axios.post(PEAKS_URL + "uploadphoto", body, { headers });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }
 
 export const getAllPeaks = async () => {
