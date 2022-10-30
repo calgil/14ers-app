@@ -8,6 +8,7 @@ const ADD_USER_URL = AUTH_URL + "register";
 const GET_USER_URL = BASE_URL + "auth/me";
 const UPDATE_USER_URL = AUTH_URL + "updatedetails";
 const UPDATE_PEAKS_CLIMBED_URL = AUTH_URL + "updatepeaksclimbed";
+const ADD_PHOTO_URL = PEAKS_URL + "uploadphoto";
 
 class User {
   constructor() {
@@ -154,15 +155,20 @@ export class AuthService extends User {
     }
   };
 
-  addPeakPhoto = async (file, title) => {
-    const headers = this.getBearerHeader();
-    const body = {
-      file,
-      title,
-    };
+  addPeakPhoto = async (image, title) => {
+    // const body = { image, title };
+    const body = new FormData();
+    body.append("image", image);
+    body.append("title", title);
+    console.log("body", body.getAll("image"));
     try {
-      let response = axios.post(PEAKS_URL + "uploadphoto", body, { headers });
-      console.log(response);
+      let response = await axios.post(ADD_PHOTO_URL, body, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${this.authToken}`,
+        },
+      });
+      console.log("service", response);
     } catch (error) {
       console.error(error);
     }

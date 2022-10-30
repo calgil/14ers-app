@@ -57,10 +57,18 @@ const PeakDetails = () => {
             />
           </div>
           <div className={s.mainInfo}>
+            <div className={s.amazonImg}>
+              <img
+                crossOrigin="anonymous"
+                src="http://localhost:5001/api/v1/peaks/images/e4684477f85731e583c2c4706ce0a76a"
+                alt="amazon"
+              />
+            </div>
             <div className={s.peakPhoto}>
-              {authService.role === "admin" && (
+              <button onClick={() => setAddPhoto(true)}> Add Photo</button>
+              {/* {authService.role === "admin" && (
                 <button onClick={() => setAddPhoto(true)}> Add Photo</button>
-              )}
+              )} */}
               {addPhoto && <AddPhoto />}
               <div
                 className={s.imgContainer}

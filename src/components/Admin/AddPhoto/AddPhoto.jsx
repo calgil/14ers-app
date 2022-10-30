@@ -11,8 +11,7 @@ const AddPhoto = () => {
   const { authService } = useContext(UserContext);
 
   const [title, setTitle] = useState();
-  const [file, setFile] = useState("");
-  //   const [images, setImages] = useState([]);
+  const [image, setImage] = useState("");
 
   const { id } = useParams();
 
@@ -30,18 +29,24 @@ const AddPhoto = () => {
   // const ReactS3Client = new S3(config);
 
   const fileSelected = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
+    const image = e.target.files[0];
+    setImage(image);
   };
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!file || !title) {
+    if (!image || !title) {
       return;
     }
-    console.log("file to send", file);
-    const result = authService.addPeakPhoto(file, title);
-    console.log("res", result);
+    // console.log("iamge", image);
+    // const formData = new FormData();
+    // formData.append("image", image);
+    // formData.append("title", title);
+    // console.log("file to send", formData.getAll("image"));
+
+    authService.addPeakPhoto(image, title);
+    // .then((res) => console.log(res))
+    // .catch((err) => console.error(err));
   };
 
   return (
