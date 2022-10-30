@@ -7,8 +7,10 @@ const LOGIN_URL = AUTH_URL + "login";
 const ADD_USER_URL = AUTH_URL + "register";
 const GET_USER_URL = BASE_URL + "auth/me";
 const UPDATE_USER_URL = AUTH_URL + "updatedetails";
-const UPDATE_PEAKS_CLIMBED_URL = AUTH_URL + "updatepeaksclimbed";
+// const UPDATE_PEAKS_CLIMBED_URL = AUTH_URL + "updatepeaksclimbed";
 const ADD_PHOTO_URL = PEAKS_URL + "uploadphoto";
+
+// const EDIT_USER_URL = BASE_URL +
 
 class User {
   constructor() {
@@ -18,6 +20,7 @@ class User {
     this.role = "";
     this.isLoggedIn = false;
     this.peaksClimbed = [];
+    //  **! climbLog
   }
 
   setUserEmail(email) {
@@ -34,6 +37,7 @@ class User {
     this.email = email;
     this.role = role;
     this.peaksClimbed = peaksClimbed;
+    // **! climbLog
   }
 }
 
@@ -129,6 +133,7 @@ export class AuthService extends User {
   editUser = async (newUserInfo) => {
     const headers = this.getBearerHeader();
     const body = newUserInfo;
+    console.log("body", body);
 
     try {
       await axios.put(UPDATE_USER_URL, body, { headers });
@@ -139,24 +144,33 @@ export class AuthService extends User {
     }
   };
 
-  addUserClimbedPeak = async (peaksClimbed) => {
-    const headers = this.getBearerHeader();
-    const body = {
-      peaksClimbed: peaksClimbed,
-    };
+  // updateUser = async (data) => {
+  //   const headers = this.getBearerHeader();
+  //   const body = data;
 
+  //   try {
+  //     await axios.put(UPDATE_PEAKS_CLIMBED_URL, body, { headers });
+  //     const data = await this.getUserData();
+  //     this.setUserData(data);
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw err;
+  //   }
+  // };
+
+  updatePeak = async (id, data) => {
+    const headers = this.getBearerHeader();
+    const body = data;
     try {
-      await axios.put(UPDATE_PEAKS_CLIMBED_URL, body, { headers });
-      const data = await this.getUserData();
-      this.setUserData(data);
-    } catch (err) {
-      console.error(err);
-      throw err;
+      const response = await axios.put(PEAKS_URL + id, body, { headers });
+      console.log("res", response);
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   };
 
   addPeakPhoto = async (image, title) => {
-    // const body = { image, title };
     const body = new FormData();
     body.append("image", image);
     body.append("title", title);
@@ -168,7 +182,10 @@ export class AuthService extends User {
           Authorization: `Bearer ${this.authToken}`,
         },
       });
-      console.log("service", response);
+      if (response.status === 200) {
+        return response.data.imagePath;
+        // update peakphoto with new string
+      }
     } catch (error) {
       console.error(error);
     }
@@ -210,14 +227,3 @@ export const getPeakById = async (id) => {
     throw error;
   }
 };
-
-// export const getUploadUrl = async (id, headers) => {
-//     try {
-//         const url = await axios.get(`${PEAKS_URL}${id}/uploadphoto` , { headers })
-//         console.log(url);
-//         return url
-//     } catch (err) {
-//         console.error(err);
-//         throw err;
-//     }
-// }

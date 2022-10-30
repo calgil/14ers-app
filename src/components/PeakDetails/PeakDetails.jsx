@@ -37,10 +37,12 @@ const PeakDetails = () => {
       return;
     }
     if (!isNameInArray(authService.peaksClimbed, peak.name)) {
+      //  **! climbLog
       return;
     }
     setIsClimbed(true);
   }, [peak, authService.peaksClimbed]);
+  //  **! climbLog
 
   return (
     <div className={s.detailsBody}>
@@ -51,25 +53,25 @@ const PeakDetails = () => {
           <div className={s.addBtnBar}>
             <h3 className={s.peakName}>{peak.name}</h3>
             <AddToClimbLog
-              name={peak.name}
+              peak={peak}
               isLoggedIn={isLoggedIn}
               isClimbed={isClimbed}
             />
           </div>
           <div className={s.mainInfo}>
-            <div className={s.amazonImg}>
+            {/* <div className={s.amazonImg}>
               <img
                 crossOrigin="anonymous"
                 src="http://localhost:5001/api/v1/peaks/images/e4684477f85731e583c2c4706ce0a76a"
                 alt="amazon"
               />
-            </div>
+            </div> */}
             <div className={s.peakPhoto}>
               <button onClick={() => setAddPhoto(true)}> Add Photo</button>
               {/* {authService.role === "admin" && (
                 <button onClick={() => setAddPhoto(true)}> Add Photo</button>
               )} */}
-              {addPhoto && <AddPhoto />}
+              {addPhoto && <AddPhoto peak={peak} />}
               <div
                 className={s.imgContainer}
                 style={{ backgroundImage: `url("${peak.photos[0].url}")` }}

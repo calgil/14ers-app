@@ -5,7 +5,7 @@ import { UserContext } from "../../../App";
 import { isNameInArray } from "../../../utilities/isNameInArray";
 import addPeak from "../../../assets/PeakDetails/addPeak.svg";
 
-const AddToClimbLog = ({ name, isLoggedIn, isClimbed }) => {
+const AddToClimbLog = ({ peak, isLoggedIn, isClimbed }) => {
   const { authService, updateAuth } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -18,21 +18,21 @@ const AddToClimbLog = ({ name, isLoggedIn, isClimbed }) => {
     }
 
     const newPeak = {
-      name,
+      id: peak._id,
+      name: peak.name,
       dateClimbed: Date.now(),
     };
 
     const peaksClimbed = authService.peaksClimbed;
-    console.log("ahh!", peaksClimbed);
 
-    if (isNameInArray(peaksClimbed, name)) {
+    if (isNameInArray(peaksClimbed, peak.name)) {
       setClimbed(true);
       return;
     }
     const updatePeaksClimbed = [...authService.peaksClimbed, newPeak];
-    console.log("new arr", updatePeaksClimbed);
+    const update = { peaksClimbed: updatePeaksClimbed };
     authService
-      .addUserClimbedPeak(updatePeaksClimbed)
+      .editUser(update)
       .then(() => updateAuth())
       .catch((err) => console.error(err));
   };
