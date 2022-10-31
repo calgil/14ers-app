@@ -174,8 +174,25 @@ export class AuthService extends User {
   };
 }
 
-export const getAllPeaks = async () => {
+export const getAllPeaks = async (searchParams) => {
   try {
+    if (searchParams !== undefined) {
+      let response = await axios.get(`${PEAKS_URL}?${searchParams}`);
+      if (response.data.success) {
+        const peaks = response.data.data.map((peak) => ({
+          id: peak._id,
+          name: peak.name,
+          elevation: peak.elevation,
+          forest: peak.forest,
+          range: peak.range,
+          rank: peak.rank,
+          photos: peak.photos,
+          numberOfRoutes: peak.routes.length,
+          routes: peak.routes,
+        }));
+        return peaks;
+      }
+    }
     let response = await axios.get(PEAKS_URL);
     if (response.data.success) {
       const peaks = response.data.data.map((peak) => ({

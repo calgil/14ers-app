@@ -3,7 +3,7 @@ import s from "./AddPhoto.module.css";
 // import { useParams } from "react-router-dom";
 import { UserContext } from "../../../App";
 
-const AddPhoto = ({ peak }) => {
+const AddPhoto = ({ peak, toggleAddPhoto }) => {
   const { authService } = useContext(UserContext);
 
   const [title, setTitle] = useState();
@@ -27,6 +27,7 @@ const AddPhoto = ({ peak }) => {
       const updatePhotos = { photos: [...peak.photos, { url: response }] };
       console.log("update", updatePhotos);
       await authService.updatePeak(peak._id, updatePhotos);
+      toggleAddPhoto();
       console.log(response);
     } catch (error) {
       console.error(error);

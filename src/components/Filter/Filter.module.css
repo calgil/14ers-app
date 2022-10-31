@@ -1,0 +1,44 @@
+.filterContainer {
+  max-width: fit-content;
+  margin: 0 auto;
+  /* text-align: center; */
+  padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.filter {
+  margin: 0 20px;
+}
+
+.filterHeader {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.filterRow {
+  padding: 3px 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.filterRow:hover {
+  background-color: rgba(38, 83, 43, 0.7);
+}
+
+.filterRow i {
+  margin-right: 5px;
+  margin-left: 0;
+}
+
+.rangeContainer {
+  max-width: 300px;
+  margin: 0 auto;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rangeContainer .filterRow {
+  padding: 5px 10px;
+}

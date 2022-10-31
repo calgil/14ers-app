@@ -59,23 +59,31 @@ const PeakDetails = () => {
             />
           </div>
           <div className={s.mainInfo}>
-            {/* <div className={s.amazonImg}>
-              <img
-                crossOrigin="anonymous"
-                src="http://localhost:5001/api/v1/peaks/images/e4684477f85731e583c2c4706ce0a76a"
-                alt="amazon"
-              />
-            </div> */}
             <div className={s.peakPhoto}>
-              <button onClick={() => setAddPhoto(true)}> Add Photo</button>
-              {/* {authService.role === "admin" && (
-                <button onClick={() => setAddPhoto(true)}> Add Photo</button>
-              )} */}
-              {addPhoto && <AddPhoto peak={peak} />}
-              <div
+              {authService.role === "admin" && (
+                <button onClick={() => setAddPhoto(!addPhoto)}>
+                  Add Photo
+                </button>
+              )}
+              {addPhoto && (
+                <AddPhoto
+                  peak={peak}
+                  toggleAddPhoto={() => setAddPhoto(!addPhoto)}
+                />
+              )}
+              {peak.photos.map((photo) => (
+                <div key={photo._id} className={s.imgContainer}>
+                  <img
+                    crossOrigin="anonymous"
+                    src={`http://localhost:5001/api/v1/${photo.url}`}
+                    alt="peak"
+                  />
+                </div>
+              ))}
+              {/* <div
                 className={s.imgContainer}
                 style={{ backgroundImage: `url("${peak.photos[0].url}")` }}
-              ></div>
+              ></div> */}
             </div>
             <StatsContainer peak={peak} />
           </div>
