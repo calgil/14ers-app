@@ -1,21 +1,26 @@
-.user {
-    display: flex;
-    align-items: center;
+.name {
+  display: flex;
+  align-items: center;
 }
 
 .arrow {
-    outline: none;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .userLinks {
-    position: absolute;
+  padding: 0 20px;
+  background-color: #fff;
+  z-index: 100;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .userLinks a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1.2;
 }
