@@ -7,6 +7,7 @@ import Filter from "../Filter/Filter";
 
 const PeakContainer = () => {
   const [peaks, setPeaks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -22,17 +23,6 @@ const PeakContainer = () => {
       });
   }, []);
 
-  const filterPeaks = (searchParams) => {
-    setLoading(true);
-    getAllPeaks(searchParams)
-      .then(setPeaks)
-      .then(setLoading(false))
-      .catch(() => {
-        setLoading(false);
-        setError(true);
-      });
-  };
-
   return (
     <>
       <button
@@ -41,15 +31,18 @@ const PeakContainer = () => {
       >
         {showFilter ? <span>Hide Filter</span> : <span>Show Filter</span>}
       </button>
-      {showFilter && <Filter filter={filterPeaks} />}
+      {showFilter && (
+        <Filter peaks={peaks} setSearchResults={setSearchResults} />
+      )}
       <div className={s.peakContainer}>
         {loading && <div>Loading...</div>}
         {error && <ErrorPage />}
 
-        {!!peaks.length &&
-          !loading &&
-          !error &&
-          peaks.map((peak) => <Peak key={peak.id} peak={peak} />)}
+        {searchResults.length
+          ? !!searchResults.length &&
+            searchResults.map((peak) => <Peak key={peak.id} peak={peak} />)
+          : !!peaks.length &&
+            peaks.map((peak) => <Peak key={peak.id} peak={peak} />)}
       </div>
       <button>Next Page</button>
     </>

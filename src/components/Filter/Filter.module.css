@@ -42,3 +42,9 @@
 .rangeContainer .filterRow {
   padding: 5px 10px;
 }
+
+.error {
+  margin: 0 auto;
+  width: fit-content;
+  color: red;
+}
