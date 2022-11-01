@@ -1,6 +1,7 @@
 import React from "react";
 import s from "./Peak.module.css";
 import { useNavigate } from "react-router-dom";
+import { formatElevation } from "../../utilities/formatElevaion";
 
 const Peak = ({ peak }) => {
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const Peak = ({ peak }) => {
         )} */}
       {/* </div> */}
       <h2 className={s.name}>{peak.name}</h2>
-      <p className={s.elevation}>Elevation: {peak.elevation}'</p>
+      <p className={s.elevation}>
+        Elevation: {formatElevation(peak.elevation)}'
+      </p>
     </div>
   );
 };
