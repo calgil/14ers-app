@@ -1,10 +1,25 @@
 .filterContainer {
-  max-width: fit-content;
-  margin: 0 auto;
-  /* text-align: center; */
   padding-bottom: 15px;
   display: flex;
+  justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.resetBtn,
+.searchBtn {
+  background-color: rgb(38, 83, 43);
+  color: white;
+  padding: 4px 7px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.resetBtn {
+  line-height: 1.6;
+  position: absolute;
+  top: 15px;
+  left: 50px;
 }
 
 .filter {
@@ -12,8 +27,8 @@
 }
 
 .filterHeader {
-  margin: 0 auto;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .filterRow {
@@ -29,6 +44,18 @@
 .filterRow i {
   margin-right: 5px;
   margin-left: 0;
+}
+
+.searchBar {
+  margin-left: 15px;
+}
+
+.searchForm {
+  display: flex;
+}
+
+.searchBtn {
+  margin-left: 2px;
 }
 
 .rangeContainer {

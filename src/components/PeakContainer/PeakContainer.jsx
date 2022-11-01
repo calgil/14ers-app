@@ -26,10 +26,10 @@ const PeakContainer = () => {
   return (
     <>
       <button
-        className={s.filterToggle}
+        className={s.filterToggleBtn}
         onClick={() => setShowFilter(!showFilter)}
       >
-        {showFilter ? <span>Hide Filter</span> : <span>Show Filter</span>}
+        {showFilter ? "Hide Filter" : "Show Filter"}
       </button>
       {showFilter && (
         <Filter peaks={peaks} setSearchResults={setSearchResults} />

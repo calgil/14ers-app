@@ -19,11 +19,15 @@ const Filter = ({ peaks, setSearchResults }) => {
   const filterElevation = (str) => {
     setError(false);
     if (str === "ascending") {
-      const sortedPeaks = [...peaks].sort((a, b) => a.elevation - b.elevation);
+      const sortedPeaks = [...peaks].sort(
+        (a, b) => +a.elevation - +b.elevation
+      );
       setSearchResults(sortedPeaks);
     }
     if (str === "descending") {
-      const sortedPeaks = [...peaks].sort((a, b) => b.elevation - a.elevation);
+      const sortedPeaks = [...peaks].sort(
+        (a, b) => +b.elevation - +a.elevation
+      );
       setSearchResults(sortedPeaks);
     }
   };
@@ -60,58 +64,67 @@ const Filter = ({ peaks, setSearchResults }) => {
   return (
     <>
       <div className={s.filterContainer}>
-        <button onClick={resetSearch}>Reset Search</button>
+        <button className={s.resetBtn} onClick={resetSearch}>
+          Reset Search
+        </button>
         <div className={s.filter}>
           <h5 className={s.filterHeader}>Elevation</h5>
-          <div className={s.filterRow}>
+          <div
+            onClick={() => filterElevation("descending")}
+            className={s.filterRow}
+          >
             <i className="fa fa-caret-up"></i>
-            <span onClick={() => filterElevation("descending")}>
-              Tallest First
-            </span>
+            <span>Tallest First</span>
           </div>
-          <div className={s.filterRow}>
+          <div
+            className={s.filterRow}
+            onClick={() => filterElevation("ascending")}
+          >
             <i className="fa fa-caret-down"></i>
-            <span onClick={() => filterElevation("ascending")}>
-              Shortest First
-            </span>
+            <span>Shortest First</span>
           </div>
         </div>
-        <div className={s.filter}>
+        <div className={s.searchBar}>
           <h5 className={s.filterHeader}>Name</h5>
-          <div className={s.filterRow}>
-            <form onSubmit={searchByName}>
-              <i className="fa-magnifying-glass"></i>
-              <input
-                onChange={handleChange}
-                value={name}
-                className={s.search}
-                type="text"
-                placeholder="Peak Name"
-              />
-              <input type="submit" value="Search" />
-            </form>
-          </div>
+          <form className={s.searchForm} onSubmit={searchByName}>
+            <i className="fa-magnifying-glass"></i>
+            <input
+              onChange={handleChange}
+              value={name}
+              className={s.search}
+              type="text"
+              placeholder="Peak Name"
+            />
+            <input className={s.searchBtn} type="submit" value="Search" />
+          </form>
         </div>
         <div className={s.filter}>
           <h5 className={s.filterHeader}>Range</h5>
           <div className={s.rangeContainer}>
-            <div className={s.filterRow}>
-              <span onClick={() => filterRange("elk")}>Elk</span>
-            </div>
-            <div className={s.filterRow}>
-              <span onClick={() => filterRange("front")}>Front</span>
-            </div>
-            <div className={s.filterRow}>
-              <span onClick={() => filterRange("sangre de cristo")}>
-                Sangre de Christo
-              </span>
-            </div>
-            <div className={s.filterRow}>
-              <span onClick={() => filterRange("sawatch")}>Sawatch</span>
-            </div>
-            <div className={s.filterRow}>
-              <span onClick={() => filterRange("san juan")}>San Juan</span>
-            </div>
+            <span className={s.filterRow} onClick={() => filterRange("elk")}>
+              Elk
+            </span>
+            <span className={s.filterRow} onClick={() => filterRange("front")}>
+              Front
+            </span>
+            <span
+              className={s.filterRow}
+              onClick={() => filterRange("sangre de cristo")}
+            >
+              Sangre de Cristo
+            </span>
+            <span
+              className={s.filterRow}
+              onClick={() => filterRange("sawatch")}
+            >
+              Sawatch
+            </span>
+            <span
+              className={s.filterRow}
+              onClick={() => filterRange("san juan")}
+            >
+              San Juan
+            </span>
           </div>
         </div>
       </div>

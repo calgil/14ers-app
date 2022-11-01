@@ -7,13 +7,14 @@
   justify-content: center;
 }
 
-.filterToggle {
+.filterToggleBtn {
   margin-left: 50px;
   background-color: rgb(38, 83, 43);
   color: white;
   padding: 4px 7px;
   border: 1px solid transparent;
   border-radius: 5px;
+  line-height: 1.6;
 }
 
 .loading {
