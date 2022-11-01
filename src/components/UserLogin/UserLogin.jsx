@@ -81,7 +81,7 @@ const UserLogin = () => {
         }
         if (res.status === 200) {
           updateAuth();
-          navigate("/");
+          navigate(-1);
         }
       })
       .catch(() => {

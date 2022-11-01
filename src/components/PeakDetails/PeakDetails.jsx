@@ -37,10 +37,12 @@ const PeakDetails = () => {
       return;
     }
     if (!isNameInArray(authService.peaksClimbed, peak.name)) {
+      //  **! climbLog
       return;
     }
     setIsClimbed(true);
   }, [peak, authService.peaksClimbed]);
+  //  **! climbLog
 
   return (
     <div className={s.detailsBody}>
@@ -51,7 +53,7 @@ const PeakDetails = () => {
           <div className={s.addBtnBar}>
             <h3 className={s.peakName}>{peak.name}</h3>
             <AddToClimbLog
-              name={peak.name}
+              peak={peak}
               isLoggedIn={isLoggedIn}
               isClimbed={isClimbed}
             />
@@ -59,13 +61,29 @@ const PeakDetails = () => {
           <div className={s.mainInfo}>
             <div className={s.peakPhoto}>
               {authService.role === "admin" && (
-                <button onClick={() => setAddPhoto(true)}> Add Photo</button>
+                <button onClick={() => setAddPhoto(!addPhoto)}>
+                  Add Photo
+                </button>
               )}
-              {addPhoto && <AddPhoto />}
-              <div
+              {addPhoto && (
+                <AddPhoto
+                  peak={peak}
+                  toggleAddPhoto={() => setAddPhoto(!addPhoto)}
+                />
+              )}
+              {peak.photos.map((photo) => (
+                <div key={photo._id} className={s.imgContainer}>
+                  <img
+                    crossOrigin="anonymous"
+                    src={`http://localhost:5001/api/v1/${photo.url}`}
+                    alt="peak"
+                  />
+                </div>
+              ))}
+              {/* <div
                 className={s.imgContainer}
                 style={{ backgroundImage: `url("${peak.photos[0].url}")` }}
-              ></div>
+              ></div> */}
             </div>
             <StatsContainer peak={peak} />
           </div>

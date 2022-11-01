@@ -4,6 +4,11 @@
   justify-content: space-between;
 }
 
+.amazonImg {
+  width: 400px;
+  height: 400px;
+}
+
 /* .climbBtn {
   margin-right: 60px;
   background-color: #26532b;

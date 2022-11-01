@@ -1,46 +1,46 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import s from "./AddPhoto.module.css";
-// import { getUploadUrl } from "../../../services";
-import {
-    useParams,
-} from "react-router-dom";
-// import { UserContext } from "../../../App";
-// import S3FileUpload from 'react-s3';
-// import S3 from 'react-aws-s3';
-// window.Buffer = window.Buffer || require("buffer").Buffer; 
+// import { useParams } from "react-router-dom";
+import { UserContext } from "../../../App";
 
+const AddPhoto = ({ peak, toggleAddPhoto }) => {
+  const { authService } = useContext(UserContext);
 
-const AddPhoto = () => {
-    // const { authService } = useContext(UserContext);
+  const [title, setTitle] = useState();
+  const [image, setImage] = useState("");
 
-    const { id } = useParams();
+  const fileSelected = (e) => {
+    const image = e.target.files[0];
+    setImage(image);
+  };
 
-    // const { REACT_APP_ACCESS_KEY_ID, REACT_APP_SECRET_ACCESS_KEY } = process.env;
+  const submit = async (e) => {
+    e.preventDefault();
+    console.log("peak id ", peak._id);
+    console.log("peak phots ", peak.photos);
+    if (!image || !title) {
+      return;
+    }
 
-    // const config = {
-    //     bucketName: 'fourteeners',
-    //     dirName: '/uploads',
-    //     region: 'us-west-2',
-    //     accessKeyId: REACT_APP_ACCESS_KEY_ID,
-    //     secretAccessKey: REACT_APP_SECRET_ACCESS_KEY,
-    //     s3Url: 'https://fourteeners.s3-us-west-2.amazonaws.com',
-    // };
+    try {
+      const response = await authService.addPeakPhoto(image, title);
+      const updatePhotos = { photos: [...peak.photos, { url: response }] };
+      console.log("update", updatePhotos);
+      await authService.updatePeak(peak._id, updatePhotos);
+      toggleAddPhoto();
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    // const ReactS3Client = new S3(config);
-
-
-    const uploadPhoto = (e) => {
-        const file = e.target.files[0];
-        console.log(id, file);
-    };
-
-    return (
-                <input 
-                    className={s.uploadPhoto}
-                    type="file" 
-                    onChange={uploadPhoto}
-                />
-    );
+  return (
+    <form className={s.formBody} onSubmit={submit}>
+      <input onChange={fileSelected} type="file" accept="image/*" />
+      <input onChange={(e) => setTitle(e.target.value)} type="text" />
+      <input type="submit" value="Add Photo" />
+    </form>
+  );
 };
 
 export default AddPhoto;
