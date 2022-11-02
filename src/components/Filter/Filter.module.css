@@ -28,6 +28,7 @@
 
 .filterHeader {
   text-align: center;
+  margin-top: 0;
   margin-bottom: 10px;
 }
 
@@ -50,8 +51,44 @@
   margin-left: 15px;
 }
 
+.searchContainer {
+  position: relative;
+}
+
+.searchContainer i {
+  position: absolute;
+  top: 5px;
+  color: #333;
+}
+
+.searchIcon {
+  left: 4px;
+}
+
+.closeIcon {
+  right: 7px;
+  cursor: pointer;
+  opacity: 6;
+}
+
+.closeIcon:hover {
+  opacity: 1;
+}
+
 .searchForm {
   display: flex;
+}
+
+.search {
+  padding: 5px 18px;
+  padding-left: 20px;
+  border: 2px solid #333;
+  border-radius: 5px;
+}
+
+.search:focus {
+  outline: none;
+  border: 2px solid green;
 }
 
 .searchBtn {

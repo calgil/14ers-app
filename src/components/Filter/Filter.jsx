@@ -84,20 +84,6 @@ const Filter = ({ peaks, setSearchResults }) => {
             <span>Shortest First</span>
           </div>
         </div>
-        <div className={s.searchBar}>
-          <h5 className={s.filterHeader}>Name</h5>
-          <form className={s.searchForm} onSubmit={searchByName}>
-            <i className="fa-magnifying-glass"></i>
-            <input
-              onChange={handleChange}
-              value={name}
-              className={s.search}
-              type="text"
-              placeholder="Peak Name"
-            />
-            <input className={s.searchBtn} type="submit" value="Search" />
-          </form>
-        </div>
         <div className={s.filter}>
           <h5 className={s.filterHeader}>Range</h5>
           <div className={s.rangeContainer}>
@@ -126,6 +112,25 @@ const Filter = ({ peaks, setSearchResults }) => {
               San Juan
             </span>
           </div>
+        </div>
+        <div className={s.searchBar}>
+          <form className={s.searchForm} onSubmit={searchByName}>
+            <div className={s.searchContainer}>
+              <i className={`fa fa-search ${s.searchIcon}`}></i>
+              <input
+                onChange={handleChange}
+                value={name}
+                className={s.search}
+                type="text"
+                placeholder="Peak Name"
+              />
+              <i
+                onClick={resetSearch}
+                className={`fa fa-times-circle-o ${s.closeIcon}`}
+              ></i>
+            </div>
+            <input className={s.searchBtn} type="submit" value="Search" />
+          </form>
         </div>
       </div>
       {error && <div className={s.error}>{errorMsg}</div>}
