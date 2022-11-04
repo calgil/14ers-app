@@ -73,7 +73,7 @@ const PeakDetails = () => {
                 <div key={photo._id} className={s.imgContainer}>
                   <img
                     crossOrigin="anonymous"
-                    src={`http://localhost:5001/api/v1/${photo.url}`}
+                    src={`${process.env.REACT_APP_BASE_URL}/${photo.url}`}
                     alt="peak"
                   />
                 </div>
