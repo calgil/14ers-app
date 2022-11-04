@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import s from "./RouteTable.module.css";
 import { addDifficultyIcon } from "../../../utilities/addDifficultyIcon";
 import { capitalizeFirstLetters } from "../../../utilities/capitalizeFirstLetters";
+import { formatElevation } from "../../../utilities/formatElevaion";
 
 const RouteTable = ({ peakRoutes }) => {
   const [routes, setRoutes] = useState(peakRoutes);
@@ -25,7 +26,7 @@ const RouteTable = ({ peakRoutes }) => {
               {capitalizeFirstLetters(route.name)}
             </div>
             <div className={s.routeStat}>{route.mileage} miles</div>
-            <div className={s.routeStat}>{route.gain}'</div>
+            <div className={s.routeStat}>{formatElevation(route.gain)}'</div>
             <div className={s.routeStat}>
               <div className={s.routeDifficultyContainer}>
                 <img

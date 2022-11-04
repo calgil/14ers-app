@@ -6,9 +6,9 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import AddPhoto from "../Admin/AddPhoto/AddPhoto";
 import RouteTable from "./RouteTable/RouteTable";
 import StatsContainer from "./StatsContainer/StatsContainer";
+import AddToClimbLog from "./AddToClimbLog/AddToClimbLog";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
-import AddToClimbLog from "./AddToClimbLog/AddToClimbLog";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -37,12 +37,10 @@ const PeakDetails = () => {
       return;
     }
     if (!isNameInArray(authService.peaksClimbed, peak.name)) {
-      //  **! climbLog
       return;
     }
     setIsClimbed(true);
   }, [peak, authService.peaksClimbed]);
-  //  **! climbLog
 
   return (
     <div className={s.detailsBody}>
@@ -75,15 +73,11 @@ const PeakDetails = () => {
                 <div key={photo._id} className={s.imgContainer}>
                   <img
                     crossOrigin="anonymous"
-                    src={`http://localhost:5001/api/v1/${photo.url}`}
+                    src={`${process.env.REACT_APP_BASE_URL}/${photo.url}`}
                     alt="peak"
                   />
                 </div>
               ))}
-              {/* <div
-                className={s.imgContainer}
-                style={{ backgroundImage: `url("${peak.photos[0].url}")` }}
-              ></div> */}
             </div>
             <StatsContainer peak={peak} />
           </div>

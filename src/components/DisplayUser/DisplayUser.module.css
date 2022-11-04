@@ -1,21 +1,41 @@
-.user {
-    display: flex;
-    align-items: center;
+.userContainer {
+  position: relative;
+}
+.name {
+  display: flex;
+  align-items: center;
 }
 
 .arrow {
-    outline: none;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .userLinks {
-    position: absolute;
+  position: absolute;
+  top: 45px;
+  width: 90px;
+  background-color: #fff;
+  z-index: 100;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 0 15px;
+  padding-bottom: 5px;
 }
 
 .userLinks a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1.4;
+  padding: 1px 3px;
+  text-align: center;
+  margin-top: 3px;
+  border-radius: 5px;
+}
+
+.userLinks a:hover {
+  background-color: rgba(38, 83, 43, 0.7);
 }

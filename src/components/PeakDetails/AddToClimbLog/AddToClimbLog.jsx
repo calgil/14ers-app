@@ -1,35 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import s from "./AddToClimbLog.module.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../App";
-import { isNameInArray } from "../../../utilities/isNameInArray";
 import addPeak from "../../../assets/PeakDetails/addPeak.svg";
 
-const AddToClimbLog = ({ peak, isLoggedIn, isClimbed }) => {
+const AddToClimbLog = ({ peak, isClimbed }) => {
   const { authService, updateAuth } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const [climbed, setClimbed] = useState(isClimbed);
+  const peaksClimbed = authService.peaksClimbed;
+  const isLoggedIn = authService.isLoggedIn;
 
   const addToPeaksClimbed = () => {
     if (!isLoggedIn) {
       navigate("/login");
       return;
     }
-
     const newPeak = {
       id: peak._id,
       name: peak.name,
       dateClimbed: Date.now(),
     };
 
-    const peaksClimbed = authService.peaksClimbed;
-
-    if (isNameInArray(peaksClimbed, peak.name)) {
-      setClimbed(true);
-      return;
-    }
-    const updatePeaksClimbed = [...authService.peaksClimbed, newPeak];
+    const updatePeaksClimbed = [...peaksClimbed, newPeak];
     const update = { peaksClimbed: updatePeaksClimbed };
     authService
       .editUser(update)
@@ -39,10 +32,10 @@ const AddToClimbLog = ({ peak, isLoggedIn, isClimbed }) => {
 
   return (
     <>
-      {climbed ? (
+      {isClimbed ? (
         <div className={s.climbBtn}>
           <span onClick={() => console.log("go to climb log")}>
-            You Climbed this Peak! Go to climb log
+            You Climbed this Peak!
           </span>
         </div>
       ) : (

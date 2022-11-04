@@ -3,6 +3,7 @@ import s from "./StatsContainer.module.css";
 import elevation from "../../../assets/PeakDetails/elevation.svg";
 import rank from "../../../assets/PeakDetails/rank.svg";
 import range from "../../../assets/PeakDetails/range.svg";
+import { formatElevation } from "../../../utilities/formatElevaion";
 
 const StatsContainer = ({ peak }) => {
   return (
@@ -11,7 +12,7 @@ const StatsContainer = ({ peak }) => {
         <div className={s.iconContainer}>
           <img src={elevation} alt="elevation" />
         </div>
-        <span>Elevation: {peak.elevation} ft</span>
+        <span>Elevation: {formatElevation(peak.elevation)} ft</span>
       </div>
       <div className={s.stat}>
         <div className={s.iconContainer}>

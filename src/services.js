@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5001/api/v1/";
-const PEAKS_URL = BASE_URL + "peaks/";
-const AUTH_URL = BASE_URL + "auth/";
-const LOGIN_URL = AUTH_URL + "login";
-const ADD_USER_URL = AUTH_URL + "register";
-const GET_USER_URL = BASE_URL + "auth/me";
-const UPDATE_USER_URL = AUTH_URL + "updatedetails";
-const ADD_PHOTO_URL = PEAKS_URL + "uploadphoto";
+// const BASE_URL = "http://localhost:5001/api/v1/";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const PEAKS_URL = BASE_URL + "/peaks";
+const AUTH_URL = BASE_URL + "/auth";
+const LOGIN_URL = AUTH_URL + "/login";
+const ADD_USER_URL = AUTH_URL + "/register";
+const GET_USER_URL = BASE_URL + "/auth/me";
+const UPDATE_USER_URL = AUTH_URL + "/updatedetails";
+const ADD_PHOTO_URL = PEAKS_URL + "/uploadphoto";
 
 class User {
   constructor() {
