@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthService } from "./services";
 import FourteenersApp from "./components/FourteenersApp/FourteenersApp";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
-import PeakContainer from "./components/PeakContainer/PeakContainer";
+// import PeakContainer from "./components/PeakContainer/PeakContainer";
 import UserLogin from "./components/UserLogin/UserLogin";
 import UserRegister from "./components/UserRegister/UserRegister";
 import UserEdit from "./components/UserEdit/UserEdit";

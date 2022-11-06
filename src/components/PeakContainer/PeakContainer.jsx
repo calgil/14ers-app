@@ -3,7 +3,7 @@ import Peak from "../Peak/Peak";
 import s from "./PeakContainer.module.css";
 import { getAllPeaks } from "../../services";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import Filter from "../Filter/Filter";
+// import Filter from "../Filter/Filter";
 
 const PeakContainer = () => {
   const [peaks, setPeaks] = useState([]);
@@ -25,7 +25,7 @@ const PeakContainer = () => {
 
   return (
     <>
-      <button
+      {/* <button
         className={s.filterToggleBtn}
         onClick={() => setShowFilter(!showFilter)}
       >
@@ -33,18 +33,17 @@ const PeakContainer = () => {
       </button>
       {showFilter && (
         <Filter peaks={peaks} setSearchResults={setSearchResults} />
-      )}
+      )} */}
       <div className={s.peakContainer}>
         {loading && <div>Loading...</div>}
         {error && <ErrorPage />}
-
+        {/* Make peaks component pass in the results you want displayed map that and create peaks */}
         {searchResults.length
           ? !!searchResults.length &&
             searchResults.map((peak) => <Peak key={peak.id} peak={peak} />)
           : !!peaks.length &&
             peaks.map((peak) => <Peak key={peak.id} peak={peak} />)}
       </div>
-      <button>Next Page</button>
     </>
   );
 };
