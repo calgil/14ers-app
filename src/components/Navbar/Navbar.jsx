@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+// import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import s from "./Navbar.module.css";
 import { UserContext } from "../../App";
 import logo from "../../assets/logo.svg";
@@ -9,16 +10,15 @@ const Navbar = () => {
   const { authService } = useContext(UserContext);
 
   return (
-    <nav className={s.nav}>
-      <div className={s.navbar}>
-        <div className={s.leftCol}>
-          <div className={s.logoContainer}>
-            <Link to="/">
-              <img src={logo} alt="logo" />
-            </Link>
-          </div>
+    <nav className={s.navbar}>
+      <div className={s.leftCol}>
+        <div className={s.logoContainer}>
+          <Link to="/">
+            <img src={logo} alt="logo" />
+          </Link>
+        </div>
 
-          <ul className={s.navLinks}>
+        {/* <ul className={s.navLinks}>
             <NavLink
               end
               to={"/"}
@@ -44,18 +44,15 @@ const Navbar = () => {
             >
               <span>Trip Reports</span>
             </NavLink>
-          </ul>
-        </div>
-        <div>
-          {authService.name ? (
-            <DisplayUser />
-          ) : (
-            <Link className={s.login} to="login">
-              Login
-            </Link>
-          )}
-        </div>
+          </ul> */}
       </div>
+      {authService.name ? (
+        <DisplayUser />
+      ) : (
+        <Link className={s.login} to="login">
+          Login
+        </Link>
+      )}
     </nav>
   );
 };
