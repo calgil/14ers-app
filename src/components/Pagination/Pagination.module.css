@@ -1,0 +1,29 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.page,
+.lastPage {
+  list-style: none;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.page:hover,
+.lastPage:hover {
+  background: green;
+  color: white;
+}
+
+.page {
+  border-left: 1px solid #333;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.lastPage {
+  border: 1px solid #333;
+}

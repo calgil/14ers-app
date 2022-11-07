@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "http://localhost:5001/api/v1/";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = "http://localhost:5001/api/v1";
+const BASE_URL = process.env.REACT_APP_BASE_URL_PROD;
 const PEAKS_URL = BASE_URL + "/peaks";
 const AUTH_URL = BASE_URL + "/auth";
 const LOGIN_URL = AUTH_URL + "/login";
@@ -18,7 +18,6 @@ class User {
     this.role = "";
     this.isLoggedIn = false;
     this.peaksClimbed = [];
-    //  **! climbLog
   }
 
   setUserEmail(email) {
@@ -199,7 +198,7 @@ export const getAllPeaks = async () => {
 
 export const getPeakById = async (id) => {
   try {
-    let response = await axios.get(`${PEAKS_URL}${id}`);
+    let response = await axios.get(`${PEAKS_URL}/${id}`);
     if (response.data.success) {
       const peak = response.data.data;
       return peak;

@@ -15,9 +15,11 @@ const PeakDetails = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
   const [peak, setPeak] = useState();
   const [addPhoto, setAddPhoto] = useState(false);
   const [isClimbed, setIsClimbed] = useState(false);
+
   const isLoggedIn = authService.isLoggedIn;
   let { id } = useParams();
 
@@ -69,15 +71,12 @@ const PeakDetails = () => {
                   toggleAddPhoto={() => setAddPhoto(!addPhoto)}
                 />
               )}
-              {peak.photos.map((photo) => (
-                <div key={photo._id} className={s.imgContainer}>
-                  <img
-                    crossOrigin="anonymous"
-                    src={`${process.env.REACT_APP_BASE_URL}/${photo.url}`}
-                    alt="peak"
-                  />
-                </div>
-              ))}
+              <img
+                crossOrigin="anonymous"
+                // src={`${process.env.REACT_APP_BASE_URL_LOCAL}${peak.photos[0].url}`}
+                src={`${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`}
+                alt="peak"
+              />
             </div>
             <StatsContainer peak={peak} />
           </div>
