@@ -73,7 +73,8 @@ const PeakDetails = () => {
               )}
               <img
                 crossOrigin="anonymous"
-                src={`${process.env.REACT_APP_BASE_URL_LOCAL}${peak.photos[0].url}`}
+                // src={`${process.env.REACT_APP_BASE_URL_LOCAL}${peak.photos[0].url}`}
+                src={`${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`}
                 alt="peak"
               />
             </div>
