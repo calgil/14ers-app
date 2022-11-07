@@ -4,11 +4,13 @@ import { getAllPeaks } from "../../services";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import Peaks from "../Peaks/Peaks";
 import Pagination from "../Pagination/Pagination";
+import SearchBar from "../SearchBar/SearchBar";
+import ResultInfo from "../ResultInfo/ResultInfo";
 // import Filter from "../Filter/Filter";
 
 const PeakContainer = () => {
   const [peaks, setPeaks] = useState([]);
-  // const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   // const [showFilter, setShowFilter] = useState(false);
@@ -26,12 +28,20 @@ const PeakContainer = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setSearchResults(peaks);
+  }, [peaks]);
+
+  const resetSearch = () => {
+    setSearchResults(peaks);
+  };
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const indexOfLastPeak = currentPage * peaksPerPage;
   const indexOfFirstPeak = indexOfLastPeak - peaksPerPage;
-  const currentPeaks = peaks.slice(indexOfFirstPeak, indexOfLastPeak);
-
+  // update peaks to filteredPeaks
+  const currentPeaks = searchResults.slice(indexOfFirstPeak, indexOfLastPeak);
   return (
     <>
       {/* <button
@@ -44,6 +54,24 @@ const PeakContainer = () => {
         <Filter peaks={peaks} setSearchResults={setSearchResults} />
       )} */}
       <div className={s.peakContainer}>
+        <SearchBar
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
+          resetSearch={resetSearch}
+          setCurrentPage={setCurrentPage}
+        />
+        <ResultInfo
+          startIndex={indexOfFirstPeak}
+          endIndex={indexOfLastPeak}
+          total={searchResults.length}
+        />
+        {/* <div className={s.resultInfo}>
+          <span>
+            {`Showing ${indexOfFirstPeak + 1} - ${indexOfLastPeak + 1} of ${
+              searchResults.length
+            }`}
+          </span>
+        </div> */}
         {error ? (
           <ErrorPage />
         ) : (
@@ -51,7 +79,7 @@ const PeakContainer = () => {
         )}
         <Pagination
           peaksPerPage={peaksPerPage}
-          totalPeaks={peaks.length}
+          totalPeaks={searchResults.length}
           paginate={paginate}
         />
 
