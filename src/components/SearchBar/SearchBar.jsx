@@ -8,9 +8,12 @@ const SearchBar = ({
   setCurrentPage,
 }) => {
   const [searchInput, setSearchInput] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const clearSearch = () => {
     setSearchInput("");
+    setError(false);
     resetSearch();
   };
 
@@ -22,7 +25,7 @@ const SearchBar = ({
   const filterResults = (e) => {
     e.preventDefault();
     if (!searchInput.length) {
-      return console.log("no search input");
+      return clearSearch();
     }
     const result = searchResults.filter(
       (peak) =>
@@ -30,7 +33,9 @@ const SearchBar = ({
         peak.range.toLowerCase().includes(searchInput)
     );
     if (!result.length) {
-      return console.log(`No results matching ${searchInput}`);
+      setError(true);
+      setErrorMsg(`No results matching ${searchInput}`);
+      return;
     }
     setCurrentPage(1);
     setSearchResults(result);
@@ -54,6 +59,7 @@ const SearchBar = ({
         </div>
         <input className={s.searchBtn} type="submit" value="Search" />
       </form>
+      {error && <div className={s.error}>{errorMsg}</div>}
     </div>
   );
 };
