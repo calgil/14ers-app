@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Peak = ({ peak }) => {
   const navigate = useNavigate();
 
-  // const peakPhoto = `${process.env.REACT_APP_BASE_URL_LOCAL}${peak.photos[0].url}`;
-  const peakPhoto = `${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`;
+  const peakPhoto = `${process.env.REACT_APP_BASE_URL_LOCAL}/${peak.photos[0].url}`;
+  // const peakPhoto = `${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`;
 
   const openDetails = () => {
     navigate(`/peaks/${peak.id}`);

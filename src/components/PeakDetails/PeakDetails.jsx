@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { UserContext } from "../../App";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import AddPhoto from "../Admin/AddPhoto/AddPhoto";
-import RouteTable from "./RouteTable/RouteTable";
-import StatsContainer from "./StatsContainer/StatsContainer";
-import AddToClimbLog from "./AddToClimbLog/AddToClimbLog";
+import RouteTable from "../RouteTable/RouteTable";
+import StatsContainer from "../StatsContainer/StatsContainer";
+import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
 
@@ -19,6 +19,8 @@ const PeakDetails = () => {
   const [peak, setPeak] = useState();
   const [addPhoto, setAddPhoto] = useState(false);
   const [isClimbed, setIsClimbed] = useState(false);
+
+  const [showTripReportModal, setShowTripReportModal] = useState(true);
 
   const isLoggedIn = authService.isLoggedIn;
   let { id } = useParams();
@@ -48,6 +50,12 @@ const PeakDetails = () => {
     <div className={s.detailsBody}>
       {error && <ErrorPage />}
       {loading && <div>Loading...</div>}
+      {authService.role === "admin" && (
+        <button onClick={() => setAddPhoto(!addPhoto)}>Add Photo</button>
+      )}
+      {addPhoto && (
+        <AddPhoto peak={peak} toggleAddPhoto={() => setAddPhoto(!addPhoto)} />
+      )}
       {peak && (
         <div className={s.peakDetails}>
           <div className={s.addBtnBar}>
@@ -60,21 +68,10 @@ const PeakDetails = () => {
           </div>
           <div className={s.mainInfo}>
             <div className={s.peakPhoto}>
-              {authService.role === "admin" && (
-                <button onClick={() => setAddPhoto(!addPhoto)}>
-                  Add Photo
-                </button>
-              )}
-              {addPhoto && (
-                <AddPhoto
-                  peak={peak}
-                  toggleAddPhoto={() => setAddPhoto(!addPhoto)}
-                />
-              )}
               <img
                 crossOrigin="anonymous"
-                // src={`${process.env.REACT_APP_BASE_URL_LOCAL}${peak.photos[0].url}`}
-                src={`${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`}
+                src={`${process.env.REACT_APP_BASE_URL_LOCAL}/${peak.photos[0].url}`}
+                // src={`${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`}
                 alt="peak"
               />
             </div>
