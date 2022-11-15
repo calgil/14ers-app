@@ -9,6 +9,7 @@ import StatsContainer from "../StatsContainer/StatsContainer";
 import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
+import Modal from "../Modal/Modal";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -79,6 +80,12 @@ const PeakDetails = () => {
           </div>
           {peak.routes && <RouteTable peakRoutes={peak.routes} />}
         </div>
+      )}
+      {showTripReportModal && (
+        <Modal
+          modalName={"Trip Report"}
+          close={() => setShowTripReportModal(false)}
+        />
       )}
     </div>
   );
