@@ -22,3 +22,26 @@
   justify-content: space-between;
   padding: 0 10px;
 }
+
+.form {
+  padding: 5px;
+}
+
+.input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.submitBtn {
+  border: 1px solid rgb(31, 74, 40);
+  background: rgba(31, 74, 40, 0.9);
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 15px;
+  padding: 1.25rem 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  transition: ease-in-out 0.3s;
+  color: white;
+}

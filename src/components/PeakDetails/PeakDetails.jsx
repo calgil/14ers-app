@@ -7,9 +7,9 @@ import AddPhoto from "../Admin/AddPhoto/AddPhoto";
 import RouteTable from "../RouteTable/RouteTable";
 import StatsContainer from "../StatsContainer/StatsContainer";
 import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
+import Modal from "../Modal/Modal";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
-import Modal from "../Modal/Modal";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -47,6 +47,17 @@ const PeakDetails = () => {
     setIsClimbed(true);
   }, [peak, authService.peaksClimbed]);
 
+  // const tripReportInputs = [
+  //   { key: 1, type: "text", name: "title", errorMsg: "Please enter a title" },
+  //   { key: 2, type: "text", name: "rating", errorMsg: "Please enter a rating" },
+  //   {
+  //     key: 3,
+  //     type: "text",
+  //     name: "description",
+  //     errorMsg: "Please enter a description",
+  //   },
+  // ];
+
   return (
     <div className={s.detailsBody}>
       {error && <ErrorPage />}
@@ -83,6 +94,7 @@ const PeakDetails = () => {
       )}
       {showTripReportModal && (
         <Modal
+          peak={peak}
           modalName={"Trip Report"}
           close={() => setShowTripReportModal(false)}
         />
