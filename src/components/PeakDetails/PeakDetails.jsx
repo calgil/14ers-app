@@ -21,7 +21,7 @@ const PeakDetails = () => {
   const [addPhoto, setAddPhoto] = useState(false);
   const [isClimbed, setIsClimbed] = useState(false);
 
-  const [showTripReportModal, setShowTripReportModal] = useState(true);
+  const [showTripReportModal, setShowTripReportModal] = useState(false);
 
   const isLoggedIn = authService.isLoggedIn;
   let { id } = useParams();
@@ -92,11 +92,14 @@ const PeakDetails = () => {
           {peak.routes && <RouteTable peakRoutes={peak.routes} />}
         </div>
       )}
+      <button onClick={() => setShowTripReportModal(true)}>
+        Add Trip Report
+      </button>
       {showTripReportModal && (
         <Modal
           peak={peak}
           modalName={"Trip Report"}
-          close={() => setShowTripReportModal(false)}
+          close={() => setShowTripReportModal(!showTripReportModal)}
         />
       )}
     </div>

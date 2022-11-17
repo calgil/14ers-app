@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import InputBase from "../InputBase/InputBase";
 import s from "./Modal.module.css";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
+import StarRating from "../StarRating/StarRating";
 
 const Modal = ({ modalName, close, peak }) => {
-  const [tripReport, setTripReport] = useState({});
+  const [tripReportData, setTripReportData] = useState({});
 
   const handleChange = ({ target: { name, value } }) => {
-    setTripReport({ ...tripReport, [name]: value });
-    console.log("modal", tripReport);
+    setTripReportData({ ...tripReportData, [name]: value });
+    console.log("modal", tripReportData);
+  };
+
+  const setRating = (value) => {
+    setTripReportData({ ...tripReportData, rating: value });
   };
 
   const postTripReport = (e) => {
@@ -16,8 +20,8 @@ const Modal = ({ modalName, close, peak }) => {
   };
 
   return (
-    <div className={s.modalBg}>
-      <div className={s.modalBody}>
+    <div className={s.modalBg} onClick={close}>
+      <div className={s.modalBody} onClick={(e) => e.stopPropagation()}>
         <div className={s.modalHeader}>
           <h3 className={s.modalName}>{modalName}</h3>
           <button onClick={close}>
@@ -25,11 +29,10 @@ const Modal = ({ modalName, close, peak }) => {
           </button>
         </div>
         <form className={s.form} onSubmit={postTripReport}>
-          <h5>{peak.name}</h5>
-          <label htmlFor="route-select"> Select a Route</label>
+          <h5>14er: {peak.name}</h5>
+          <label> Select a Route</label>
           <select
             className={`${s.routeSelect} ${s.input}`}
-            required
             name="route"
             onChange={handleChange}
           >
@@ -41,20 +44,23 @@ const Modal = ({ modalName, close, peak }) => {
             ))}
             <option value="other">Other</option>
           </select>
+          <label>Date</label>
           <input
             className={`${s.date} ${s.input}`}
             type="date"
-            required
             pattern="\d{4}-\d{2}-\d{2}"
             onChange={handleChange}
           />
+          <label>Trip Report</label>
           <textarea
             key={5}
             className={`${s.details} ${s.input}`}
-            required
             name="details"
-            placeholder="Details"
             onChange={handleChange}
+          />
+          <StarRating
+            rating={tripReportData.rating || 0}
+            setRating={setRating}
           />
           <input
             className={s.submitBtn}
