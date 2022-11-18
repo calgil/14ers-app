@@ -25,6 +25,16 @@
   padding: 0 10px;
 }
 
+.closeBtn {
+  font-size: 20px;
+  opacity: 0.6;
+  transition: all 200ms ease-in-out;
+}
+
+.closeBtn:hover {
+  opacity: 1;
+}
+
 .form {
   padding: 10px;
 }

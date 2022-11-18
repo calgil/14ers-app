@@ -26,7 +26,7 @@ const Modal = ({ modalName, close, peak }) => {
       <div className={s.modalBody} onClick={(e) => e.stopPropagation()}>
         <div className={s.modalHeader}>
           <h3 className={s.modalName}>{modalName}</h3>
-          <button onClick={close}>
+          <button className={s.closeBtn} onClick={close}>
             <i className="fa fa-times"></i>
           </button>
         </div>
