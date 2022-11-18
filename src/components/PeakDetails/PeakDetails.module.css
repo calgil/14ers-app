@@ -62,3 +62,31 @@
   background-size: cover;
   border-radius: 5px;
 }
+
+.reportsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin-left: 100px;
+  margin-top: 20px;
+  background-color: #f4faff;
+  border: 1px solid #333;
+  padding: 15px;
+}
+
+.addReportBtn {
+  display: flex;
+  align-items: center;
+  background-color: #26532b;
+  color: white;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.iconContainer {
+  max-width: 10px;
+  margin-right: 5px;
+  padding-top: 2px;
+}

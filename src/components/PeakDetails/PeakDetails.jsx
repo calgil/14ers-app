@@ -10,6 +10,7 @@ import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
 import Modal from "../Modal/Modal";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
+import addPeak from "../../assets/PeakDetails/addPeak.svg";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -92,9 +93,19 @@ const PeakDetails = () => {
           {peak.routes && <RouteTable peakRoutes={peak.routes} />}
         </div>
       )}
-      <button onClick={() => setShowTripReportModal(true)}>
-        Add Trip Report
-      </button>
+      <div className={s.reportsHeader}>
+        <div>Trip Reports</div>
+        <button
+          className={s.addReportBtn}
+          onClick={() => setShowTripReportModal(true)}
+        >
+          <div className={s.iconContainer}>
+            <img src={addPeak} alt="add" />
+          </div>
+          Add Trip Report
+        </button>
+      </div>
+
       {showTripReportModal && (
         <Modal
           peak={peak}
