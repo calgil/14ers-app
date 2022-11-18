@@ -7,6 +7,7 @@ const Modal = ({ modalName, close, peak }) => {
   const [tripReportData, setTripReportData] = useState({});
 
   const handleChange = ({ target: { name, value } }) => {
+    console.log("check", name, value);
     setTripReportData({ ...tripReportData, [name]: value });
     console.log("modal", tripReportData);
   };
@@ -16,6 +17,7 @@ const Modal = ({ modalName, close, peak }) => {
   };
 
   const postTripReport = (e) => {
+    console.log("send", tripReportData);
     e.preventDefault();
   };
 
@@ -36,7 +38,7 @@ const Modal = ({ modalName, close, peak }) => {
             name="route"
             onChange={handleChange}
           >
-            <option value="null">Please Choose a route</option>
+            <option value="">Please Choose a route</option>
             {peak.routes.map((route) => (
               <option key={route._id} value={route.name}>
                 {capitalizeFirstLetters(route.name)}
