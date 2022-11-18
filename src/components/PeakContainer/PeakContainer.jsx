@@ -60,6 +60,10 @@ const PeakContainer = () => {
           resetSearch={resetSearch}
           setCurrentPage={setCurrentPage}
         />
+        {/* <div className={s.searchResults}>
+          Showing {indexOfFirstPeak + 1} - {searchResults.length} of{" "}
+          {searchResults.length}
+        </div> */}
         <ResultInfo
           startIndex={indexOfFirstPeak}
           endIndex={indexOfLastPeak}
@@ -82,7 +86,6 @@ const PeakContainer = () => {
           totalPeaks={searchResults.length}
           paginate={paginate}
         />
-
         {/* Make peaks component pass in the results you want displayed map that and create peaks */}
         {/* {searchResults.length
           ? !!searchResults.length &&
