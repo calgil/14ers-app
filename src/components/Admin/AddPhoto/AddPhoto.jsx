@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import s from "./AddPhoto.module.css";
 // import { useParams } from "react-router-dom";
 import { UserContext } from "../../../App";
+import { generatePhotoUrl } from "../../../services";
 
 const AddPhoto = ({ peak, toggleAddPhoto }) => {
   const { authService } = useContext(UserContext);
 
-  const [title, setTitle] = useState();
   const [image, setImage] = useState("");
 
   const fileSelected = (e) => {
@@ -14,16 +14,15 @@ const AddPhoto = ({ peak, toggleAddPhoto }) => {
     setImage(image);
   };
 
-  const submit = async (e) => {
+  const uploadPhoto = async (e) => {
+    console.log("upload");
     e.preventDefault();
-    console.log("peak id ", peak._id);
-    console.log("peak phots ", peak.photos);
-    if (!image || !title) {
+    if (!image) {
       return;
     }
 
     try {
-      const response = await authService.addPeakPhoto(image, title);
+      const response = await generatePhotoUrl(image);
       const updatePhotos = { photos: [...peak.photos, { url: response }] };
       console.log("update", updatePhotos);
       await authService.updatePeak(peak._id, updatePhotos);
@@ -35,9 +34,8 @@ const AddPhoto = ({ peak, toggleAddPhoto }) => {
   };
 
   return (
-    <form className={s.formBody} onSubmit={submit}>
+    <form className={s.formBody} onSubmit={uploadPhoto}>
       <input onChange={fileSelected} type="file" accept="image/*" />
-      <input onChange={(e) => setTitle(e.target.value)} type="text" />
       <input type="submit" value="Add Photo" />
     </form>
   );

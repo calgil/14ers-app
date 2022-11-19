@@ -144,7 +144,7 @@ export class AuthService extends User {
     const headers = this.getBearerHeader();
     const body = data;
     try {
-      const response = await axios.put(PEAKS_URL + id, body, { headers });
+      const response = await axios.put(`${PEAKS_URL}/${id}`, body, { headers });
       console.log("res", response);
     } catch (error) {
       console.error(error);
@@ -152,26 +152,41 @@ export class AuthService extends User {
     }
   };
 
-  addPeakPhoto = async (image, title) => {
-    const body = new FormData();
-    body.append("image", image);
-    body.append("title", title);
-    console.log("body", body.getAll("image"));
-    try {
-      let response = await axios.post(ADD_PHOTO_URL, body, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${this.authToken}`,
-        },
-      });
-      if (response.status === 200) {
-        return response.data.imagePath;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // addPeakPhoto = async (image) => {
+  //   const body = new FormData();
+  //   body.append("image", image);
+  //   // body.append("title", title);
+  //   // console.log("body", body.getAll("image"));
+  //   try {
+  //     let response = await axios.post(ADD_PHOTO_URL, body, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${this.authToken}`,
+  //       },
+  //     });
+  //     if (response.status === 200) {
+  //       return response.data.imagePath;
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     // return error
+  //   }
+  // };
 }
+
+export const generatePhotoUrl = async (image) => {
+  console.log("upload", ADD_PHOTO_URL);
+  const body = new FormData();
+  body.append("image", image);
+  try {
+    let response = await axios.post(ADD_PHOTO_URL, body);
+    if (response.status === 200) {
+      return response.data.imagePath;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const getAllPeaks = async () => {
   try {

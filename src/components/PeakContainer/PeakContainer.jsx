@@ -40,7 +40,6 @@ const PeakContainer = () => {
 
   const indexOfLastPeak = currentPage * peaksPerPage;
   const indexOfFirstPeak = indexOfLastPeak - peaksPerPage;
-  // update peaks to filteredPeaks
   const currentPeaks = searchResults.slice(indexOfFirstPeak, indexOfLastPeak);
   return (
     <>

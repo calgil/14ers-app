@@ -3,6 +3,7 @@ import s from "./TripReport.module.css";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import StarRating from "../StarRating/StarRating";
 import Modal from "../Modal/Modal";
+import UploadImage from "../UploadImage/UploadImage";
 
 const TripReport = ({ peak, close }) => {
   const [tripReportData, setTripReportData] = useState({});
@@ -14,25 +15,25 @@ const TripReport = ({ peak, close }) => {
     console.log("modal", tripReportData);
   };
 
+  // const imagePreview = (e) => {
+  //   const file = e.target.files[0];
+  //   setFile(file);
+  //   console.log("preview", file);
+  // };
+
   const setRating = (value) => {
     setTripReportData({ ...tripReportData, rating: value });
   };
 
-  const imagePreview = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
-    console.log("preview", file);
-  };
-
   const postTripReport = (e) => {
-    console.log("send", tripReportData);
+    console.log("send", tripReportData, file);
     e.preventDefault();
   };
   return (
     <Modal close={close} modalName={"Trip Report"}>
       <form className={s.form} onSubmit={postTripReport}>
         <div>
-          <label className={s.fileUpload}>
+          {/* <label className={s.fileUpload}>
             <i className="fa fa-upload"></i>
             <br />
             Click or drag image to this area to upload
@@ -43,16 +44,17 @@ const TripReport = ({ peak, close }) => {
               accept="image/*"
               required
             />
-          </label>
-          {file && (
+          </label> */}
+          <UploadImage file={file} setFile={setFile} />
+          {/* {file && (
             <div className={s.imgPreview}>
               <i className="fa fa-times" onClick={() => setFile("")}></i>
               <img src={file} alt="preview" />
               {/* once img is stored in s3 i can use the url to generate img
               need to make x mark to trigger delete obj in s3
                */}
-            </div>
-          )}
+          {/* </div>
+          )} */}
         </div>
         <div className={s.leftCol}>
           <h5>14er: {peak.name}</h5>
