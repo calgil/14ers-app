@@ -11,6 +11,7 @@ import Modal from "../Modal/Modal";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
 import addPeak from "../../assets/PeakDetails/addPeak.svg";
+import TripReport from "../TripReport/TripReport";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -107,9 +108,8 @@ const PeakDetails = () => {
       </div>
 
       {showTripReportModal && (
-        <Modal
+        <TripReport
           peak={peak}
-          modalName={"Trip Report"}
           close={() => setShowTripReportModal(!showTripReportModal)}
         />
       )}
