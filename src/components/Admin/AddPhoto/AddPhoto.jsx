@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import s from "./AddPhoto.module.css";
 // import { useParams } from "react-router-dom";
 import { UserContext } from "../../../App";
-import { generatePhotoUrl } from "../../../services";
+import { postPhoto } from "../../../services";
 
 const AddPhoto = ({ peak, toggleAddPhoto }) => {
   const { authService } = useContext(UserContext);
@@ -22,7 +22,7 @@ const AddPhoto = ({ peak, toggleAddPhoto }) => {
     }
 
     try {
-      const response = await generatePhotoUrl(image);
+      const response = await uploadPhoto(image);
       const updatePhotos = { photos: [...peak.photos, { url: response }] };
       console.log("update", updatePhotos);
       await authService.updatePeak(peak._id, updatePhotos);

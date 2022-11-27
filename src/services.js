@@ -8,7 +8,7 @@ const LOGIN_URL = AUTH_URL + "/login";
 const ADD_USER_URL = AUTH_URL + "/register";
 const GET_USER_URL = BASE_URL + "/auth/me";
 const UPDATE_USER_URL = AUTH_URL + "/updatedetails";
-const ADD_PHOTO_URL = PEAKS_URL + "/uploadphoto";
+const PHOTO_URL = BASE_URL + "/photos";
 
 class User {
   constructor() {
@@ -151,51 +151,7 @@ export class AuthService extends User {
       throw error;
     }
   };
-
-  // I think the play is to make an admin function to add a photo to a peak
-  // use that function to call generatePhotoUrl
-
-  // addPeakPhoto = async (image) => {
-  //   const body = new FormData();
-  //   body.append("image", image);
-  //   // body.append("title", title);
-  //   // console.log("body", body.getAll("image"));
-  //   try {
-  //     let response = await axios.post(ADD_PHOTO_URL, body, {
-  // headers: {
-  //   "Content-Type": "multipart/form-data",
-  //   Authorization: `Bearer ${this.authToken}`,
-  // },
-  //     });
-  //     if (response.status === 200) {
-  //       return response.data.imagePath;
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     // return error
-  //   }
-  // };
 }
-
-export const generatePhotoUrl = async (image) => {
-  const body = new FormData();
-  body.append("image", image);
-  const headers = {
-    "Content-Type": "multipart/form-data",
-  };
-
-  try {
-    const response = await axios.post(ADD_PHOTO_URL, body, {
-      headers,
-    });
-
-    if (response.status === 200) {
-      return response;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 export const getAllPeaks = async () => {
   try {
@@ -208,7 +164,9 @@ export const getAllPeaks = async () => {
         forest: peak.forest,
         range: peak.range,
         rank: peak.rank,
-        photos: peak.photos,
+        photos: peak.photos.map(
+          (photo) => (photo.imageName = getPhotoUrl(photo.url))
+        ),
         imageUrl: peak.imageUrl,
         numberOfRoutes: peak.routes.length,
         routes: peak.routes,
@@ -231,5 +189,46 @@ export const getPeakById = async (id) => {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+export const postPhoto = async (image) => {
+  const body = new FormData();
+  body.append("image", image);
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  try {
+    const response = await axios.post(PHOTO_URL, body, {
+      headers,
+    });
+
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPhotoUrl = async (imageName) => {
+  try {
+    const response = await axios.get(`${PHOTO_URL}/${imageName}`);
+    if (response.data.success) {
+      return response;
+    }
+    return response.data.success;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePhoto = async (imageName) => {
+  try {
+    const response = await axios.delete(`${PHOTO_URL}/${imageName}`);
+    return response;
+  } catch (error) {
+    console.error(error);
   }
 };

@@ -4,37 +4,35 @@ import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import StarRating from "../StarRating/StarRating";
 import Modal from "../Modal/Modal";
 import UploadImage from "../UploadImage/UploadImage";
-import { generatePhotoUrl } from "../../services";
 
 const TripReport = ({ peak, close }) => {
   const [tripReportData, setTripReportData] = useState({});
-  const [file, setFile] = useState("");
+  const [imageName, setImageName] = useState("");
 
-  const uploadPhoto = async () => {
-    console.log("upload", file);
-    if (!file) {
-      console.log("no file", file);
-      return;
-    }
-    if (typeof file !== "object") {
-      console.log("string", file);
-      return;
-    }
+  // const uploadPhoto = async () => {
+  //   if (!file) {
+  //     console.log("no file", file);
+  //     return;
+  //   }
+  //   if (typeof file !== "object") {
+  //     console.log("string", file);
+  //     return;
+  //   }
 
-    try {
-      console.log("upload new photo", file);
-      const response = await generatePhotoUrl(file);
-      // setFile(response);
-      console.log("after upload", response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //   try {
+  //     console.log("upload new photo", file);
+  //     const response = await uploadPhoto(file);
+  //     // setFile(response);
+  //     console.log("after upload", response);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    uploadPhoto();
-    console.log("file change", file);
-  }, [file]);
+  // useEffect(() => {
+  //   uploadPhoto();
+  //   console.log("file change", file);
+  // }, [file]);
 
   const handleChange = ({ target: { name, value } }) => {
     console.log("check", name, value);
@@ -53,7 +51,7 @@ const TripReport = ({ peak, close }) => {
   };
 
   const postTripReport = (e) => {
-    console.log("send", tripReportData, file);
+    console.log("send", tripReportData, imageName);
     e.preventDefault();
   };
   return (
@@ -72,7 +70,7 @@ const TripReport = ({ peak, close }) => {
               required
             />
           </label> */}
-          <UploadImage file={file} setFile={setFile} />
+          <UploadImage setImageName={setImageName} />
           {/* {file && (
             <div className={s.imgPreview}>
               <i className="fa fa-times" onClick={() => setFile("")}></i>
