@@ -152,6 +152,9 @@ export class AuthService extends User {
     }
   };
 
+  // I think the play is to make an admin function to add a photo to a peak
+  // use that function to call generatePhotoUrl
+
   // addPeakPhoto = async (image) => {
   //   const body = new FormData();
   //   body.append("image", image);
@@ -159,10 +162,10 @@ export class AuthService extends User {
   //   // console.log("body", body.getAll("image"));
   //   try {
   //     let response = await axios.post(ADD_PHOTO_URL, body, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: `Bearer ${this.authToken}`,
-  //       },
+  // headers: {
+  //   "Content-Type": "multipart/form-data",
+  //   Authorization: `Bearer ${this.authToken}`,
+  // },
   //     });
   //     if (response.status === 200) {
   //       return response.data.imagePath;
@@ -175,13 +178,19 @@ export class AuthService extends User {
 }
 
 export const generatePhotoUrl = async (image) => {
-  console.log("upload", ADD_PHOTO_URL);
   const body = new FormData();
   body.append("image", image);
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
   try {
-    let response = await axios.post(ADD_PHOTO_URL, body);
+    const response = await axios.post(ADD_PHOTO_URL, body, {
+      headers,
+    });
+
     if (response.status === 200) {
-      return response.data.imagePath;
+      return response;
     }
   } catch (error) {
     console.error(error);
@@ -191,8 +200,8 @@ export const generatePhotoUrl = async (image) => {
 export const getAllPeaks = async () => {
   try {
     let response = await axios.get(PEAKS_URL);
-    if (response.data.success) {
-      const peaks = response.data.data.map((peak) => ({
+    if (response.status === 200) {
+      const peaks = response.data.map((peak) => ({
         id: peak._id,
         name: peak.name,
         elevation: peak.elevation,
@@ -200,9 +209,11 @@ export const getAllPeaks = async () => {
         range: peak.range,
         rank: peak.rank,
         photos: peak.photos,
+        imageUrl: peak.imageUrl,
         numberOfRoutes: peak.routes.length,
         routes: peak.routes,
       }));
+      console.log("peaks", peaks);
       return peaks;
     }
   } catch (err) {
