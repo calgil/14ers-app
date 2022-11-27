@@ -213,7 +213,6 @@ export const getAllPeaks = async () => {
         numberOfRoutes: peak.routes.length,
         routes: peak.routes,
       }));
-      console.log("peaks", peaks);
       return peaks;
     }
   } catch (err) {
