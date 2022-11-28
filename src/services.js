@@ -146,6 +146,7 @@ export class AuthService extends User {
     try {
       const response = await axios.put(`${PEAKS_URL}/${id}`, body, { headers });
       console.log("res", response);
+      return response.data;
     } catch (error) {
       console.error(error);
       throw error;

@@ -28,13 +28,17 @@
   padding: 9px 17px;
 } */
 
+.peakName,
+.peakPhoto {
+  margin-left: 100px;
+}
+
 .peakName {
   font-weight: 400;
 }
 
-.peakName,
 .peakPhoto {
-  margin-left: 100px;
+  max-width: 300px;
 }
 
 .mainInfo {

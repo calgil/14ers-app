@@ -7,12 +7,10 @@ import AddPhoto from "../Admin/AddPhoto/AddPhoto";
 import RouteTable from "../RouteTable/RouteTable";
 import StatsContainer from "../StatsContainer/StatsContainer";
 import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
-import Modal from "../Modal/Modal";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
 import addPeak from "../../assets/PeakDetails/addPeak.svg";
 import TripReport from "../TripReport/TripReport";
-import { getPhotoUrl } from "../../services";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);

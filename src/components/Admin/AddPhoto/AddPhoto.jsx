@@ -18,16 +18,25 @@ const AddPhoto = ({ peak, toggleAddPhoto }) => {
     console.log("upload");
     e.preventDefault();
     if (!image) {
+      console.log("no image");
       return;
     }
 
     try {
-      const response = await uploadPhoto(image);
-      const updatePhotos = { photos: [...peak.photos, { url: response }] };
-      console.log("update", updatePhotos);
-      await authService.updatePeak(peak._id, updatePhotos);
-      toggleAddPhoto();
-      console.log(response);
+      const response = await postPhoto(image);
+      if (response.data.success) {
+        const imageName = response.data.imageName;
+        console.log("post response", response);
+        const updatePhotos = {
+          photos: [...peak.photos, { url: imageName }],
+        };
+        const res = await authService.updatePeak(peak._id, updatePhotos);
+        console.log("update", res);
+        if (res.success) {
+          console.log("update", res);
+          toggleAddPhoto();
+        }
+      }
     } catch (error) {
       console.error(error);
     }
