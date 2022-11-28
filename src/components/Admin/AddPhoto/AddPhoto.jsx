@@ -3,16 +3,18 @@ import s from "./AddPhoto.module.css";
 // import { useParams } from "react-router-dom";
 import { UserContext } from "../../../App";
 import { postPhoto } from "../../../services";
+import UploadImage from "../../UploadImage/UploadImage";
+import Modal from "../../Modal/Modal";
 
 const AddPhoto = ({ peak, toggleAddPhoto }) => {
   const { authService } = useContext(UserContext);
 
   const [image, setImage] = useState("");
 
-  const fileSelected = (e) => {
-    const image = e.target.files[0];
-    setImage(image);
-  };
+  // const fileSelected = (e) => {
+  //   const image = e.target.files[0];
+  //   setImage(image);
+  // };
 
   const uploadPhoto = async (e) => {
     console.log("upload");
@@ -43,10 +45,12 @@ const AddPhoto = ({ peak, toggleAddPhoto }) => {
   };
 
   return (
-    <form className={s.formBody} onSubmit={uploadPhoto}>
-      <input onChange={fileSelected} type="file" accept="image/*" />
-      <input type="submit" value="Add Photo" />
-    </form>
+    <Modal close={toggleAddPhoto}>
+      <form className={s.formBody} onSubmit={uploadPhoto}>
+        <UploadImage setImageName={setImage} />
+        <input className={s.submitBtn} type="submit" value="Add Photo" />
+      </form>
+    </Modal>
   );
 };
 

@@ -22,19 +22,31 @@ input[type="file"] {
   min-height: 300px;
 }
 
-.imgPreview {
+.deleteBtn {
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 100;
-}
-
-.imgPreview .fa-times {
-  position: absolute;
-  right: -10px;
   top: 0px;
   font-weight: 600;
   z-index: 200;
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+  padding: 5px;
+  border: none;
+  border-bottom-right-radius: 5px;
+  transition: all 300ms ease-in-out;
+}
+
+.deleteBtn:hover {
+  padding: 8px;
+}
+
+.imgPreview i {
+  margin-left: 5px;
+}
+
+.imageContainer {
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto;
 }

@@ -18,44 +18,43 @@ const UploadImage = ({ setImageName }) => {
 
   const uploadPhoto = async (e) => {
     const file = e.target.files[0];
+    console.log("upload fiel", file);
 
     const response = await postPhoto(file);
-    if (response.data.success) {
+    console.log("post photo res", response);
+    if (response.status === 200) {
       const res = await getPhotoUrl(response.data.imageName);
-      if (res.data.success) {
-        setImageUrl(res);
-      }
+      setImageUrl(res);
       setImage(response.data.imageName);
       setImageName(response.data.imageName);
     }
-    console.log("upload res", response);
   };
 
   return (
     <div className={s.uploadContainer}>
-      <label className={s.fileUpload}>
-        <i className="fa fa-upload"></i>
-        <br />
-        Click or drag image to this area to upload
-        <input
-          type="file"
-          name="photo"
-          onChange={uploadPhoto}
-          accept="image/*"
-          required
-        />
-      </label>
-      {imageUrl && (
+      {imageUrl ? (
         <div className={s.imgPreview}>
-          <i className="fa fa-times" onClick={deleteFromS3}></i>
-          <img
-            // crossOrigin="anonymous"
-            src={imageUrl}
-            // src={`${process.env.REACT_APP_BASE_URL_LOCAL}/${file}`}
-            // src={`${process.env.REACT_APP_BASE_URL_PROD}/${file}`}
-            alt="preview"
-          />
+          <div className={s.imageContainer}>
+            <button className={s.deleteBtn} onClick={deleteFromS3}>
+              <span>Remove</span>
+              <i className="fa fa-trash"></i>
+            </button>
+            <img src={imageUrl} alt="preview" />
+          </div>
         </div>
+      ) : (
+        <label className={s.fileUpload}>
+          <i className="fa fa-upload"></i>
+          <br />
+          Click or drag image to this area to upload
+          <input
+            type="file"
+            name="photo"
+            onChange={uploadPhoto}
+            accept="image/*"
+            required
+          />
+        </label>
       )}
     </div>
   );
