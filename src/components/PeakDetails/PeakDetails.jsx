@@ -12,6 +12,7 @@ import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
 import addPeak from "../../assets/PeakDetails/addPeak.svg";
 import TripReport from "../TripReport/TripReport";
+import { getPhotoUrl } from "../../services";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -82,12 +83,7 @@ const PeakDetails = () => {
           </div>
           <div className={s.mainInfo}>
             <div className={s.peakPhoto}>
-              <img
-                crossOrigin="anonymous"
-                src={`${process.env.REACT_APP_BASE_URL_LOCAL}/${peak.photos[0].url}`}
-                // src={`${process.env.REACT_APP_BASE_URL_PROD}/${peak.photos[0].url}`}
-                alt="peak"
-              />
+              <img src={peak.photos[0].imageUrl} alt="peak" />
             </div>
             <StatsContainer peak={peak} />
           </div>

@@ -23,7 +23,7 @@ const UploadImage = ({ setImageName }) => {
     if (response.data.success) {
       const res = await getPhotoUrl(response.data.imageName);
       if (res.data.success) {
-        setImageUrl(res.data.url);
+        setImageUrl(res);
       }
       setImage(response.data.imageName);
       setImageName(response.data.imageName);

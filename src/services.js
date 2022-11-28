@@ -164,9 +164,7 @@ export const getAllPeaks = async () => {
         forest: peak.forest,
         range: peak.range,
         rank: peak.rank,
-        photos: peak.photos.map(
-          (photo) => (photo.imageName = getPhotoUrl(photo.url))
-        ),
+        photos: peak.photos,
         imageUrl: peak.imageUrl,
         numberOfRoutes: peak.routes.length,
         routes: peak.routes,
@@ -216,7 +214,7 @@ export const getPhotoUrl = async (imageName) => {
   try {
     const response = await axios.get(`${PHOTO_URL}/${imageName}`);
     if (response.data.success) {
-      return response;
+      return response.data.url;
     }
     return response.data.success;
   } catch (error) {
