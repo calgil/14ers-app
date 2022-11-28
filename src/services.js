@@ -9,6 +9,7 @@ const ADD_USER_URL = AUTH_URL + "/register";
 const GET_USER_URL = BASE_URL + "/auth/me";
 const UPDATE_USER_URL = AUTH_URL + "/updatedetails";
 const PHOTO_URL = BASE_URL + "/photos";
+const REPORTS_URL = BASE_URL + "/reports";
 
 class User {
   constructor() {
@@ -226,6 +227,20 @@ export const getPhotoUrl = async (imageName) => {
 export const deletePhoto = async (imageName) => {
   try {
     const response = await axios.delete(`${PHOTO_URL}/${imageName}`);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postTripReport = async (tripReport) => {
+  const body = tripReport;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const response = await axios.post(REPORTS_URL, body, { headers });
+    console.log(response);
     return response;
   } catch (error) {
     console.error(error);

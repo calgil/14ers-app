@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import s from "./UploadImage.module.css";
+
 import { postPhoto, getPhotoUrl, deletePhoto } from "../../services";
 
 const UploadImage = ({ setImageName }) => {

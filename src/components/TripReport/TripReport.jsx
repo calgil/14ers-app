@@ -1,38 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import s from "./TripReport.module.css";
+import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import StarRating from "../StarRating/StarRating";
 import Modal from "../Modal/Modal";
 import UploadImage from "../UploadImage/UploadImage";
+import { UserContext } from "../../App";
+import { postTripReport } from "../../services";
 
 const TripReport = ({ peak, close }) => {
+  const { authService } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [tripReportData, setTripReportData] = useState({});
   const [imageName, setImageName] = useState("");
-
-  // const uploadPhoto = async () => {
-  //   if (!file) {
-  //     console.log("no file", file);
-  //     return;
-  //   }
-  //   if (typeof file !== "object") {
-  //     console.log("string", file);
-  //     return;
-  //   }
-
-  //   try {
-  //     console.log("upload new photo", file);
-  //     const response = await uploadPhoto(file);
-  //     // setFile(response);
-  //     console.log("after upload", response);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   uploadPhoto();
-  //   console.log("file change", file);
-  // }, [file]);
 
   const handleChange = ({ target: { name, value } }) => {
     console.log("check", name, value);
@@ -40,58 +21,49 @@ const TripReport = ({ peak, close }) => {
     console.log("modal", tripReportData);
   };
 
-  // const imagePreview = (e) => {
-  //   const file = e.target.files[0];
-  //   setFile(file);
-  //   console.log("preview", file);
-  // };
-
   const setRating = (value) => {
     setTripReportData({ ...tripReportData, rating: value });
   };
 
-  const postTripReport = (e) => {
-    console.log("send", tripReportData, imageName);
-    e.preventDefault();
+  const createTripReport = async (event) => {
+    event.preventDefault();
+    if (!authService.isLoggedIn) {
+      return navigate("/login");
+    }
+
+    const tripReport = {
+      peakId: peak._id,
+      routeId: tripReportData.route,
+      userId: authService.id,
+      dateClimbed: tripReportData.date || "",
+      details: tripReportData.details || "",
+      rating: tripReportData.rating || 1,
+      photos: [{ url: imageName }],
+    };
+    console.log("to send", tripReport);
+
+    // check for valid fields then send post request
+    const report = await postTripReport(tripReport);
+    console.log("respon", report);
   };
   return (
     <Modal close={close} modalName={"Trip Report"}>
-      <form className={s.form} onSubmit={postTripReport}>
+      <form className={s.form} onSubmit={createTripReport}>
         <div>
-          {/* <label className={s.fileUpload}>
-            <i className="fa fa-upload"></i>
-            <br />
-            Click or drag image to this area to upload
-            <input
-              type="file"
-              name="photo"
-              onChange={imagePreview}
-              accept="image/*"
-              required
-            />
-          </label> */}
           <UploadImage setImageName={setImageName} />
-          {/* {file && (
-            <div className={s.imgPreview}>
-              <i className="fa fa-times" onClick={() => setFile("")}></i>
-              <img src={file} alt="preview" />
-              {/* once img is stored in s3 i can use the url to generate img
-              need to make x mark to trigger delete obj in s3
-               */}
-          {/* </div>
-          )} */}
         </div>
-        <div className={s.leftCol}>
+        <div>
           <h5>14er: {peak.name}</h5>
           <label> Select a Route:</label>
           <select
             className={`${s.routeSelect} ${s.input}`}
             name="route"
             onChange={handleChange}
+            required
           >
             <option value="">Please Choose a route</option>
             {peak.routes.map((route) => (
-              <option key={route._id} value={route.name}>
+              <option key={route._id} value={route._id}>
                 {capitalizeFirstLetters(route.name)}
               </option>
             ))}
@@ -100,6 +72,7 @@ const TripReport = ({ peak, close }) => {
           <label>Date:</label>
           <input
             className={`${s.date} ${s.input}`}
+            name="date"
             type="date"
             pattern="\d{4}-\d{2}-\d{2}"
             onChange={handleChange}
@@ -121,7 +94,9 @@ const TripReport = ({ peak, close }) => {
           <input
             className={s.submitBtn}
             type="submit"
-            value="Add Trip Report"
+            value={
+              authService.isLoggedIn ? "post report" : "click here to login"
+            }
           />
         </div>
       </form>
