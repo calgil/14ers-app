@@ -63,7 +63,7 @@ const PeakDetails = () => {
           </button>
           <button
             className={s.editPeakBtn}
-            onClick={() => setEditPeak(!addPhoto)}
+            onClick={() => setEditPeak(!editPeak)}
           >
             Edit Peak
           </button>
