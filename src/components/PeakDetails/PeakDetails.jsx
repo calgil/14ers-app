@@ -20,6 +20,7 @@ const PeakDetails = () => {
 
   const [peak, setPeak] = useState();
   const [addPhoto, setAddPhoto] = useState(false);
+  const [editPeak, setEditPeak] = useState(false);
   const [isClimbed, setIsClimbed] = useState(false);
 
   const [showTripReportModal, setShowTripReportModal] = useState(false);
@@ -48,27 +49,30 @@ const PeakDetails = () => {
     setIsClimbed(true);
   }, [peak, authService.peaksClimbed]);
 
-  // const tripReportInputs = [
-  //   { key: 1, type: "text", name: "title", errorMsg: "Please enter a title" },
-  //   { key: 2, type: "text", name: "rating", errorMsg: "Please enter a rating" },
-  //   {
-  //     key: 3,
-  //     type: "text",
-  //     name: "description",
-  //     errorMsg: "Please enter a description",
-  //   },
-  // ];
-
   return (
     <div className={s.detailsBody}>
       {error && <ErrorPage />}
       {loading && <div>Loading...</div>}
       {authService.role === "admin" && (
-        <button onClick={() => setAddPhoto(!addPhoto)}>Add Photo</button>
+        <div className={s.adminBtnBar}>
+          <button
+            className={s.addPhotoBtn}
+            onClick={() => setAddPhoto(!addPhoto)}
+          >
+            Add Photo
+          </button>
+          <button
+            className={s.editPeakBtn}
+            onClick={() => setEditPeak(!addPhoto)}
+          >
+            Edit Peak
+          </button>
+        </div>
       )}
       {addPhoto && (
         <AddPhoto peak={peak} toggleAddPhoto={() => setAddPhoto(!addPhoto)} />
       )}
+      {editPeak && <div>Edit Peak</div>}
       {peak && (
         <div className={s.peakDetails}>
           <div className={s.addBtnBar}>

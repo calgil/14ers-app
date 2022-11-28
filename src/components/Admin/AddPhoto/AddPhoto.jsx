@@ -11,11 +11,6 @@ const AddPhoto = ({ peak, toggleAddPhoto }) => {
 
   const [image, setImage] = useState("");
 
-  // const fileSelected = (e) => {
-  //   const image = e.target.files[0];
-  //   setImage(image);
-  // };
-
   const uploadPhoto = async (e) => {
     console.log("upload");
     e.preventDefault();
