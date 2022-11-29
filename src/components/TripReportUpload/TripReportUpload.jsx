@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import s from "./TripReport.module.css";
+import s from "./TripReportUpload.module.css";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
 import StarRating from "../StarRating/StarRating";

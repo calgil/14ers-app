@@ -10,7 +10,7 @@ import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
 import { getPeakById } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
 import addPeak from "../../assets/PeakDetails/addPeak.svg";
-import TripReport from "../TripReport/TripReport";
+import TripReportUpload from "../TripReportUpload/TripReportUpload";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -106,7 +106,7 @@ const PeakDetails = () => {
       </div>
 
       {showTripReportModal && (
-        <TripReport
+        <TripReportUpload
           peak={peak}
           close={() => setShowTripReportModal(!showTripReportModal)}
         />
