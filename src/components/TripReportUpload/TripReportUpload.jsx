@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import s from "./TripReportUpload.module.css";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
@@ -8,17 +8,27 @@ import UploadImage from "../UploadImage/UploadImage";
 import { UserContext } from "../../App";
 import { postTripReport } from "../../services";
 
-const TripReport = ({ peak, close }) => {
+const TripReportUpload = ({ peak, close }) => {
   const { authService } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [tripReportData, setTripReportData] = useState({});
   const [imageName, setImageName] = useState("");
+  const [selectedRoute, setSelectedRoute] = useState("");
+
+  const findRoute = (id) => {
+    const route = peak.routes.filter((route) => route._id === id);
+    if (!route) {
+      return;
+    }
+    setSelectedRoute(route[0]);
+  };
 
   const handleChange = ({ target: { name, value } }) => {
-    console.log("check", name, value);
+    if (name === "route") {
+      findRoute(value);
+    }
     setTripReportData({ ...tripReportData, [name]: value });
-    console.log("modal", tripReportData);
   };
 
   const setRating = (value) => {
@@ -30,34 +40,58 @@ const TripReport = ({ peak, close }) => {
     if (!authService.isLoggedIn) {
       return navigate("/login");
     }
-
+    console.log("pre send", tripReportData);
     const tripReport = {
       peakId: peak._id,
       routeId: tripReportData.route,
+      routeName: selectedRoute.name,
       userId: authService.id,
+      userName: authService.name,
+      peakName: peak.name,
       dateClimbed: tripReportData.date || "",
+      createdAt: Date.now(),
+      title: tripReportData.title,
       details: tripReportData.details || "",
-      rating: tripReportData.rating || 1,
+      rating: tripReportData.rating || 0,
       photos: [{ url: imageName }],
     };
     console.log("to send", tripReport);
 
     // check for valid fields then send post request
     const report = await postTripReport(tripReport);
+    if (!report) {
+      console.log("error!!");
+    }
     console.log("respon", report);
+    console.log("respond", report.data.success);
   };
   return (
     <Modal close={close} modalName={"Trip Report"}>
-      <form className={s.form} onSubmit={createTripReport}>
+      <div className={s.form}>
         <div>
-          <UploadImage setImageName={setImageName} />
+          <UploadImage
+            loggedIn={authService.isLoggedIn}
+            setImageName={setImageName}
+          />
         </div>
         <div>
           <h5>14er: {peak.name}</h5>
+          <label>
+            {" "}
+            Title:
+            <input
+              className={s.input}
+              name="title"
+              type="text"
+              onChange={handleChange}
+              required
+            />
+          </label>
           <label> Select a Route:</label>
           <select
             className={`${s.routeSelect} ${s.input}`}
             name="route"
+            autoFocus
             onChange={handleChange}
             required
           >
@@ -76,6 +110,7 @@ const TripReport = ({ peak, close }) => {
             type="date"
             pattern="\d{4}-\d{2}-\d{2}"
             onChange={handleChange}
+            required
           />
           <label className={s.tripReport}>
             Trip Report:
@@ -84,6 +119,7 @@ const TripReport = ({ peak, close }) => {
               className={`${s.details} ${s.input}`}
               name="details"
               onChange={handleChange}
+              required
             />
           </label>
           <label>Rating:</label>
@@ -94,14 +130,15 @@ const TripReport = ({ peak, close }) => {
           <input
             className={s.submitBtn}
             type="submit"
+            onClick={createTripReport}
             value={
               authService.isLoggedIn ? "post report" : "click here to login"
             }
           />
         </div>
-      </form>
+      </div>
     </Modal>
   );
 };
 
-export default TripReport;
+export default TripReportUpload;

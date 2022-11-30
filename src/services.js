@@ -241,8 +241,22 @@ export const postTripReport = async (tripReport) => {
   try {
     const response = await axios.post(REPORTS_URL, body, { headers });
     console.log(response);
-    return response;
+    if (response.status === 200) {
+      return response.data;
+    }
+    return response.data.data.success;
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getTripReports = async () => {
+  try {
+    const response = await axios.get(REPORTS_URL);
+
+    if (response.status === 200) {
+      console.log("report res", response);
+      return response.data;
+    }
+  } catch (error) {}
 };

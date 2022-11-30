@@ -4,6 +4,11 @@ button {
   outline: none;
   cursor: pointer;
 }
+
+button:focus {
+  color: #000;
+}
+
 .on {
   color: #000;
 }

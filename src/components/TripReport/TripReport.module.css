@@ -1,0 +1,16 @@
+.reportHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.imgContainer {
+  max-width: 300px;
+}
+
+.reportBody {
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
