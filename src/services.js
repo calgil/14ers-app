@@ -244,15 +244,15 @@ export const postTripReport = async (tripReport) => {
     if (response.status === 200) {
       return response.data;
     }
-    return response.data.data.success;
+    return response;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getTripReports = async () => {
+export const getTripReports = async (query = "") => {
   try {
-    const response = await axios.get(REPORTS_URL);
+    const response = await axios.get(`${REPORTS_URL}${query}`);
 
     if (response.status === 200) {
       console.log("report res", response);

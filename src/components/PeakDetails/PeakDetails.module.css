@@ -24,7 +24,7 @@
 
 .peakName,
 .peakPhoto {
-  margin-left: 100px;
+  margin-left: 4rem;
 }
 
 .peakName {
@@ -66,10 +66,11 @@
   align-items: center;
   justify-content: space-between;
   max-width: 1000px;
-  margin-left: 100px;
+  margin-left: 4rem;
   margin-top: 20px;
   background-color: #f4faff;
   border: 1px solid #333;
+  border-radius: 5px;
   padding: 15px;
 }
 
@@ -82,6 +83,11 @@
   border: 1px solid transparent;
   border-radius: 5px;
   font-size: 15px;
+}
+
+.reportsTable {
+  max-width: 1000px;
+  margin-left: 4rem;
 }
 
 .iconContainer {

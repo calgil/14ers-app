@@ -1,16 +1,28 @@
+.reportContainer {
+  margin-bottom: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding-top: 10px;
+}
+
 .reportHeader {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-.imgContainer {
-  max-width: 300px;
-}
-
 .reportBody {
   margin-left: 2rem;
+  margin-top: 20px;
   display: flex;
-  align-items: center;
   gap: 20px;
+}
+
+.imgContainer {
+  max-width: 300px;
+  margin-bottom: 15px;
+}
+
+.title {
+  margin-top: 0;
 }

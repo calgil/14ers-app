@@ -63,18 +63,18 @@ const TripReportUpload = ({ peak, close }) => {
       console.log("error!!");
     }
     console.log("respon", report);
-    console.log("respond", report.data.success);
+    console.log("respond", report.success);
   };
   return (
     <Modal close={close} modalName={"Trip Report"}>
       <div className={s.form}>
-        <div>
+        <div className={s.column}>
           <UploadImage
             loggedIn={authService.isLoggedIn}
             setImageName={setImageName}
           />
         </div>
-        <div>
+        <div className={s.column}>
           <h5>14er: {peak.name}</h5>
           <label>
             {" "}

@@ -7,10 +7,11 @@ import AddPhoto from "../Admin/AddPhoto/AddPhoto";
 import RouteTable from "../RouteTable/RouteTable";
 import StatsContainer from "../StatsContainer/StatsContainer";
 import AddToClimbLog from "../AddToClimbLog/AddToClimbLog";
-import { getPeakById } from "../../services";
+import { getPeakById, getTripReports } from "../../services";
 import { isNameInArray } from "../../utilities/isNameInArray";
 import addPeak from "../../assets/PeakDetails/addPeak.svg";
 import TripReportUpload from "../TripReportUpload/TripReportUpload";
+import TripReport from "../TripReport/TripReport";
 
 const PeakDetails = () => {
   const { authService } = useContext(UserContext);
@@ -24,9 +25,28 @@ const PeakDetails = () => {
   const [isClimbed, setIsClimbed] = useState(false);
 
   const [showTripReportModal, setShowTripReportModal] = useState(false);
+  const [reportTotal, setReportTotal] = useState(5);
+  const [reports, setReports] = useState([]);
 
   const isLoggedIn = authService.isLoggedIn;
   let { id } = useParams();
+
+  const buildQueryStr = (id) => {
+    if (!id) {
+      return;
+    }
+    return `?peakId=${id}&limit=${reportTotal}sort=dateClimbed`;
+  };
+
+  const fetchReports = () => {
+    getTripReports(buildQueryStr(id))
+      .then(setReports)
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -103,6 +123,12 @@ const PeakDetails = () => {
           </div>
           Add Trip Report
         </button>
+      </div>
+      <div className={s.reportsTable}>
+        {!!reports.length &&
+          reports.map((report) => (
+            <TripReport key={report._id} report={report} />
+          ))}
       </div>
 
       {showTripReportModal && (
