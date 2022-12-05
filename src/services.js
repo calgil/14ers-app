@@ -159,7 +159,7 @@ export const getAllPeaks = async () => {
   try {
     let response = await axios.get(PEAKS_URL);
     if (response.status === 200) {
-      const peaks = response.data.map((peak) => ({
+      const peaks = response.data.peaks.map((peak) => ({
         id: peak._id,
         name: peak.name,
         elevation: peak.elevation,
@@ -256,7 +256,7 @@ export const getTripReports = async (query = "") => {
 
     if (response.status === 200) {
       console.log("report res", response);
-      return response.data;
+      return response.data.reports;
     }
   } catch (error) {}
 };

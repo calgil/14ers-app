@@ -16,6 +16,15 @@ const TripReportUpload = ({ peak, close }) => {
   const [imageName, setImageName] = useState("");
   const [selectedRoute, setSelectedRoute] = useState("");
 
+  const [success, setSuccess] = useState({
+    show: false,
+    message: "Report posted!",
+  });
+  const [failure, setFailure] = useState({
+    show: false,
+    message: "Report posted!",
+  });
+
   const findRoute = (id) => {
     const route = peak.routes.filter((route) => route._id === id);
     if (!route) {
@@ -33,6 +42,16 @@ const TripReportUpload = ({ peak, close }) => {
 
   const setRating = (value) => {
     setTripReportData({ ...tripReportData, rating: value });
+  };
+
+  const checkBeforeSave = (tripReport) => {
+    // I want to iterate through the object here and return false if any key is empty
+  };
+
+  const closeModal = () => {
+    setTimeout(() => {
+      close();
+    }, 2000);
   };
 
   const createTripReport = async (event) => {
@@ -58,15 +77,25 @@ const TripReportUpload = ({ peak, close }) => {
     console.log("to send", tripReport);
 
     // check for valid fields then send post request
+    checkBeforeSave(tripReport);
     const report = await postTripReport(tripReport);
     if (!report) {
       console.log("error!!");
+      setFailure({ ...failure, show: true });
     }
+    setSuccess({ ...success, show: true });
+    closeModal();
     console.log("respon", report);
     console.log("respond", report.success);
+    console.log("success", success);
   };
   return (
-    <Modal close={close} modalName={"Trip Report"}>
+    <Modal
+      close={close}
+      modalName={"Trip Report"}
+      success={success}
+      failure={failure}
+    >
       <div className={s.form}>
         <div className={s.column}>
           <UploadImage

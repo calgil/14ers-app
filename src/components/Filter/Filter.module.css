@@ -1,23 +1,30 @@
 .filterContainer {
-  padding-bottom: 15px;
+  position: fixed;
+  max-width: 8rem;
+  margin-top: 20px;
+  margin-left: 10px;
+  padding-top: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+  z-index: 500;
+  background-color: #fff;
+  box-shadow: -6px 6px 10px 0 rgba(0, 0, 0, 0.75);
+  border-radius: 5px;
 }
 
-.resetBtn,
-.searchBtn {
+.resetBtn {
   background-color: rgb(38, 83, 43);
   color: white;
   padding: 4px 7px;
   border: 1px solid transparent;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .resetBtn {
   line-height: 1.6;
-  position: absolute;
   top: 15px;
   left: 50px;
 }
@@ -33,9 +40,12 @@
 }
 
 .filterRow {
-  padding: 3px 5px;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  text-align: center;
 }
 
 .filterRow:hover {
@@ -44,7 +54,6 @@
 
 .filterRow i {
   margin-right: 5px;
-  margin-left: 0;
 }
 
 .searchBar {
@@ -91,10 +100,6 @@
   border: 2px solid green;
 }
 
-.searchBtn {
-  margin-left: 2px;
-}
-
 .rangeContainer {
   max-width: 300px;
   margin: 0 auto;
@@ -103,9 +108,9 @@
   flex-wrap: wrap;
 }
 
-.rangeContainer .filterRow {
+/* .rangeContainer .filterRow {
   padding: 5px 10px;
-}
+} */
 
 .error {
   margin: 0 auto;

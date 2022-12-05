@@ -35,7 +35,7 @@ const PeakDetails = () => {
     if (!id) {
       return;
     }
-    return `?peakId=${id}&limit=${reportTotal}sort=dateClimbed`;
+    return `?peakId=${id}&limit=${reportTotal}&sort=-dateClimbed`;
   };
 
   const fetchReports = () => {
@@ -46,7 +46,7 @@ const PeakDetails = () => {
 
   useEffect(() => {
     fetchReports();
-  }, []);
+  }, [showTripReportModal]);
 
   useEffect(() => {
     setLoading(true);

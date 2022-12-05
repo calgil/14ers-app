@@ -7,7 +7,7 @@ import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
 import ResultInfo from "../ResultInfo/ResultInfo";
 import { UserContext } from "../../App";
-// import Filter from "../Filter/Filter";
+import Filter from "../Filter/Filter";
 
 const PeakContainer = () => {
   const { authService } = useContext(UserContext);
@@ -16,7 +16,7 @@ const PeakContainer = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  // const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [peaksPerPage, setPeaksPerPage] = useState(15);
 
@@ -50,11 +50,22 @@ const PeakContainer = () => {
         className={s.filterToggleBtn}
         onClick={() => setShowFilter(!showFilter)}
       >
-        {showFilter ? "Hide Filter" : "Show Filter"}
-      </button>
-      {showFilter && (
-        <Filter peaks={peaks} setSearchResults={setSearchResults} />
-      )} */}
+        {showFilter ? (
+          <div>
+            <i className="fa fa-chevron-left"></i> <span>Hide Filter</span>
+          </div>
+        ) : (
+          <div>
+            <i className="fa fa-chevron-right"></i>
+            <span>Show Filter</span>
+          </div>
+        )}
+      </button> */}
+      <Filter
+        peaks={peaks}
+        setSearchResults={setSearchResults}
+        reset={resetSearch}
+      />
       <div className={s.peakContainer}>
         <SearchBar
           searchResults={searchResults}
