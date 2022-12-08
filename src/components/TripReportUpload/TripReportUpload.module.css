@@ -59,3 +59,29 @@
   color: white;
   cursor: pointer;
 }
+
+.success,
+.failure {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+  text-align: center;
+  background-color: green;
+  font-weight: 600;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.failure {
+  background-color: red;
+}
+
+.success.show,
+.failure.show {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}

@@ -34,29 +34,3 @@
 .closeBtn:hover {
   opacity: 1;
 }
-
-.successMessage,
-.failureMessage {
-  display: none;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s linear 300ms, opacity 300ms;
-  text-align: center;
-  background-color: green;
-  font-weight: 600;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.failureMessage {
-  background-color: red;
-}
-
-.successMessage.show,
-.failureMessage.show {
-  display: block;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0s, opacity 300ms;
-}

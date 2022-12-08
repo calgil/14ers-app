@@ -3,7 +3,7 @@ import s from "./UploadImage.module.css";
 
 import { postPhoto, getPhotoUrl, deletePhoto } from "../../services";
 
-const UploadImage = ({ loggedIn, setImageName, error }) => {
+const UploadImage = ({ loggedIn, updateImage, error }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
 
@@ -27,7 +27,7 @@ const UploadImage = ({ loggedIn, setImageName, error }) => {
       const res = await getPhotoUrl(response.data.imageName);
       setImageUrl(res);
       setImage(response.data.imageName);
-      setImageName(response.data.imageName);
+      updateImage(response.data.imageName);
     }
   };
 

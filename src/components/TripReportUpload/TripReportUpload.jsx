@@ -56,6 +56,14 @@ const TripReportUpload = ({ peak, close }) => {
   const [success, setSuccess] = useState(INIT_SUCCESS);
   const [failure, setFailure] = useState(INIT_FAILURE);
 
+  const updateImage = (imgName) => {
+    if (!imgName.length) {
+      setPhotoError(true);
+    }
+    setImageName(imgName);
+    setPhotoError(false);
+  };
+
   const findRoute = (id) => {
     const route = peak.routes.filter((route) => route._id === id);
     if (!route) {
@@ -110,11 +118,14 @@ const TripReportUpload = ({ peak, close }) => {
   };
 
   const saveTripReport = async (data) => {
+    if (photoError) {
+      return;
+    }
     const report = await postTripReport(data);
     if (!report) {
-      return setFailure({ ...failure, show: true });
+      return setFailure((prevState) => ({ ...prevState, show: true }));
     }
-    setSuccess({ ...success, show: true });
+    setSuccess((prevState) => ({ ...prevState, show: true }));
     closeModal();
   };
 
@@ -147,21 +158,17 @@ const TripReportUpload = ({ peak, close }) => {
     if (isError) {
       return setShowInputError(true);
     }
+    console.log("sending!!");
     saveTripReport(tripReport);
   };
 
   return (
-    <Modal
-      close={close}
-      modalName={"Trip Report"}
-      success={success}
-      failure={failure}
-    >
+    <Modal close={close} modalName={"Trip Report"}>
       <div className={s.form}>
         <div className={s.column}>
           <UploadImage
             loggedIn={authService.isLoggedIn}
-            setImageName={setImageName}
+            updateImage={updateImage}
             error={photoError}
           />
         </div>
@@ -213,6 +220,12 @@ const TripReportUpload = ({ peak, close }) => {
             }
           />
         </div>
+      </div>
+      <div className={success.show ? `${s.success} ${s.show}` : `${s.success}`}>
+        {success.message}
+      </div>
+      <div className={failure.show ? `${s.failure} ${s.show}` : `${s.failure}`}>
+        {failure.message}
       </div>
     </Modal>
   );
