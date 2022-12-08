@@ -22,6 +22,10 @@ input[type="file"] {
   min-height: 300px;
 }
 
+.fileUpload.error {
+  border: 1px solid red;
+}
+
 .deleteBtn {
   position: absolute;
   left: 0;
@@ -49,4 +53,8 @@ input[type="file"] {
   position: relative;
   max-width: 300px;
   margin: 0 auto;
+}
+
+.errorMsg {
+  color: red;
 }

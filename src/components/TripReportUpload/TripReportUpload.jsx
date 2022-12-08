@@ -18,15 +18,6 @@ const INIT_FAILURE = {
   message: "Something went wrong",
 };
 
-const INIT_ERROR = {
-  photo: false,
-  route: false,
-  title: false,
-  date: false,
-  details: false,
-  rating: false,
-};
-
 const inputData = [
   {
     key: 1,
@@ -37,7 +28,7 @@ const inputData = [
   {
     key: 2,
     type: "date",
-    name: "date",
+    name: "dateClimbed",
     errorMsg: "Please enter a date",
   },
   {
@@ -48,7 +39,7 @@ const inputData = [
   },
 ];
 
-const INIT_REPORT = { title: "", date: "", details: "" };
+const INIT_REPORT = { title: "", dateClimbed: "", details: "" };
 
 const TripReportUpload = ({ peak, close }) => {
   const { authService } = useContext(UserContext);
@@ -59,7 +50,8 @@ const TripReportUpload = ({ peak, close }) => {
   const [selectedRoute, setSelectedRoute] = useState({ _id: "", name: "" });
 
   const [showInputError, setShowInputError] = useState(false);
-  const [inputError, setInputError] = useState(INIT_ERROR);
+  const [inputError, setInputError] = useState({});
+  const [photoError, setPhotoError] = useState(false);
 
   const [success, setSuccess] = useState(INIT_SUCCESS);
   const [failure, setFailure] = useState(INIT_FAILURE);
@@ -83,39 +75,32 @@ const TripReportUpload = ({ peak, close }) => {
     setTripReportData({ ...tripReportData, rating: value });
   };
 
-  const checkErrorBeforeSave = () => {
-    let isError = false;
-    Object.keys(tripReportData).forEach((key) => {
-      if (key === "photos" && !tripReportData[key][0].url) {
-        setInputError({ ...inputError, photos: true });
-        isError = true;
-      }
-      if (!tripReportData[key] || tripReportData[key].length === 0) {
-        setInputError({ ...inputError, [`${key}`]: true });
-        isError = true;
-      }
-    });
-    // Object.keys(data).forEach((key) => {
-    //   if (key === "photos" && !data[key][0].url) {
-    //     console.log("check photo");
-    //     // return (errorObj = { ...errorObj, [key]: "Required" });
-    //     setInputError({ ...inputError, [key]: "Required" });
-    //     return console.log("in photo", inputError);
-    //   }
-    //   if (!data[key] || data[key].length === 0) {
-    //     console.log("empty val", key);
-    //     setInputError({ ...inputError, [key]: "Required" });
-    //     // errorObj = { ...errorObj, [key]: "Required" };
-    //     isError = true;
-    //   }
-    // });
-    // setInputError({ ...errorObj });
-    console.log("ahhhhhh!!!", inputError);
-    return isError;
+  const checkPhoto = () => {
+    if (!imageName.length) {
+      return setPhotoError(true);
+    }
+    setPhotoError(false);
   };
 
-  const handleBlur = () => {
-    // check error
+  const updateError = (key, value) => {
+    setInputError((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  const checkErrorBeforeSave = (data) => {
+    let isError = false;
+    Object.keys(data).forEach((key) => {
+      if (!data[key] || data[key].length === 0) {
+        updateError(key, true);
+        isError = true;
+      }
+      if (data[key]) {
+        updateError(key, false);
+      }
+    });
+    return isError;
   };
 
   const closeModal = () => {
@@ -131,9 +116,6 @@ const TripReportUpload = ({ peak, close }) => {
     }
     setSuccess({ ...success, show: true });
     closeModal();
-    console.log("respon", report);
-    console.log("respond", report.success);
-    console.log("success", success);
   };
 
   const createTripReport = (event) => {
@@ -142,9 +124,9 @@ const TripReportUpload = ({ peak, close }) => {
       return navigate("/login");
     }
     if (!selectedRoute) {
-      console.log("bad route");
-      setInputError({ ...inputError, route: true });
+      return updateError("route", true);
     }
+    checkPhoto();
 
     const tripReport = {
       peakId: peak._id,
@@ -153,21 +135,19 @@ const TripReportUpload = ({ peak, close }) => {
       userId: authService.id,
       userName: authService.name,
       peakName: peak.name,
-      dateClimbed: tripReportData.date || "",
+      dateClimbed: tripReportData.dateClimbed || "",
       createdAt: Date.now(),
       title: tripReportData.title,
       details: tripReportData.details || "",
       rating: tripReportData.rating || 0,
-      photos: [{ url: imageName }],
+      photos: [{ url: imageName || "" }],
     };
-    console.log("to send", tripReport);
 
     const isError = checkErrorBeforeSave(tripReport);
     if (isError) {
-      setShowInputError(true);
-      return console.log("there is an error! Check values", inputError);
+      return setShowInputError(true);
     }
-    // saveTripReport(tripReport);
+    saveTripReport(tripReport);
   };
 
   return (
@@ -182,13 +162,19 @@ const TripReportUpload = ({ peak, close }) => {
           <UploadImage
             loggedIn={authService.isLoggedIn}
             setImageName={setImageName}
+            error={photoError}
           />
         </div>
         <div className={s.column}>
           <h5>14er: {peak.name}</h5>
           <label> Select a Route:</label>
+          {inputError.routeName && (
+            <div className={s.errorMsg}>Route is required</div>
+          )}
           <select
-            className={`${s.routeSelect} ${s.input}`}
+            className={
+              inputError.routeName ? `${s.input} ${s.error}` : `${s.input}`
+            }
             name="route"
             autoFocus
             onChange={handleChange}
@@ -209,13 +195,14 @@ const TripReportUpload = ({ peak, close }) => {
               onChange={handleChange}
               error={inputError[data.name]}
               showError={showInputError}
-              // onBlur={checkErrorBeforeSave}
             />
           ))}
           <label>Rating:</label>
           <StarRating
             rating={tripReportData.rating || 0}
             setRating={setRating}
+            showError={showInputError}
+            error={inputError["rating"] || false}
           />
           <input
             className={s.submitBtn}

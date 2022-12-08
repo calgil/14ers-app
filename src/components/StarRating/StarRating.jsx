@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import s from "./StarRating.module.css";
 
-const StarRating = ({ rating, setRating }) => {
+const StarRating = ({ rating, setRating, showError, error }) => {
   const [hover, setHover] = useState(0);
   return (
     <div>
+      {showError && error && <div className={s.errorMsg}>Rating required</div>}
       {[...Array(5)].map((star, i) => {
         i += 1;
         return (
