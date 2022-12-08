@@ -108,7 +108,6 @@ const UserLogin = () => {
     <>
       <form className={s.loginBody} onBlur={handleBlur} onSubmit={loginUser}>
         <h3 className={s.header}>Welcome Back!</h3>
-        <p className={s.instructions}>Enter your email and password</p>
         {showErrorMsg && <div className={s.errorMsg}>{errorMsg}</div>}
         {inputData.map((data) => (
           <InputBase
