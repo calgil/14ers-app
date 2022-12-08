@@ -207,7 +207,7 @@ const TripReportUpload = ({ peak, close }) => {
               key={data.key}
               data={data}
               onChange={handleChange}
-              error={!inputError[data.name]}
+              error={inputError[data.name]}
               showError={showInputError}
               // onBlur={checkErrorBeforeSave}
             />
