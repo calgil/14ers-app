@@ -1,0 +1,52 @@
+.peakSelector {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.dropdownBtn {
+  position: absolute;
+  right: 10px;
+  top: 45px;
+  transition: all 200ms ease-in-out;
+}
+
+.dropdownBtn:hover {
+  font-size: 18px;
+}
+
+.inputBase {
+  display: block;
+  width: 100%;
+  line-height: 1.6;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 15px 10px;
+  border-radius: 5px;
+  border: 1px solid #333;
+}
+
+.dropdown {
+  position: absolute;
+  top: 90px;
+  width: 100%;
+  visibility: hidden;
+  max-height: 200px;
+  background-color: white;
+  z-index: 500;
+  overflow-y: scroll;
+}
+
+.dropdown.show {
+  visibility: initial;
+}
+
+.peakName {
+  border-bottom: 1px solid #333;
+  padding: 5px 0;
+  padding-left: 2px;
+}
+
+.peakName:hover {
+  background-color: rgb(31, 74, 40);
+  color: white;
+}

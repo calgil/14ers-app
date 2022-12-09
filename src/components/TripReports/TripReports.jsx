@@ -3,11 +3,13 @@ import s from "./TripReports.module.css";
 import { getTripReports } from "../../services";
 import TripReport from "../TripReport/TripReport";
 import TripReportUpload from "../TripReportUpload/TripReportUpload";
-import Modal from "../Modal/Modal";
+import PeakSelector from "../PeakSelector/PeakSelector";
 
 const TripReports = () => {
+  const [selectedPeak, setSelectedPeak] = useState({});
+
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const [reports, setReports] = useState([]);
-  const [showTripReportModal, setShowTripReportModal] = useState(false);
 
   useEffect(() => {
     getTripReports()
@@ -15,43 +17,31 @@ const TripReports = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleClick = () => {
-    setShowTripReportModal(true);
-    console.log("click", showTripReportModal);
+  const openModal = () => {
+    setShowUploadModal(true);
   };
 
-  const handleNameChange = ({ target: { value } }) => {
-    console.log("new name", value);
+  const closeModal = () => {
+    setShowUploadModal(!showUploadModal);
+  };
+
+  const updatePeak = (peak) => {
+    if (!peak) {
+      return;
+    }
+    console.log("update", peak);
+    setSelectedPeak(peak);
   };
 
   return (
     <div className={s.tripReports}>
-      <button onClick={handleClick} className={s.addReportBtn}>
+      <button onClick={openModal} className={s.addReportBtn}>
         Add new report
       </button>
-      {/* <Modal
-      close={close}
-      modalName={"Trip Report"}
-      success={success}
-      failure={failure}
-    ></Modal> */}
-      {showTripReportModal && (
-        <Modal
-          modalName={"Peak Name"}
-          close={() => setShowTripReportModal(!false)}
-          success={{ show: false, successMessage: "Success" }}
-          failure={{ show: false, failureMessage: "Failure" }}
-        >
-          <input
-            type="text"
-            placeholder="enter peak name"
-            onChange={handleNameChange}
-          />
-        </Modal>
-        // <TripReportUpload
-        //   // peak={peak}
-        //   close={() => setShowTripReportModal(!showTripReportModal)}
-        // />
+      {showUploadModal && (
+        <TripReportUpload peak={selectedPeak} close={closeModal}>
+          <PeakSelector updatePeak={updatePeak} />
+        </TripReportUpload>
       )}
       {!!reports.length && (
         <div className={s.reportTable}>

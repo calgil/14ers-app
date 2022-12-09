@@ -45,6 +45,9 @@ const PeakDetails = () => {
   };
 
   useEffect(() => {
+    if (showTripReportModal) {
+      return;
+    }
     fetchReports();
   }, [showTripReportModal]);
 
@@ -135,6 +138,7 @@ const PeakDetails = () => {
         <TripReportUpload
           peak={peak}
           close={() => setShowTripReportModal(!showTripReportModal)}
+          children={[]}
         />
       )}
     </div>

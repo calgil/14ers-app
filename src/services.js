@@ -167,7 +167,6 @@ export const getAllPeaks = async () => {
         range: peak.range,
         rank: peak.rank,
         photos: peak.photos,
-        imageUrl: peak.imageUrl,
         numberOfRoutes: peak.routes.length,
         routes: peak.routes,
       }));

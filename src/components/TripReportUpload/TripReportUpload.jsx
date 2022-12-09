@@ -41,7 +41,7 @@ const inputData = [
 
 const INIT_REPORT = { title: "", dateClimbed: "", details: "" };
 
-const TripReportUpload = ({ peak, close }) => {
+const TripReportUpload = ({ children, peak, close }) => {
   const { authService } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -64,18 +64,30 @@ const TripReportUpload = ({ peak, close }) => {
     setPhotoError(false);
   };
 
-  const findRoute = (id) => {
-    const route = peak.routes.filter((route) => route._id === id);
+  // const findRoute = (id) => {
+  //   if (!id.length) {
+  //     return;
+  //   }
+  //   const route = peak.routes.filter((route) => route._id === id);
+  //   if (!route) {
+  //     return;
+  //   }
+  //   setSelectedRoute(route[0]);
+  // };
+
+  const changeRoute = ({ target: { value } }) => {
+    if (!value.length) {
+      return;
+    }
+    const route = peak.routes.find((route) => route._id === value);
+    console.log("route!", route);
     if (!route) {
       return;
     }
-    setSelectedRoute(route[0]);
+    setSelectedRoute(route);
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    if (name === "route") {
-      return findRoute(value);
-    }
     setTripReportData({ ...tripReportData, [name]: value });
   };
 
@@ -140,22 +152,23 @@ const TripReportUpload = ({ peak, close }) => {
     checkPhoto();
 
     const tripReport = {
-      peakId: peak._id,
+      peakId: peak.id || peak._id,
       routeId: selectedRoute._id,
       routeName: selectedRoute.name,
       userId: authService.id,
       userName: authService.name,
       peakName: peak.name,
-      dateClimbed: tripReportData.dateClimbed || "",
+      dateClimbed: tripReportData.dateClimbed ?? "",
       createdAt: Date.now(),
       title: tripReportData.title,
-      details: tripReportData.details || "",
-      rating: tripReportData.rating || 0,
-      photos: [{ url: imageName || "" }],
+      details: tripReportData.details ?? "",
+      rating: tripReportData.rating ?? 0,
+      photos: [{ url: imageName ?? "" }],
     };
 
     const isError = checkErrorBeforeSave(tripReport);
     if (isError) {
+      console.log("error no send", tripReport);
       return setShowInputError(true);
     }
     console.log("sending!!");
@@ -173,8 +186,8 @@ const TripReportUpload = ({ peak, close }) => {
           />
         </div>
         <div className={s.column}>
-          <h5>14er: {peak.name}</h5>
-          <label> Select a Route:</label>
+          {children}
+          <label className={s.routeLabel}> Select a Route</label>
           {inputError.routeName && (
             <div className={s.errorMsg}>Route is required</div>
           )}
@@ -184,16 +197,25 @@ const TripReportUpload = ({ peak, close }) => {
             }
             name="route"
             autoFocus
-            onChange={handleChange}
+            onChange={changeRoute}
             required
           >
-            <option value="">Please Choose a route</option>
-            {peak.routes.map((route) => (
-              <option key={route._id} value={route._id}>
-                {capitalizeFirstLetters(route.name)}
-              </option>
-            ))}
-            <option value="other">Other</option>
+            {peak.routes ? (
+              <option value="">Please Choose a route</option>
+            ) : (
+              <option value="">Please Choose Peak</option>
+            )}
+
+            {peak.routes
+              ? peak.routes.map((route) => (
+                  <option key={route._id} value={route._id}>
+                    {capitalizeFirstLetters(route.name)}
+                  </option>
+                ))
+              : ""}
+            {/* <option value="other">
+              Other (please don't click me) future feature
+            </option> */}
           </select>
           {inputData.map((data) => (
             <InputBase
