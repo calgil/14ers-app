@@ -8,8 +8,6 @@ const UploadImage = ({ loggedIn, updateImage, error }) => {
   const [image, setImage] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [failure, setFailure] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const deleteFromS3 = async () => {
@@ -32,7 +30,7 @@ const UploadImage = ({ loggedIn, updateImage, error }) => {
       setProgress(progress);
     });
     if (response.status !== 200) {
-      setFailure(true);
+      return console.log("Something went wrong.", response.status);
     }
     const res = await getPhotoUrl(response.data.imageName);
     setImageUrl(res);
