@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./PeakContainer.module.css";
 import { getAllPeaks } from "../../services";
 import ErrorPage from "../ErrorPage/ErrorPage";
@@ -6,18 +6,16 @@ import Peaks from "../Peaks/Peaks";
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
 import ResultInfo from "../ResultInfo/ResultInfo";
-import { UserContext } from "../../App";
 import Filter from "../Filter/Filter";
 
 const PeakContainer = () => {
-  const { authService } = useContext(UserContext);
-
   const [peaks, setPeaks] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [peaksPerPage, setPeaksPerPage] = useState(15);
+  const [peaksPerPage] = useState(15);
+  // const [peaksPerPage, setPeaksPerPage] = useState(15);
 
   useEffect(() => {
     setLoading(true);
