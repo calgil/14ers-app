@@ -16,7 +16,6 @@ const PeakContainer = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [showFilter, setShowFilter] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [peaksPerPage, setPeaksPerPage] = useState(15);
 
@@ -46,33 +45,20 @@ const PeakContainer = () => {
   const currentPeaks = searchResults.slice(indexOfFirstPeak, indexOfLastPeak);
   return (
     <>
-      {/* <button
-        className={s.filterToggleBtn}
-        onClick={() => setShowFilter(!showFilter)}
-      >
-        {showFilter ? (
-          <div>
-            <i className="fa fa-chevron-left"></i> <span>Hide Filter</span>
-          </div>
-        ) : (
-          <div>
-            <i className="fa fa-chevron-right"></i>
-            <span>Show Filter</span>
-          </div>
-        )}
-      </button> */}
-      <Filter
-        peaks={peaks}
-        setSearchResults={setSearchResults}
-        reset={resetSearch}
-      />
       <div className={s.peakContainer}>
-        <SearchBar
-          searchResults={searchResults}
-          setSearchResults={setSearchResults}
-          resetSearch={resetSearch}
-          setCurrentPage={setCurrentPage}
-        />
+        <div className={s.filter}>
+          <SearchBar
+            searchResults={searchResults}
+            setSearchResults={setSearchResults}
+            resetSearch={resetSearch}
+            setCurrentPage={setCurrentPage}
+          />
+          <Filter
+            peaks={peaks}
+            setSearchResults={setSearchResults}
+            reset={resetSearch}
+          />
+        </div>
         <ResultInfo
           startIndex={indexOfFirstPeak}
           endIndex={indexOfLastPeak}

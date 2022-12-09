@@ -1,32 +1,32 @@
 .filterContainer {
-  position: fixed;
-  max-width: 8rem;
-  margin-top: 20px;
-  margin-left: 10px;
-  padding-top: 10px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 500;
-  background-color: #fff;
-  box-shadow: -6px 6px 10px 0 rgba(0, 0, 0, 0.75);
-  border-radius: 5px;
+  width: 100%;
 }
 
-.resetBtn {
+.resetBtn,
+.sortElevationBtn {
   background-color: rgb(38, 83, 43);
   color: white;
   padding: 4px 7px;
   border: 1px solid transparent;
   border-radius: 5px;
   margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.btnText {
+  margin-right: 5px;
 }
 
 .resetBtn {
-  line-height: 1.6;
-  top: 15px;
-  left: 50px;
+  margin-left: 10px;
+}
+
+.resetBtn:focus,
+.sortElevationBtn:focus {
+  color: white;
 }
 
 .filter {

@@ -2,119 +2,82 @@ import React, { useState } from "react";
 import s from "./Filter.module.css";
 
 const Filter = ({ peaks, setSearchResults, reset }) => {
-  const [showFilter, setShowFilter] = useState(true);
-  const [filterBy, setFilterBy] = useState([]);
+  const [isDescending, setIsDescending] = useState(true);
 
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const filterElevation = (str) => {
-    setError(false);
-    if (str === "ascending") {
-      const sortedPeaks = [...peaks].sort(
-        (a, b) => +a.elevation - +b.elevation
-      );
-      setSearchResults(sortedPeaks);
-    }
-    if (str === "descending") {
+  const filterElevation = () => {
+    if (isDescending) {
       const sortedPeaks = [...peaks].sort(
         (a, b) => +b.elevation - +a.elevation
       );
-      setSearchResults(sortedPeaks);
+      return setSearchResults(sortedPeaks);
     }
+    const sortedPeaks = [...peaks].sort((a, b) => +a.elevation - +b.elevation);
+    setSearchResults(sortedPeaks);
   };
 
-  const addFilter = (str) => {
-    filterBy.includes(str)
-      ? console.log("already here")
-      : setFilterBy([...filterBy, str]);
-    console.log("filter by ", filterBy);
+  const handleSort = () => {
+    setIsDescending(!isDescending);
+    filterElevation();
   };
 
-  const filterRange = (str) => {
-    addFilter(str);
+  const filterRange = ({ target: { value } }) => {
     const filteredResults = [...peaks].filter((peak) => {
-      peak.range.toLowerCase().includes(str.toLowerCase());
+      return peak.range.toLowerCase().includes(value.toLowerCase());
     });
     setSearchResults(filteredResults);
   };
 
   return (
     <>
-      <button
-        className={s.filterToggleBtn}
-        onClick={() => setShowFilter(!showFilter)}
-      >
-        {showFilter ? (
-          <div>
-            <i className="fa fa-chevron-left"></i> <span>Hide Filter</span>
-          </div>
-        ) : (
-          <div>
-            <i className="fa fa-chevron-right"></i>
-            <span>Show Filter</span>
-          </div>
-        )}
-      </button>
-      {showFilter && (
-        <div className={s.filterContainer}>
-          <button className={s.resetBtn} onClick={reset}>
-            Reset Search
-          </button>
-          <div className={s.filter}>
-            <h5 className={s.filterHeader}>Elevation</h5>
-            <div
-              onClick={() => filterElevation("descending")}
+      <div className={s.filterContainer}>
+        <div className={s.filter}>
+          <h5 className={s.filterHeader}>Range</h5>
+          <div className={s.rangeContainer}>
+            <button value={"elk"} className={s.filterRow} onClick={filterRange}>
+              Elk
+            </button>
+            <button
+              value={"front"}
               className={s.filterRow}
+              onClick={filterRange}
             >
-              <i className="fa fa-caret-up"></i>
-              <span>Tallest First</span>
-            </div>
-            <div
+              Front
+            </button>
+            <button
+              value={"sangre de cristo"}
               className={s.filterRow}
-              onClick={() => filterElevation("ascending")}
+              onClick={filterRange}
             >
-              <i className="fa fa-caret-down"></i>
-              <span>Shortest First</span>
-            </div>
+              Sangre de Cristo
+            </button>
+            <button
+              value={"sawatch"}
+              className={s.filterRow}
+              onClick={filterRange}
+            >
+              Sawatch
+            </button>
+            <button
+              value={"san juan"}
+              className={s.filterRow}
+              onClick={filterRange}
+            >
+              San Juan
+            </button>
           </div>
-          <div className={s.filter}>
-            <h5 className={s.filterHeader}>Range</h5>
-            <div className={s.rangeContainer}>
-              <span className={s.filterRow} onClick={() => filterRange("elk")}>
-                Elk
-              </span>
-              <span
-                className={s.filterRow}
-                onClick={() => filterRange("front")}
-              >
-                Front
-              </span>
-              <span
-                className={s.filterRow}
-                onClick={() => filterRange("sangre de cristo")}
-              >
-                Sangre de Cristo
-              </span>
-              <span
-                className={s.filterRow}
-                onClick={() => filterRange("sawatch")}
-              >
-                Sawatch
-              </span>
-              <span
-                className={s.filterRow}
-                onClick={() => filterRange("san juan")}
-              >
-                San Juan
-              </span>
-            </div>
-          </div>
-          <div className={s.searchBar}></div>
         </div>
-      )}
-
-      {error && <div className={s.error}>{errorMsg}</div>}
+        <button className={s.sortElevationBtn} onClick={handleSort}>
+          <span className={s.btnText}>Elevation</span>
+          {isDescending ? (
+            <i className="fa fa-caret-up"></i>
+          ) : (
+            <i className="fa fa-caret-down"></i>
+          )}
+        </button>
+        <button className={s.resetBtn} onClick={reset}>
+          Reset
+        </button>
+      </div>
     </>
   );
 };
