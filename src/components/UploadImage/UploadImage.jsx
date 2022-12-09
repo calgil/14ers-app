@@ -7,32 +7,53 @@ const UploadImage = ({ loggedIn, updateImage, error }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [failure, setFailure] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [progress, setProgress] = useState(0);
+
   const deleteFromS3 = async () => {
-    console.log("delete image", image);
     const response = await deletePhoto(image);
     if (response.status === 200) {
-      console.log("delete from s3", response);
       setImage("");
       setImageUrl("");
+      setProgress(0);
     }
   };
 
   const uploadPhoto = async (e) => {
+    setLoading(true);
     const file = e.target.files[0];
-    console.log("upload fiel", file);
 
-    const response = await postPhoto(file);
-    console.log("post photo res", response);
-    if (response.status === 200) {
-      const res = await getPhotoUrl(response.data.imageName);
-      setImageUrl(res);
-      setImage(response.data.imageName);
-      updateImage(response.data.imageName);
+    const response = await postPhoto(file, function (progressEvent) {
+      const progress = Math.round(
+        (progressEvent.loaded / progressEvent.total) * 100
+      );
+      setProgress(progress);
+    });
+    if (response.status !== 200) {
+      setFailure(true);
     }
+    const res = await getPhotoUrl(response.data.imageName);
+    setImageUrl(res);
+    setImage(response.data.imageName);
+    updateImage(response.data.imageName);
+    setLoading(false);
   };
 
   return (
     <div className={s.uploadContainer}>
+      {loading && (
+        <div className={s.progress}>
+          <div
+            className={s.progressBar}
+            role="progressbar"
+            style={{ width: `${progress}%` }}
+          >
+            {progress}%
+          </div>
+        </div>
+      )}
       {imageUrl ? (
         <div className={s.imgPreview}>
           <div className={s.imageContainer}>

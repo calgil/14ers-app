@@ -45,6 +45,19 @@ input[type="file"] {
   padding: 8px;
 }
 
+.progress {
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  position: absolute;
+  top: 180px;
+}
+
+.progressBar {
+  background-color: lightgreen;
+  border-radius: 5px;
+}
+
 .imgPreview i {
   margin-left: 5px;
 }

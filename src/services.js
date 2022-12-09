@@ -191,7 +191,7 @@ export const getPeakById = async (id) => {
   }
 };
 
-export const postPhoto = async (image) => {
+export const postPhoto = async (image, onProgress) => {
   const body = new FormData();
   body.append("image", image);
   const headers = {
@@ -201,6 +201,7 @@ export const postPhoto = async (image) => {
   try {
     const response = await axios.post(PHOTO_URL, body, {
       headers,
+      onUploadProgress: onProgress,
     });
 
     if (response.status === 200) {
