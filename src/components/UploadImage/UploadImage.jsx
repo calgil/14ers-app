@@ -3,7 +3,7 @@ import s from "./UploadImage.module.css";
 
 import { postPhoto, getPhotoUrl, deletePhoto } from "../../services";
 
-const UploadImage = ({ loggedIn, updateImage, error }) => {
+const UploadImage = ({ loggedIn, updateImage, showError, error }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
 
@@ -64,7 +64,11 @@ const UploadImage = ({ loggedIn, updateImage, error }) => {
         </div>
       ) : (
         <label
-          className={error ? `${s.fileUpload} ${s.error}` : `${s.fileUpload}`}
+          className={
+            error && showError
+              ? `${s.fileUpload} ${s.error}`
+              : `${s.fileUpload}`
+          }
         >
           <i className="fa fa-upload"></i>
           <br />
@@ -73,7 +77,9 @@ const UploadImage = ({ loggedIn, updateImage, error }) => {
           ) : (
             <span>Login to add photos</span>
           )}
-          {error && <span className={s.errorMsg}>Photo required</span>}
+          {error && showError && (
+            <span className={s.errorMsg}>Photo required</span>
+          )}
           <input
             type="file"
             name="photo"

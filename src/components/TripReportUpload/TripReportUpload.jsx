@@ -51,7 +51,7 @@ const TripReportUpload = ({ children, peak, close }) => {
 
   const [showInputError, setShowInputError] = useState(false);
   const [inputError, setInputError] = useState({});
-  const [photoError, setPhotoError] = useState(false);
+  const [photoError, setPhotoError] = useState(true);
 
   const [success, setSuccess] = useState(INIT_SUCCESS);
   const [failure, setFailure] = useState(INIT_FAILURE);
@@ -63,17 +63,6 @@ const TripReportUpload = ({ children, peak, close }) => {
     setImageName(imgName);
     setPhotoError(false);
   };
-
-  // const findRoute = (id) => {
-  //   if (!id.length) {
-  //     return;
-  //   }
-  //   const route = peak.routes.filter((route) => route._id === id);
-  //   if (!route) {
-  //     return;
-  //   }
-  //   setSelectedRoute(route[0]);
-  // };
 
   const changeRoute = ({ target: { value } }) => {
     if (!value.length) {
@@ -167,7 +156,7 @@ const TripReportUpload = ({ children, peak, close }) => {
     };
 
     const isError = checkErrorBeforeSave(tripReport);
-    if (isError) {
+    if (isError || photoError) {
       console.log("error no send", tripReport);
       return setShowInputError(true);
     }
@@ -182,6 +171,7 @@ const TripReportUpload = ({ children, peak, close }) => {
           <UploadImage
             loggedIn={authService.isLoggedIn}
             updateImage={updateImage}
+            showError={showInputError}
             error={photoError}
           />
         </div>
