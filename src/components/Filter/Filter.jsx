@@ -20,19 +20,19 @@ const Filter = ({ peaks, setSearchResults, reset }) => {
     filterElevation();
   };
 
-  const filterRange = ({ target: { value } }) => {
-    const filteredResults = [...peaks].filter((peak) => {
-      return peak.range.toLowerCase().includes(value.toLowerCase());
-    });
-    setSearchResults(filteredResults);
-  };
+  // const filterRange = ({ target: { value } }) => {
+  //   const filteredResults = [...peaks].filter((peak) => {
+  //     return peak.range.toLowerCase().includes(value.toLowerCase());
+  //   });
+  //   setSearchResults(filteredResults);
+  // };
 
   return (
     <>
       <div className={s.filterContainer}>
         <div className={s.filter}>
-          <h5 className={s.filterHeader}>Range</h5>
-          <div className={s.rangeContainer}>
+          {/* <h5 className={s.filterHeader}>Range</h5> */}
+          {/* <div className={s.rangeContainer}>
             <button value={"elk"} className={s.filterRow} onClick={filterRange}>
               Elk
             </button>
@@ -64,7 +64,7 @@ const Filter = ({ peaks, setSearchResults, reset }) => {
             >
               San Juan
             </button>
-          </div>
+          </div> */}
         </div>
         <button className={s.sortElevationBtn} onClick={handleSort}>
           <span className={s.btnText}>Elevation</span>

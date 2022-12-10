@@ -253,10 +253,34 @@ export const postTripReport = async (tripReport) => {
 export const getTripReports = async (query = "") => {
   try {
     const response = await axios.get(`${REPORTS_URL}${query}`);
-
     if (response.status === 200) {
-      console.log("report res", response);
       return response.data.reports;
     }
   } catch (error) {}
+};
+
+export const updateTripReport = async (id, data) => {
+  console.log("update!!", id, data);
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const body = data;
+  try {
+    const response = await axios.put(`${REPORTS_URL}/${id}`, body, { headers });
+    if (response.status === 200) {
+      return response.success;
+    }
+    return response.success;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTripReport = async (id) => {
+  try {
+    const response = await axios.delete(`${REPORTS_URL}/${id}`);
+    console.log("delete res", response);
+  } catch (error) {
+    console.error(error);
+  }
 };

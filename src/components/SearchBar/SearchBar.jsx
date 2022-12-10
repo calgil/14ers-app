@@ -1,64 +1,51 @@
 import React, { useState } from "react";
 import s from "./SearchBar.module.css";
 
-const SearchBar = ({
-  searchResults,
-  setSearchResults,
-  resetSearch,
-  setCurrentPage,
-}) => {
-  const [searchInput, setSearchInput] = useState("");
+const SearchBar = ({ searchResults, setSearchResults, resetSearch, type }) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const clearSearch = () => {
-    setSearchInput("");
     setError(false);
     resetSearch();
   };
 
-  const handleChange = (e) => {
-    const input = e.target.value.toLowerCase();
-    setSearchInput(input);
-  };
-
-  const filterResults = (e) => {
-    e.preventDefault();
-    if (!searchInput.length) {
+  const filterResults = (input) => {
+    if (!input.length) {
       return clearSearch();
     }
-    const result = searchResults.filter(
-      (peak) =>
-        peak.name.toLowerCase().includes(searchInput) ||
-        peak.range.toLowerCase().includes(searchInput)
+    const result = searchResults.filter((item) =>
+      item[type].toLowerCase().includes(input)
     );
     if (!result.length) {
       setError(true);
-      setErrorMsg(`No results matching ${searchInput}`);
+      setErrorMsg(`No results matching ${input}`);
       return;
     }
-    setCurrentPage(1);
     setSearchResults(result);
   };
+
+  const handleChange = (e) => {
+    const input = e.target.value.toLowerCase();
+    filterResults(input);
+  };
+
   return (
     <div className={s.searchContainer}>
-      <form className={s.searchForm} onSubmit={filterResults}>
-        <div className={s.searchBar}>
-          <i className={`fa fa-search ${s.searchIcon}`}></i>
-          <input
-            onChange={handleChange}
-            value={searchInput}
-            className={s.search}
-            type="text"
-            placeholder="Peak Name or Range"
-          />
-          <i
-            onClick={clearSearch}
-            className={`fa fa-times-circle-o ${s.closeIcon}`}
-          ></i>
-        </div>
-        <input className={s.searchBtn} type="submit" value="Search" />
-      </form>
+      <div className={s.searchBar}>
+        <i className={`fa fa-search ${s.searchIcon}`}></i>
+        <input
+          onChange={handleChange}
+          className={s.search}
+          type="text"
+          placeholder="Peak Name"
+        />
+        <i
+          onClick={clearSearch}
+          className={`fa fa-times-circle-o ${s.closeIcon}`}
+        ></i>
+      </div>
+      <input className={s.searchBtn} type="submit" value="Search" />
       {error && <div className={s.error}>{errorMsg}</div>}
     </div>
   );

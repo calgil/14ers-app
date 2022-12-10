@@ -29,6 +29,10 @@
   color: white;
 }
 
+.sortElevationBtn i {
+  display: inline;
+}
+
 .filter {
   margin: 0 20px;
 }

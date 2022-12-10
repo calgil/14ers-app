@@ -1,8 +1,5 @@
 .searchContainer {
   width: 100%;
-}
-
-.searchForm {
   display: flex;
   align-items: center;
 }
@@ -10,6 +7,7 @@
 .searchBar {
   position: relative;
   width: 100%;
+  max-width: 600px;
 }
 
 .searchBar i {

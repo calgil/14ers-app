@@ -33,6 +33,7 @@ const PeakContainer = () => {
   }, [peaks]);
 
   const resetSearch = () => {
+    setCurrentPage(1);
     setSearchResults(peaks);
   };
 
@@ -47,9 +48,11 @@ const PeakContainer = () => {
         <div className={s.filter}>
           <SearchBar
             searchResults={searchResults}
+            // refactor !! don't pass the setter into this function
+            // this will give you a chance to debug the range filter
             setSearchResults={setSearchResults}
             resetSearch={resetSearch}
-            setCurrentPage={setCurrentPage}
+            type="name"
           />
           <Filter
             peaks={peaks}
@@ -62,11 +65,8 @@ const PeakContainer = () => {
           endIndex={indexOfLastPeak}
           total={searchResults.length}
         />
-        {error ? (
-          <ErrorPage />
-        ) : (
-          <Peaks loading={loading} peaks={currentPeaks} />
-        )}
+        {error && <ErrorPage />}
+        {!error && <Peaks loading={loading} peaks={currentPeaks} />}
         <Pagination
           peaksPerPage={peaksPerPage}
           totalPeaks={searchResults.length}

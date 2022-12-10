@@ -4,18 +4,36 @@ import { getTripReports } from "../../services";
 import TripReport from "../TripReport/TripReport";
 import TripReportUpload from "../TripReportUpload/TripReportUpload";
 import PeakSelector from "../PeakSelector/PeakSelector";
+import SearchBar from "../SearchBar/SearchBar";
 
 const TripReports = () => {
-  const [selectedPeak, setSelectedPeak] = useState({});
-
-  const [showUploadModal, setShowUploadModal] = useState(false);
   const [reports, setReports] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
-  useEffect(() => {
+  const [selectedPeak, setSelectedPeak] = useState({});
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const getNewReports = () => {
     getTripReports()
       .then(setReports)
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    getNewReports();
   }, []);
+
+  const updateSearchResults = (data) => {
+    setSearchResults(data);
+  };
+
+  useEffect(() => {
+    updateSearchResults(reports);
+  }, [reports]);
+
+  const resetSearch = () => {
+    setSearchResults(reports);
+  };
 
   const openModal = () => {
     setShowUploadModal(true);
@@ -29,24 +47,35 @@ const TripReports = () => {
     if (!peak) {
       return;
     }
-    console.log("update", peak);
     setSelectedPeak(peak);
   };
 
   return (
     <div className={s.tripReports}>
-      <button onClick={openModal} className={s.addReportBtn}>
-        Add new report
-      </button>
+      <div className={s.searchContainer}>
+        <SearchBar
+          searchResults={searchResults}
+          setSearchResults={updateSearchResults}
+          resetSearch={resetSearch}
+          type="peakName"
+        />
+        <button onClick={openModal} className={s.addReportBtn}>
+          <span>Add Report</span>
+        </button>
+      </div>
       {showUploadModal && (
         <TripReportUpload peak={selectedPeak} close={closeModal}>
           <PeakSelector updatePeak={updatePeak} />
         </TripReportUpload>
       )}
-      {!!reports.length && (
+      {!!searchResults.length && (
         <div className={s.reportTable}>
-          {reports.map((report) => (
-            <TripReport key={report._id} report={report} />
+          {searchResults.map((report) => (
+            <TripReport
+              key={report._id}
+              report={report}
+              getNewReports={getNewReports}
+            />
           ))}
         </div>
       )}
