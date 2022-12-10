@@ -5,8 +5,11 @@ const SearchBar = ({ searchResults, setSearchResults, resetSearch, type }) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [searchInput, setSearchInput] = useState("");
+
   const clearSearch = () => {
     setError(false);
+    setSearchInput("");
     resetSearch();
   };
 
@@ -27,6 +30,7 @@ const SearchBar = ({ searchResults, setSearchResults, resetSearch, type }) => {
 
   const handleChange = (e) => {
     const input = e.target.value.toLowerCase();
+    setSearchInput(input);
     filterResults(input);
   };
 
@@ -37,6 +41,7 @@ const SearchBar = ({ searchResults, setSearchResults, resetSearch, type }) => {
         <input
           onChange={handleChange}
           className={s.search}
+          value={searchInput}
           type="text"
           placeholder="Peak Name"
         />
