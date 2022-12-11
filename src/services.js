@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL_LOCAL;
-// const BASE_URL = process.env.REACT_APP_BASE_URL_PROD;
+const BASE_URL = process.env.REACT_APP_BASE_URL_PROD;
 const PEAKS_URL = BASE_URL + "/peaks";
 const AUTH_URL = BASE_URL + "/auth";
 const LOGIN_URL = AUTH_URL + "/login";
