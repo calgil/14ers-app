@@ -157,6 +157,7 @@ export class AuthService extends User {
 export const getAllPeaks = async () => {
   try {
     let response = await axios.get(PEAKS_URL);
+    console.log("peaks res", response);
     if (response.status === 200) {
       const peaks = response.data.peaks.map((peak) => ({
         id: peak._id,
