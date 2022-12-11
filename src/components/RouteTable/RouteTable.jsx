@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import s from "./RouteTable.module.css";
-import { addDifficultyIcon } from "../../../utilities/addDifficultyIcon";
-import { capitalizeFirstLetters } from "../../../utilities/capitalizeFirstLetters";
-import { formatElevation } from "../../../utilities/formatElevaion";
+import { addDifficultyIcon } from "../../utilities/addDifficultyIcon";
+import { capitalizeFirstLetters } from "../../utilities/capitalizeFirstLetters";
+import { formatElevation } from "../../utilities/formatElevation";
 
 const RouteTable = ({ peakRoutes }) => {
   const [routes, setRoutes] = useState(peakRoutes);

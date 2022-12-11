@@ -1,25 +1,34 @@
 .filterContainer {
-  padding-bottom: 15px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .resetBtn,
-.searchBtn {
+.sortElevationBtn {
   background-color: rgb(38, 83, 43);
   color: white;
   padding: 4px 7px;
   border: 1px solid transparent;
   border-radius: 5px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.btnText {
+  margin-right: 5px;
 }
 
 .resetBtn {
-  line-height: 1.6;
-  position: absolute;
-  top: 15px;
-  left: 50px;
+  margin-left: 10px;
+}
+
+.resetBtn:focus,
+.sortElevationBtn:focus {
+  color: white;
+}
+
+.sortElevationBtn i {
+  display: inline;
 }
 
 .filter {
@@ -33,9 +42,12 @@
 }
 
 .filterRow {
-  padding: 3px 5px;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  text-align: center;
 }
 
 .filterRow:hover {
@@ -44,7 +56,6 @@
 
 .filterRow i {
   margin-right: 5px;
-  margin-left: 0;
 }
 
 .searchBar {
@@ -91,10 +102,6 @@
   border: 2px solid green;
 }
 
-.searchBtn {
-  margin-left: 2px;
-}
-
 .rangeContainer {
   max-width: 300px;
   margin: 0 auto;
@@ -103,9 +110,9 @@
   flex-wrap: wrap;
 }
 
-.rangeContainer .filterRow {
+/* .rangeContainer .filterRow {
   padding: 5px 10px;
-}
+} */
 
 .error {
   margin: 0 auto;

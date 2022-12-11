@@ -1,9 +1,15 @@
-.filterToggleBtn {
-  margin-left: 50px;
-  background-color: rgb(38, 83, 43);
-  color: white;
-  padding: 4px 7px;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  line-height: 1.6;
+.filter {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  background-color: #fff;
+  padding: 0 20px;
+}
+
+.searchResults {
+  text-align: center;
+  margin-top: 10px;
 }

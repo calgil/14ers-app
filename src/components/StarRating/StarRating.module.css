@@ -1,0 +1,21 @@
+.errorMsg {
+  color: red;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+button:focus {
+  color: #000;
+}
+
+.on {
+  color: #000;
+}
+.off {
+  color: #ccc;
+}

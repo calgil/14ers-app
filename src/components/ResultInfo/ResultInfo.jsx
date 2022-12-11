@@ -5,14 +5,15 @@ const ResultInfo = ({ startIndex, endIndex, total }) => {
   const [resultMsg, setResultMsg] = useState("");
 
   useEffect(() => {
-    if (endIndex > total) {
+    if (endIndex >= total) {
       return setResultMsg(`Showing ${startIndex + 1} - ${total} of ${total}`);
     }
-    if (endIndex <= total) {
-      return setResultMsg(
-        `Showing ${startIndex + 1} - ${endIndex + 1} of ${total}`
-      );
-    }
+    setResultMsg(`Showing ${startIndex + 1} - ${endIndex + 1} of ${total}`);
+    // if (endIndex <= total) {
+    //   return setResultMsg(
+    //     `Showing ${startIndex + 1} - ${endIndex + 1} of ${total}`
+    //   );
+    // }
   }, [startIndex, endIndex, total]);
   return (
     <div className={s.resultInfo}>

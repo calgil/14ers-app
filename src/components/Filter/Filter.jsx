@@ -1,139 +1,83 @@
 import React, { useState } from "react";
 import s from "./Filter.module.css";
 
-const Filter = ({ peaks, setSearchResults }) => {
-  const [name, setName] = useState("");
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  // const [resultsMsg, setResultsMsg] = useState("");
-  // future results info
+const Filter = ({ peaks, setSearchResults, reset }) => {
+  const [isDescending, setIsDescending] = useState(true);
 
-  const resetSearch = () => {
-    setError(false);
-    setErrorMsg("");
-    setName("");
-    setSearchResults([]);
-    console.log("reset");
-  };
-
-  const filterElevation = (str) => {
-    setError(false);
-    if (str === "ascending") {
-      const sortedPeaks = [...peaks].sort(
-        (a, b) => +a.elevation - +b.elevation
-      );
-      setSearchResults(sortedPeaks);
-    }
-    if (str === "descending") {
+  const filterElevation = () => {
+    if (isDescending) {
       const sortedPeaks = [...peaks].sort(
         (a, b) => +b.elevation - +a.elevation
       );
-      setSearchResults(sortedPeaks);
+      return setSearchResults(sortedPeaks);
     }
+    const sortedPeaks = [...peaks].sort((a, b) => +a.elevation - +b.elevation);
+    setSearchResults(sortedPeaks);
   };
 
-  const handleChange = (e) => {
-    const searchName = e.target.value.toLowerCase();
-    setName(searchName);
+  const handleSort = () => {
+    setIsDescending(!isDescending);
+    filterElevation();
   };
 
-  const searchByName = (e) => {
-    e.preventDefault();
-    if (!name.length) {
-      setError(false);
-      return setSearchResults([]);
-    }
-    const result = peaks.filter((peak) =>
-      peak.name.toLowerCase().includes(name)
-    );
-    if (!result.length) {
-      setError(true);
-      return setErrorMsg(`No peaks have a name of ${name}`);
-    }
-    setError(false);
-    setSearchResults(result);
-  };
-
-  const filterRange = (str) => {
-    const filteredResults = [...peaks].filter((peak) =>
-      peak.range.toLowerCase().includes(str.toLowerCase())
-    );
-    setSearchResults(filteredResults);
-  };
+  // const filterRange = ({ target: { value } }) => {
+  //   const filteredResults = [...peaks].filter((peak) => {
+  //     return peak.range.toLowerCase().includes(value.toLowerCase());
+  //   });
+  //   setSearchResults(filteredResults);
+  // };
 
   return (
     <>
       <div className={s.filterContainer}>
-        <button className={s.resetBtn} onClick={resetSearch}>
-          Reset Search
-        </button>
         <div className={s.filter}>
-          <h5 className={s.filterHeader}>Elevation</h5>
-          <div
-            onClick={() => filterElevation("descending")}
-            className={s.filterRow}
-          >
-            <i className="fa fa-caret-up"></i>
-            <span>Tallest First</span>
-          </div>
-          <div
-            className={s.filterRow}
-            onClick={() => filterElevation("ascending")}
-          >
-            <i className="fa fa-caret-down"></i>
-            <span>Shortest First</span>
-          </div>
-        </div>
-        <div className={s.filter}>
-          <h5 className={s.filterHeader}>Range</h5>
-          <div className={s.rangeContainer}>
-            <span className={s.filterRow} onClick={() => filterRange("elk")}>
+          {/* <h5 className={s.filterHeader}>Range</h5> */}
+          {/* <div className={s.rangeContainer}>
+            <button value={"elk"} className={s.filterRow} onClick={filterRange}>
               Elk
-            </span>
-            <span className={s.filterRow} onClick={() => filterRange("front")}>
-              Front
-            </span>
-            <span
+            </button>
+            <button
+              value={"front"}
               className={s.filterRow}
-              onClick={() => filterRange("sangre de cristo")}
+              onClick={filterRange}
+            >
+              Front
+            </button>
+            <button
+              value={"sangre de cristo"}
+              className={s.filterRow}
+              onClick={filterRange}
             >
               Sangre de Cristo
-            </span>
-            <span
+            </button>
+            <button
+              value={"sawatch"}
               className={s.filterRow}
-              onClick={() => filterRange("sawatch")}
+              onClick={filterRange}
             >
               Sawatch
-            </span>
-            <span
+            </button>
+            <button
+              value={"san juan"}
               className={s.filterRow}
-              onClick={() => filterRange("san juan")}
+              onClick={filterRange}
             >
               San Juan
-            </span>
-          </div>
+            </button>
+          </div> */}
         </div>
-        <div className={s.searchBar}>
-          <form className={s.searchForm} onSubmit={searchByName}>
-            <div className={s.searchContainer}>
-              <i className={`fa fa-search ${s.searchIcon}`}></i>
-              <input
-                onChange={handleChange}
-                value={name}
-                className={s.search}
-                type="text"
-                placeholder="Peak Name"
-              />
-              <i
-                onClick={resetSearch}
-                className={`fa fa-times-circle-o ${s.closeIcon}`}
-              ></i>
-            </div>
-            <input className={s.searchBtn} type="submit" value="Search" />
-          </form>
-        </div>
+        <button className={s.sortElevationBtn} onClick={handleSort}>
+          <span className={s.btnText}>Elevation</span>
+          {isDescending ? (
+            <i className="fa fa-caret-up"></i>
+          ) : (
+            <i className="fa fa-caret-down"></i>
+          )}
+        </button>
+        <button className={s.resetBtn} onClick={reset}>
+          Reset
+        </button>
       </div>
-      {error && <div className={s.error}>{errorMsg}</div>}
     </>
   );
 };

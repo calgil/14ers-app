@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import s from "./AddToClimbLog.module.css";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../../App";
-import addPeak from "../../../assets/PeakDetails/addPeak.svg";
+import { UserContext } from "../../App";
+import addPeak from "../../assets/PeakDetails/addPeak.svg";
 
 const AddToClimbLog = ({ peak, isClimbed }) => {
   const { authService, updateAuth } = useContext(UserContext);

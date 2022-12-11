@@ -6,7 +6,8 @@
   display: flex;
   align-items: center;
   margin-bottom: 25px;
-  font-family: Hubballi, sans-serif;
+  font-family: "Hubballi", cursive;
+  font-size: 23px;
 }
 
 .iconContainer {

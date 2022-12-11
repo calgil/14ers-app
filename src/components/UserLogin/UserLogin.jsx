@@ -27,23 +27,23 @@ const UserLogin = () => {
   const onChange = ({ target: { name, value } }) => {
     if (name === "email") {
       if (!isEmailValid(value)) {
-        return setError({ ...error, [name]: false });
+        return setError({ ...error, [name]: true });
       }
-      setError({ ...error, [name]: true });
+      setError({ ...error, [name]: false });
     }
     if (name === "password") {
       if (!isPasswordValid(value)) {
-        return setError({ ...error, [name]: false });
+        return setError({ ...error, [name]: true });
       }
-      setError({ ...error, [name]: true });
+      setError({ ...error, [name]: false });
     }
     setUserLogins({ ...userLogins, [name]: value });
   };
 
   const checkLoginData = () => {
     Object.keys(userLogins).forEach((key) => {
-      if (!userLogins[key].length === 0) {
-        setError({ ...error, [`${key}`]: false });
+      if (userLogins[key].length === 0) {
+        setError({ ...error, [`${key}`]: true });
       }
     });
   };
@@ -62,7 +62,7 @@ const UserLogin = () => {
       return;
     }
 
-    if (!error.email || !error.password) {
+    if (error.email || error.password) {
       return;
     }
 
@@ -108,14 +108,13 @@ const UserLogin = () => {
     <>
       <form className={s.loginBody} onBlur={handleBlur} onSubmit={loginUser}>
         <h3 className={s.header}>Welcome Back!</h3>
-        <p className={s.instructions}>Enter your email and password</p>
         {showErrorMsg && <div className={s.errorMsg}>{errorMsg}</div>}
         {inputData.map((data) => (
           <InputBase
             key={data.key}
             data={data}
             onChange={onChange}
-            error={!error[data.name]}
+            error={error[data.name]}
             showError={showInputError}
           />
         ))}

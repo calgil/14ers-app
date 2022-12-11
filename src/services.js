@@ -1,14 +1,15 @@
 import axios from "axios";
 
-// const BASE_URL = "http://localhost:5001/api/v1";
-const BASE_URL = process.env.REACT_APP_BASE_URL_PROD;
+const BASE_URL = process.env.REACT_APP_BASE_URL_LOCAL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL_PROD;
 const PEAKS_URL = BASE_URL + "/peaks";
 const AUTH_URL = BASE_URL + "/auth";
 const LOGIN_URL = AUTH_URL + "/login";
 const ADD_USER_URL = AUTH_URL + "/register";
 const GET_USER_URL = BASE_URL + "/auth/me";
 const UPDATE_USER_URL = AUTH_URL + "/updatedetails";
-const ADD_PHOTO_URL = PEAKS_URL + "/uploadphoto";
+const PHOTO_URL = BASE_URL + "/photos";
+const REPORTS_URL = BASE_URL + "/reports";
 
 class User {
   constructor() {
@@ -144,31 +145,12 @@ export class AuthService extends User {
     const headers = this.getBearerHeader();
     const body = data;
     try {
-      const response = await axios.put(PEAKS_URL + id, body, { headers });
+      const response = await axios.put(`${PEAKS_URL}/${id}`, body, { headers });
       console.log("res", response);
+      return response.data;
     } catch (error) {
       console.error(error);
       throw error;
-    }
-  };
-
-  addPeakPhoto = async (image, title) => {
-    const body = new FormData();
-    body.append("image", image);
-    body.append("title", title);
-    console.log("body", body.getAll("image"));
-    try {
-      let response = await axios.post(ADD_PHOTO_URL, body, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${this.authToken}`,
-        },
-      });
-      if (response.status === 200) {
-        return response.data.imagePath;
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
 }
@@ -176,8 +158,8 @@ export class AuthService extends User {
 export const getAllPeaks = async () => {
   try {
     let response = await axios.get(PEAKS_URL);
-    if (response.data.success) {
-      const peaks = response.data.data.map((peak) => ({
+    if (response.status === 200) {
+      const peaks = response.data.peaks.map((peak) => ({
         id: peak._id,
         name: peak.name,
         elevation: peak.elevation,
@@ -206,5 +188,99 @@ export const getPeakById = async (id) => {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+export const postPhoto = async (image, onProgress) => {
+  const body = new FormData();
+  body.append("image", image);
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  try {
+    const response = await axios.post(PHOTO_URL, body, {
+      headers,
+      onUploadProgress: onProgress,
+    });
+
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPhotoUrl = async (imageName) => {
+  try {
+    const response = await axios.get(`${PHOTO_URL}/${imageName}`);
+    if (response.data.success) {
+      return response.data.url;
+    }
+    return response.data.success;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePhoto = async (imageName) => {
+  try {
+    const response = await axios.delete(`${PHOTO_URL}/${imageName}`);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postTripReport = async (tripReport) => {
+  const body = tripReport;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const response = await axios.post(REPORTS_URL, body, { headers });
+    console.log(response);
+    if (response.status === 200) {
+      return response.data;
+    }
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getTripReports = async (query = "") => {
+  try {
+    const response = await axios.get(`${REPORTS_URL}${query}`);
+    if (response.status === 200) {
+      return response.data.reports;
+    }
+  } catch (error) {}
+};
+
+export const updateTripReport = async (id, data) => {
+  console.log("update!!", id, data);
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const body = data;
+  try {
+    const response = await axios.put(`${REPORTS_URL}/${id}`, body, { headers });
+    if (response.status === 200) {
+      return response.success;
+    }
+    return response.success;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTripReport = async (id) => {
+  try {
+    const response = await axios.delete(`${REPORTS_URL}/${id}`);
+    console.log("delete res", response);
+  } catch (error) {
+    console.error(error);
   }
 };

@@ -1,9 +1,9 @@
 import React from "react";
 import s from "./StatsContainer.module.css";
-import elevation from "../../../assets/PeakDetails/elevation.svg";
-import rank from "../../../assets/PeakDetails/rank.svg";
-import range from "../../../assets/PeakDetails/range.svg";
-import { formatElevation } from "../../../utilities/formatElevaion";
+import elevation from "../../assets/PeakDetails/elevation.svg";
+import rank from "../../assets/PeakDetails/rank.svg";
+import range from "../../assets/PeakDetails/range.svg";
+import { formatElevation } from "../../utilities/formatElevation";
 
 const StatsContainer = ({ peak }) => {
   return (
