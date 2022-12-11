@@ -13,8 +13,12 @@ const TripReports = () => {
   const [selectedPeak, setSelectedPeak] = useState({});
   const [showUploadModal, setShowUploadModal] = useState(false);
 
+  const [limit, setLimit] = useState(5);
+
+  const buildQueryStr = () => `?limit=${limit}&sort=-dateClimbed`;
+
   const getNewReports = () => {
-    getTripReports()
+    getTripReports(buildQueryStr())
       .then(setReports)
       .catch((err) => console.error(err));
   };
@@ -22,6 +26,13 @@ const TripReports = () => {
   useEffect(() => {
     getNewReports();
   }, []);
+
+  useEffect(() => {
+    if (showUploadModal) {
+      return;
+    }
+    getNewReports();
+  }, [showUploadModal]);
 
   const updateSearchResults = (data) => {
     setSearchResults(data);
@@ -43,6 +54,11 @@ const TripReports = () => {
     setShowUploadModal(!showUploadModal);
   };
 
+  const changeLimit = ({ target: { value } }) => {
+    setLimit(+value);
+    getNewReports();
+  };
+
   const updatePeak = (peak) => {
     if (!peak) {
       return;
@@ -62,6 +78,13 @@ const TripReports = () => {
         <button onClick={openModal} className={s.addReportBtn}>
           <span>Add Report</span>
         </button>
+        <label>Showing {limit} per page</label>
+        <select name="limit" id="limit" onChange={changeLimit} value={limit}>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+          <option value="all">All</option>
+        </select>
       </div>
       {showUploadModal && (
         <TripReportUpload peak={selectedPeak} close={closeModal}>
